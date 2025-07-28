@@ -1,0 +1,103 @@
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-dashboard',
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.scss']
+})
+export class DashboardComponent {
+  selectedTab = 0;
+  isSidebarOpen = true;
+
+  // Mock data for dashboard
+  recentCVs = [
+    {
+      id: 1,
+      title: 'Software Engineer CV',
+      lastModified: '2024-01-15',
+      status: 'Draft',
+      template: 'Modern Blue'
+    },
+    {
+      id: 2,
+      title: 'Marketing Manager CV',
+      lastModified: '2024-01-10',
+      status: 'Complete',
+      template: 'Professional Gray'
+    },
+    {
+      id: 3,
+      title: 'Data Scientist CV',
+      lastModified: '2024-01-08',
+      status: 'Draft',
+      template: 'Creative Orange'
+    }
+  ];
+
+  templates = [
+    {
+      id: 1,
+      name: 'Modern Blue',
+      category: 'Professional',
+      preview: 'assets/template1.jpg',
+      isPopular: true
+    },
+    {
+      id: 2,
+      name: 'Professional Gray',
+      category: 'Corporate',
+      preview: 'assets/template2.jpg',
+      isPopular: false
+    },
+    {
+      id: 3,
+      name: 'Creative Orange',
+      category: 'Creative',
+      preview: 'assets/template3.jpg',
+      isPopular: true
+    },
+    {
+      id: 4,
+      name: 'Minimalist White',
+      category: 'Minimal',
+      preview: 'assets/template4.jpg',
+      isPopular: false
+    }
+  ];
+
+  stats = {
+    totalCVs: 12,
+    completedCVs: 8,
+    templatesUsed: 6,
+    lastActivity: '2 hours ago'
+  };
+
+  toggleSidebar(): void {
+    this.isSidebarOpen = !this.isSidebarOpen;
+  }
+
+  createNewCV(): void {
+    // TODO: Implement new CV creation
+    console.log('Creating new CV...');
+  }
+
+  openCV(cvId: number): void {
+    // TODO: Implement CV opening
+    console.log('Opening CV:', cvId);
+  }
+
+  selectTemplate(templateId: number): void {
+    // TODO: Implement template selection
+    console.log('Selected template:', templateId);
+  }
+
+  exportCV(cvId: number, format: string): void {
+    // TODO: Implement CV export
+    console.log('Exporting CV:', cvId, 'in format:', format);
+  }
+
+  deleteCV(cvId: number): void {
+    // TODO: Implement CV deletion
+    console.log('Deleting CV:', cvId);
+  }
+} 

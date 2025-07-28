@@ -1,0 +1,360 @@
+<div class="dashboard">
+  <!-- Top Navigation -->
+  <mat-toolbar class="dashboard-toolbar">
+    <button mat-icon-button (click)="toggleSidebar()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    
+    <div class="toolbar-title">
+      <mat-icon class="logo-icon">description</mat-icon>
+      <span>CV Revamp Dashboard</span>
+    </div>
+
+    <div class="toolbar-actions">
+      <button mat-icon-button [matMenuTriggerFor]="notificationsMenu">
+        <mat-icon [matBadge]="3" matBadgeColor="warn">notifications</mat-icon>
+      </button>
+      
+      <button mat-icon-button [matMenuTriggerFor]="userMenu">
+        <mat-icon>account_circle</mat-icon>
+      </button>
+
+      <mat-menu #notificationsMenu="matMenu">
+        <button mat-menu-item>
+          <mat-icon>info</mat-icon>
+          <span>New template available</span>
+        </button>
+        <button mat-menu-item>
+          <mat-icon>check_circle</mat-icon>
+          <span>CV export completed</span>
+        </button>
+        <button mat-menu-item>
+          <mat-icon>update</mat-icon>
+          <span>System update available</span>
+        </button>
+      </mat-menu>
+
+      <mat-menu #userMenu="matMenu">
+        <button mat-menu-item>
+          <mat-icon>person</mat-icon>
+          <span>Profile</span>
+        </button>
+        <button mat-menu-item>
+          <mat-icon>settings</mat-icon>
+          <span>Settings</span>
+        </button>
+        <mat-divider></mat-divider>
+        <button mat-menu-item>
+          <mat-icon>logout</mat-icon>
+          <span>Logout</span>
+        </button>
+      </mat-menu>
+    </div>
+  </mat-toolbar>
+
+  <div class="dashboard-content">
+    <!-- Sidebar -->
+    <mat-sidenav-container class="sidenav-container">
+      <mat-sidenav #sidenav mode="side" opened class="sidenav" [class.sidenav-closed]="!isSidebarOpen">
+        <div class="sidenav-content">
+          <div class="user-info">
+            <div class="user-avatar">
+              <mat-icon>account_circle</mat-icon>
+            </div>
+            <div class="user-details">
+              <h4>John Doe</h4>
+              <p>john.doe@example.com</p>
+            </div>
+          </div>
+
+          <mat-nav-list>
+            <a mat-list-item routerLink="/dashboard" routerLinkActive="active" (click)="selectedTab = 0">
+              <mat-icon>dashboard</mat-icon>
+              <span>Dashboard</span>
+            </a>
+            <a mat-list-item routerLink="/dashboard" routerLinkActive="active" (click)="selectedTab = 1">
+              <mat-icon>description</mat-icon>
+              <span>My CVs</span>
+            </a>
+            <a mat-list-item routerLink="/dashboard" routerLinkActive="active" (click)="selectedTab = 2">
+              <mat-icon>palette</mat-icon>
+              <span>Templates</span>
+            </a>
+            <a mat-list-item routerLink="/dashboard" routerLinkActive="active" (click)="selectedTab = 3">
+              <mat-icon>analytics</mat-icon>
+              <span>Analytics</span>
+            </a>
+            <a mat-list-item routerLink="/dashboard" routerLinkActive="active" (click)="selectedTab = 4">
+              <mat-icon>settings</mat-icon>
+              <span>Settings</span>
+            </a>
+          </mat-nav-list>
+        </div>
+      </mat-sidenav>
+
+      <!-- Main Content -->
+      <mat-sidenav-content class="main-content">
+        <div class="content-wrapper">
+          <!-- Dashboard Overview -->
+          <div *ngIf="selectedTab === 0" class="dashboard-overview">
+            <div class="page-header">
+              <h1>Dashboard Overview</h1>
+              <button mat-raised-button color="primary" (click)="createNewCV()">
+                <mat-icon>add</mat-icon>
+                Create New CV
+              </button>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+              <mat-card class="stat-card">
+                <mat-card-content>
+                  <div class="stat-icon">
+                    <mat-icon>description</mat-icon>
+                  </div>
+                  <div class="stat-info">
+                    <h3>{{ stats.totalCVs }}</h3>
+                    <p>Total CVs</p>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+
+              <mat-card class="stat-card">
+                <mat-card-content>
+                  <div class="stat-icon completed">
+                    <mat-icon>check_circle</mat-icon>
+                  </div>
+                  <div class="stat-info">
+                    <h3>{{ stats.completedCVs }}</h3>
+                    <p>Completed</p>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+
+              <mat-card class="stat-card">
+                <mat-card-content>
+                  <div class="stat-icon templates">
+                    <mat-icon>palette</mat-icon>
+                  </div>
+                  <div class="stat-info">
+                    <h3>{{ stats.templatesUsed }}</h3>
+                    <p>Templates Used</p>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+
+              <mat-card class="stat-card">
+                <mat-card-content>
+                  <div class="stat-icon activity">
+                    <mat-icon>schedule</mat-icon>
+                  </div>
+                  <div class="stat-info">
+                    <h3>{{ stats.lastActivity }}</h3>
+                    <p>Last Activity</p>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+            </div>
+
+            <!-- Recent CVs -->
+            <div class="section">
+              <h2>Recent CVs</h2>
+              <div class="cv-grid">
+                <mat-card *ngFor="let cv of recentCVs" class="cv-card">
+                  <mat-card-header>
+                    <mat-card-title>{{ cv.title }}</mat-card-title>
+                    <mat-card-subtitle>
+                      <span class="template-name">{{ cv.template }}</span>
+                      <span class="last-modified">{{ cv.lastModified }}</span>
+                    </mat-card-subtitle>
+                  </mat-card-header>
+                  <mat-card-content>
+                    <div class="cv-status">
+                      <span class="status-badge" [class]="cv.status.toLowerCase()">
+                        {{ cv.status }}
+                      </span>
+                    </div>
+                  </mat-card-content>
+                  <mat-card-actions>
+                    <button mat-button (click)="openCV(cv.id)">
+                      <mat-icon>open_in_new</mat-icon>
+                      Open
+                    </button>
+                    <button mat-button (click)="exportCV(cv.id, 'pdf')">
+                      <mat-icon>download</mat-icon>
+                      Export
+                    </button>
+                    <button mat-button color="warn" (click)="deleteCV(cv.id)">
+                      <mat-icon>delete</mat-icon>
+                      Delete
+                    </button>
+                  </mat-card-actions>
+                </mat-card>
+              </div>
+            </div>
+          </div>
+
+          <!-- My CVs Tab -->
+          <div *ngIf="selectedTab === 1" class="my-cvs">
+            <div class="page-header">
+              <h1>My CVs</h1>
+              <button mat-raised-button color="primary" (click)="createNewCV()">
+                <mat-icon>add</mat-icon>
+                Create New CV
+              </button>
+            </div>
+
+            <mat-tab-group>
+              <mat-tab label="All CVs">
+                <div class="cv-list">
+                  <mat-card *ngFor="let cv of recentCVs" class="cv-item">
+                    <div class="cv-item-content">
+                      <div class="cv-info">
+                        <h3>{{ cv.title }}</h3>
+                        <p>{{ cv.template }} • Last modified: {{ cv.lastModified }}</p>
+                      </div>
+                      <div class="cv-actions">
+                        <span class="status-badge" [class]="cv.status.toLowerCase()">
+                          {{ cv.status }}
+                        </span>
+                        <button mat-icon-button [matMenuTriggerFor]="cvMenu">
+                          <mat-icon>more_vert</mat-icon>
+                        </button>
+                        <mat-menu #cvMenu="matMenu">
+                          <button mat-menu-item (click)="openCV(cv.id)">
+                            <mat-icon>open_in_new</mat-icon>
+                            <span>Open</span>
+                          </button>
+                          <button mat-menu-item (click)="exportCV(cv.id, 'pdf')">
+                            <mat-icon>download</mat-icon>
+                            <span>Export PDF</span>
+                          </button>
+                          <button mat-menu-item (click)="exportCV(cv.id, 'docx')">
+                            <mat-icon>description</mat-icon>
+                            <span>Export Word</span>
+                          </button>
+                          <mat-divider></mat-divider>
+                          <button mat-menu-item color="warn" (click)="deleteCV(cv.id)">
+                            <mat-icon>delete</mat-icon>
+                            <span>Delete</span>
+                          </button>
+                        </mat-menu>
+                      </div>
+                    </div>
+                  </mat-card>
+                </div>
+              </mat-tab>
+              <mat-tab label="Drafts">
+                <div class="empty-state">
+                  <mat-icon>edit</mat-icon>
+                  <h3>No drafts yet</h3>
+                  <p>Start creating your first CV to see drafts here.</p>
+                  <button mat-raised-button color="primary" (click)="createNewCV()">
+                    Create Your First CV
+                  </button>
+                </div>
+              </mat-tab>
+              <mat-tab label="Completed">
+                <div class="empty-state">
+                  <mat-icon>check_circle</mat-icon>
+                  <h3>No completed CVs</h3>
+                  <p>Complete your CVs to see them here.</p>
+                </div>
+              </mat-tab>
+            </mat-tab-group>
+          </div>
+
+          <!-- Templates Tab -->
+          <div *ngIf="selectedTab === 2" class="templates">
+            <div class="page-header">
+              <h1>CV Templates</h1>
+              <p>Choose from our collection of professional templates</p>
+            </div>
+
+            <div class="template-filters">
+              <mat-chip-list>
+                <mat-chip selected>All</mat-chip>
+                <mat-chip>Professional</mat-chip>
+                <mat-chip>Creative</mat-chip>
+                <mat-chip>Corporate</mat-chip>
+                <mat-chip>Minimal</mat-chip>
+              </mat-chip-list>
+            </div>
+
+            <div class="template-grid">
+              <mat-card *ngFor="let template of templates" class="template-card" (click)="selectTemplate(template.id)">
+                <div class="template-preview">
+                  <div class="preview-placeholder">
+                    <mat-icon>description</mat-icon>
+                    <span>{{ template.name }}</span>
+                  </div>
+                  <div class="template-overlay">
+                    <button mat-raised-button color="primary">Use Template</button>
+                  </div>
+                </div>
+                <mat-card-content>
+                  <h3>{{ template.name }}</h3>
+                  <p>{{ template.category }}</p>
+                  <span *ngIf="template.isPopular" class="popular-badge">Popular</span>
+                </mat-card-content>
+              </mat-card>
+            </div>
+          </div>
+
+          <!-- Analytics Tab -->
+          <div *ngIf="selectedTab === 3" class="analytics">
+            <div class="page-header">
+              <h1>Analytics</h1>
+              <p>Track your CV performance and engagement</p>
+            </div>
+
+            <div class="analytics-content">
+              <mat-card class="analytics-card">
+                <mat-card-header>
+                  <mat-card-title>CV Views</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                  <div class="chart-placeholder">
+                    <mat-icon>analytics</mat-icon>
+                    <p>Chart will be displayed here</p>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+
+              <mat-card class="analytics-card">
+                <mat-card-header>
+                  <mat-card-title>Template Usage</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                  <div class="chart-placeholder">
+                    <mat-icon>pie_chart</mat-icon>
+                    <p>Chart will be displayed here</p>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+            </div>
+          </div>
+
+          <!-- Settings Tab -->
+          <div *ngIf="selectedTab === 4" class="settings">
+            <div class="page-header">
+              <h1>Settings</h1>
+              <p>Manage your account and preferences</p>
+            </div>
+
+            <div class="settings-content">
+              <mat-card class="settings-card">
+                <mat-card-header>
+                  <mat-card-title>Account Settings</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                  <p>Account settings will be displayed here</p>
+                </mat-card-content>
+              </mat-card>
+            </div>
+          </div>
+        </div>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  </div>
+</div> 

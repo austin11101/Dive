@@ -4,4 +4,60 @@
 @tailwind utilities;
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; } 
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* Global Material Design form field improvements */
+.mat-form-field {
+  width: 100%;
+  font-size: 16px;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-wrapper {
+  padding-bottom: 1.34375em;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-infix {
+  padding: 0.5em 0 0.5em 0;
+  min-height: 1.5em;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-outline {
+  top: 0;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-outline-thick {
+  top: 0;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-outline-start,
+.mat-form-field-appearance-outline .mat-form-field-outline-end {
+  border-width: 1px;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-outline-gap {
+  border-width: 1px;
+}
+
+.mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
+  transform: translateY(-1.28125em) scale(0.75);
+}
+
+.mat-form-field-appearance-outline .mat-form-field-label {
+  top: 1.28125em;
+}
+
+/* Improve input text visibility */
+.mat-input-element {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+/* Better spacing for form containers */
+.form-container {
+  padding: 0 1rem;
+}
+
+.form-container form {
+  max-width: 400px;
+  margin: 0 auto;
+} 

@@ -13,12 +13,13 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .mat-form-field-appearance-outline .mat-form-field-wrapper {
-  padding-bottom: 1.34375em;
+  padding-bottom: 1.5em;
 }
 
 .mat-form-field-appearance-outline .mat-form-field-infix {
-  padding: 0.5em 0 0.5em 0;
-  min-height: 1.5em;
+  padding: 1em 0 1em 0;
+  min-height: 2em;
+  width: auto;
 }
 
 .mat-form-field-appearance-outline .mat-form-field-outline {
@@ -39,17 +40,42 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
-  transform: translateY(-1.28125em) scale(0.75);
+  transform: translateY(-1.5em) scale(0.75);
 }
 
 .mat-form-field-appearance-outline .mat-form-field-label {
-  top: 1.28125em;
+  top: 1.5em;
 }
 
 /* Improve input text visibility */
 .mat-input-element {
   font-size: 16px;
   line-height: 1.5;
+  padding: 0.5em 0;
+}
+
+/* Fix suffix icon positioning */
+.mat-form-field-suffix {
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.mat-form-field-suffix .mat-icon-button {
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+}
+
+/* Ensure proper spacing for form fields */
+.mat-form-field-appearance-outline .mat-form-field-flex {
+  padding: 0 0.75em;
+}
+
+/* Fix input container width */
+.mat-form-field-appearance-outline .mat-form-field-infix {
+  width: auto;
+  min-width: 180px;
 }
 
 /* Better spacing for form containers */
@@ -60,4 +86,34 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .form-container form {
   max-width: 400px;
   margin: 0 auto;
+}
+
+/* Force larger form fields */
+.mat-form-field-appearance-outline .mat-form-field-infix {
+  padding: 1.5em 0 1.5em 0 !important;
+  min-height: 3em !important;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-wrapper {
+  padding-bottom: 2em !important;
+}
+
+/* Ensure input text is visible */
+.mat-input-element {
+  font-size: 16px !important;
+  line-height: 1.5 !important;
+  padding: 0.75em 0 !important;
+}
+
+/* Fix icon button sizing */
+.mat-form-field-suffix .mat-icon-button {
+  width: 48px !important;
+  height: 48px !important;
+  line-height: 48px !important;
+}
+
+/* Ensure proper field width */
+.mat-form-field {
+  width: 100% !important;
+  min-width: 300px !important;
 } 

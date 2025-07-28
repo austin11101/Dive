@@ -1,0 +1,147 @@
+stages:
+  - test
+  - build
+  - deploy
+
+variables:
+  DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: "/certs"
+
+# Cache dependencies between jobs
+cache:
+  paths:
+    - frontend/node_modules/
+    - backend/.venv/
+    - docs/node_modules/
+
+# Test stage
+test-frontend:
+  stage: test
+  image: node:18-alpine
+  services:
+    - docker:dind
+  before_script:
+    - cd frontend
+    - npm ci
+  script:
+    - npm run lint
+    - npm run test:ci
+    - npm run build
+  artifacts:
+    reports:
+      junit: frontend/coverage/junit.xml
+    paths:
+      - frontend/dist/
+    expire_in: 1 week
+
+test-backend:
+  stage: test
+  image: python:3.11-slim
+  services:
+    - postgres:15
+    - redis:7
+  variables:
+    DATABASE_URL: postgresql://cv_user:cv_password@postgres:5432/cv_database
+    REDIS_URL: redis://redis:6379
+  before_script:
+    - cd backend
+    - python -m venv .venv
+    - source .venv/bin/activate
+    - pip install -r requirements.txt
+    - pip install -r requirements-dev.txt
+  script:
+    - python -m pytest tests/ --cov=app --cov-report=xml
+    - python -m flake8 app/
+    - python -m black --check app/
+  artifacts:
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: backend/coverage.xml
+    expire_in: 1 week
+
+# Build stage
+build-frontend:
+  stage: build
+  image: node:18-alpine
+  services:
+    - docker:dind
+  before_script:
+    - cd frontend
+    - npm ci
+  script:
+    - npm run build:prod
+    - docker build -t $CI_REGISTRY_IMAGE/frontend:$CI_COMMIT_SHA -f Dockerfile.prod .
+    - docker push $CI_REGISTRY_IMAGE/frontend:$CI_COMMIT_SHA
+  only:
+    - main
+    - develop
+
+build-backend:
+  stage: build
+  image: python:3.11-slim
+  services:
+    - docker:dind
+  before_script:
+    - cd backend
+    - python -m venv .venv
+    - source .venv/bin/activate
+    - pip install -r requirements.txt
+  script:
+    - docker build -t $CI_REGISTRY_IMAGE/backend:$CI_COMMIT_SHA -f Dockerfile.prod .
+    - docker push $CI_REGISTRY_IMAGE/backend:$CI_COMMIT_SHA
+  only:
+    - main
+    - develop
+
+build-docs:
+  stage: build
+  image: node:18-alpine
+  services:
+    - docker:dind
+  before_script:
+    - cd docs
+    - npm ci
+  script:
+    - npm run build
+    - docker build -t $CI_REGISTRY_IMAGE/docs:$CI_COMMIT_SHA -f Dockerfile.prod .
+    - docker push $CI_REGISTRY_IMAGE/docs:$CI_COMMIT_SHA
+  only:
+    - main
+    - develop
+
+# Deploy stage
+deploy-staging:
+  stage: deploy
+  image: alpine:latest
+  before_script:
+    - apk add --no-cache openssh-client
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+  script:
+    - ssh -o StrictHostKeyChecking=no $STAGING_USER@$STAGING_HOST "cd /opt/cv-revamp && docker-compose pull && docker-compose up -d"
+  environment:
+    name: staging
+    url: https://staging.cv-revamp.com
+  only:
+    - develop
+
+deploy-production:
+  stage: deploy
+  image: alpine:latest
+  before_script:
+    - apk add --no-cache openssh-client
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+  script:
+    - ssh -o StrictHostKeyChecking=no $PRODUCTION_USER@$PRODUCTION_HOST "cd /opt/cv-revamp && docker-compose pull && docker-compose up -d"
+  environment:
+    name: production
+    url: https://cv-revamp.com
+  only:
+    - main
+  when: manual 

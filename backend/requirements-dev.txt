@@ -6,4 +6,3 @@ factory-boy==3.3.0
 faker==20.1.0
 coverage==7.3.2
 bandit==1.7.5
-safety==2.3.5 

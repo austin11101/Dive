@@ -7,6 +7,7 @@ on:
     branches: [ main, develop ]
 
 env:
+  DIVE_SECRET: ${{ secrets.dive }}
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
 
@@ -40,6 +41,9 @@ jobs:
       - name: Build application
         working-directory: ./frontend
         run: npm run build
+
+      # - name: Debug: Print DIVE_SECRET (remove in production)
+      #   run: echo "DIVE_SECRET is $DIVE_SECRET"
 
       - name: Upload coverage reports
         uses: codecov/codecov-action@v3
@@ -107,6 +111,9 @@ jobs:
           REDIS_URL: redis://localhost:6379
         run: |
           pytest tests/ --cov=app --cov-report=xml --cov-report=term
+
+      # - name: Debug: Print DIVE_SECRET (remove in production)
+      #   run: echo "DIVE_SECRET is $DIVE_SECRET"
 
       - name: Upload coverage reports
         uses: codecov/codecov-action@v3
@@ -176,6 +183,9 @@ jobs:
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/docs:${{ steps.meta.outputs.version }}
           labels: ${{ steps.meta.outputs.labels }}
 
+      # - name: Debug: Print DIVE_SECRET (remove in production)
+      #   run: echo "DIVE_SECRET is $DIVE_SECRET"
+
   # Deploy to Staging
   deploy-staging:
     needs: build-and-push
@@ -194,6 +204,8 @@ jobs:
             docker-compose pull
             docker-compose up -d
             docker system prune -f
+      # - name: Debug: Print DIVE_SECRET (remove in production)
+      #   run: echo "DIVE_SECRET is $DIVE_SECRET"
 
   # Deploy to Production
   deploy-production:
@@ -212,4 +224,6 @@ jobs:
             cd /opt/cv-revamp
             docker-compose pull
             docker-compose up -d
-            docker system prune -f 
+            docker system prune -f
+      # - name: Debug: Print DIVE_SECRET (remove in production)
+      #   run: echo "DIVE_SECRET is $DIVE_SECRET" 

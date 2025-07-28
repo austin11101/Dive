@@ -14,7 +14,7 @@ from app.schemas.user import UserResponse
 router = APIRouter()
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
-@router.post("/register", response_model=UserResponse)
+@router.post("/register", response_model=Token)
 def register(user_data: UserCreate, db: Session = Depends(get_db)) -> Any:
     """Register a new user"""
     # Check if user already exists
@@ -27,17 +27,28 @@ def register(user_data: UserCreate, db: Session = Depends(get_db)) -> Any:
     
     # Create new user
     hashed_password = get_password_hash(user_data.password)
+    full_name = f"{user_data.first_name} {user_data.last_name}"
     db_user = User(
         email=user_data.email,
         hashed_password=hashed_password,
-        full_name=user_data.full_name
+        full_name=full_name
     )
     
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
     
-    return db_user
+    # Create access token
+    access_token_expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = create_access_token(
+        data={"sub": db_user.email}, expires_delta=access_token_expires
+    )
+    
+    return {
+        "access_token": access_token,
+        "token_type": "bearer",
+        "user": db_user
+    }
 
 @router.post("/login", response_model=Token)
 def login(user_credentials: UserLogin, db: Session = Depends(get_db)) -> Any:

@@ -7,8 +7,9 @@ import logging
 
 from app.core.config import settings
 from app.api.v1.api import api_router
-from app.core.database import engine
+from app.core.database import engine, Base
 from app.core.redis import redis_client
+from app.models import user  # Import models to register them
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -82,6 +83,13 @@ app.include_router(api_router, prefix="/api/v1")
 @app.on_event("startup")
 async def startup_event():
     logger.info("Starting CV Revamping API...")
+    # Create database tables
+    try:
+        Base.metadata.create_all(bind=engine)
+        logger.info("Database tables created")
+    except Exception as e:
+        logger.error(f"Database table creation failed: {e}")
+    
     # Test database connection
     try:
         # Test database connection here

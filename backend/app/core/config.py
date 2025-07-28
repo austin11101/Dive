@@ -25,7 +25,7 @@ class Settings(BaseSettings):
     REDIS_URL: str = "redis://redis:6379"
     
     # CORS
-    ALLOWED_HOSTS: List[str] = ["*", "localhost", "127.0.0.1", "0.0.0.0"]
+    ALLOWED_HOSTS: List[str] = ["http://localhost:4200", "http://127.0.0.1:4200", "http://localhost:3000", "http://127.0.0.1:3000"]
     
     # File upload
     MAX_FILE_SIZE: int = 10 * 1024 * 1024  # 10MB

@@ -13,6 +13,10 @@ export class LandingPageComponent {
     this.router.navigate(['/login']);
   }
 
+  navigateToSignup(): void {
+    this.router.navigate(['/signup']);
+  }
+
   navigateToDashboard(): void {
     this.router.navigate(['/dashboard']);
   }

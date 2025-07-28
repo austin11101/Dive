@@ -1,86 +1,78 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
   styleUrls: ['./login-page.component.scss']
 })
-export class LoginPageComponent {
+export class LoginPageComponent implements OnInit {
   loginForm: FormGroup;
-  registerForm: FormGroup;
   isLoading = false;
-  isLoginMode = true;
+  hidePassword = true;
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private http: HttpClient
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
-
-    this.registerForm = this.fb.group({
-      firstName: ['', [Validators.required]],
-      lastName: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', [Validators.required]]
-    }, { validators: this.passwordMatchValidator });
   }
 
-  passwordMatchValidator(form: FormGroup) {
-    const password = form.get('password');
-    const confirmPassword = form.get('confirmPassword');
-    
-    if (password && confirmPassword && password.value !== confirmPassword.value) {
-      confirmPassword.setErrors({ passwordMismatch: true });
-      return { passwordMismatch: true };
+  ngOnInit(): void {
+    // Check if user is already logged in
+    const token = localStorage.getItem('auth_token');
+    if (token) {
+      this.router.navigate(['/dashboard']);
     }
-    
-    return null;
-  }
-
-  toggleMode(): void {
-    this.isLoginMode = !this.isLoginMode;
-    this.loginForm.reset();
-    this.registerForm.reset();
   }
 
   async onSubmit(): Promise<void> {
-    if (this.isLoginMode) {
-      await this.handleLogin();
-    } else {
-      await this.handleRegister();
-    }
-  }
-
-  private async handleLogin(): Promise<void> {
     if (this.loginForm.valid) {
       this.isLoading = true;
       try {
         const { email, password } = this.loginForm.value;
         
-        // TODO: Implement actual login API call
-        console.log('Login attempt:', { email, password });
+        // Call the backend login API
+        const response: any = await this.http.post('http://localhost:8000/api/v1/auth/login', {
+          email: email,
+          password: password
+        }).toPromise();
+
+        if (response.access_token) {
+          // Store the token
+          localStorage.setItem('auth_token', response.access_token);
+          localStorage.setItem('user_info', JSON.stringify({
+            email: email
+          }));
+
+          this.snackBar.open('Login successful! Welcome back!', 'Close', {
+            duration: 3000,
+            horizontalPosition: 'center',
+            verticalPosition: 'top'
+          });
+          
+          this.router.navigate(['/dashboard']);
+        }
+      } catch (error: any) {
+        console.error('Login error:', error);
+        let errorMessage = 'Login failed. Please check your credentials.';
         
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        
-        this.snackBar.open('Login successful!', 'Close', {
-          duration: 3000,
-          horizontalPosition: 'center',
-          verticalPosition: 'top'
-        });
-        
-        this.router.navigate(['/dashboard']);
-      } catch (error) {
-        this.snackBar.open('Login failed. Please try again.', 'Close', {
-          duration: 3000,
+        if (error.error?.detail) {
+          errorMessage = error.error.detail;
+        } else if (error.status === 401) {
+          errorMessage = 'Invalid email or password.';
+        }
+
+        this.snackBar.open(errorMessage, 'Close', {
+          duration: 5000,
           horizontalPosition: 'center',
           verticalPosition: 'top'
         });
@@ -90,40 +82,12 @@ export class LoginPageComponent {
     }
   }
 
-  private async handleRegister(): Promise<void> {
-    if (this.registerForm.valid) {
-      this.isLoading = true;
-      try {
-        const formData = this.registerForm.value;
-        
-        // TODO: Implement actual registration API call
-        console.log('Register attempt:', formData);
-        
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        
-        this.snackBar.open('Registration successful! Please log in.', 'Close', {
-          duration: 3000,
-          horizontalPosition: 'center',
-          verticalPosition: 'top'
-        });
-        
-        this.isLoginMode = true;
-        this.registerForm.reset();
-      } catch (error) {
-        this.snackBar.open('Registration failed. Please try again.', 'Close', {
-          duration: 3000,
-          horizontalPosition: 'center',
-          verticalPosition: 'top'
-        });
-      } finally {
-        this.isLoading = false;
-      }
-    }
+  navigateToSignup(): void {
+    this.router.navigate(['/signup']);
   }
 
-  getErrorMessage(controlName: string, form: FormGroup): string {
-    const control = form.get(controlName);
+  getErrorMessage(controlName: string): string {
+    const control = this.loginForm.get(controlName);
     if (control?.hasError('required')) {
       return `${controlName.charAt(0).toUpperCase() + controlName.slice(1)} is required`;
     }
@@ -132,9 +96,6 @@ export class LoginPageComponent {
     }
     if (control?.hasError('minlength')) {
       return `${controlName.charAt(0).toUpperCase() + controlName.slice(1)} must be at least 6 characters`;
-    }
-    if (control?.hasError('passwordMismatch')) {
-      return 'Passwords do not match';
     }
     return '';
   }

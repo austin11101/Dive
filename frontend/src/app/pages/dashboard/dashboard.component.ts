@@ -1,13 +1,25 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
   selectedTab = 0;
   isSidebarOpen = true;
+  userInfo: any = null;
+
+  constructor(private router: Router) {}
+
+  ngOnInit(): void {
+    // Get user info from localStorage
+    const userInfoStr = localStorage.getItem('user_info');
+    if (userInfoStr) {
+      this.userInfo = JSON.parse(userInfoStr);
+    }
+  }
 
   // Mock data for dashboard
   recentCVs = [
@@ -99,5 +111,11 @@ export class DashboardComponent {
   deleteCV(cvId: number): void {
     // TODO: Implement CV deletion
     console.log('Deleting CV:', cvId);
+  }
+
+  logout(): void {
+    localStorage.removeItem('auth_token');
+    localStorage.removeItem('user_info');
+    this.router.navigate(['/']);
   }
 } 

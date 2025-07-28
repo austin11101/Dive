@@ -44,7 +44,7 @@
           <span>Settings</span>
         </button>
         <mat-divider></mat-divider>
-        <button mat-menu-item>
+        <button mat-menu-item (click)="logout()">
           <mat-icon>logout</mat-icon>
           <span>Logout</span>
         </button>
@@ -62,8 +62,8 @@
               <mat-icon>account_circle</mat-icon>
             </div>
             <div class="user-details">
-              <h4>John Doe</h4>
-              <p>john.doe&#64;example.com</p>
+              <h4>{{ userInfo?.firstName || 'User' }} {{ userInfo?.lastName || '' }}</h4>
+              <p>{{ userInfo?.email || 'user@example.com' }}</p>
             </div>
           </div>
 

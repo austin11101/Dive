@@ -4,6 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { AuthGuard } from './guards/auth.guard';
 
 // Angular Material Imports
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -28,6 +29,7 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { AppComponent } from './app.component';
 import { LandingPageComponent } from './pages/landing-page/landing-page.component';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
+import { SignupPageComponent } from './pages/signup-page/signup-page.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
@@ -38,6 +40,7 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
     AppComponent,
     LandingPageComponent,
     LoginPageComponent,
+    SignupPageComponent,
     DashboardComponent,
     NavbarComponent,
     FooterComponent,
@@ -52,7 +55,8 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
     RouterModule.forRoot([
       { path: '', component: LandingPageComponent },
       { path: 'login', component: LoginPageComponent },
-      { path: 'dashboard', component: DashboardComponent },
+      { path: 'signup', component: SignupPageComponent },
+      { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
       { path: '**', redirectTo: '' }
     ]),
     // Angular Material Modules

@@ -1,0 +1,130 @@
+<div class="signup-page">
+  <div class="signup-container">
+    <div class="signup-card">
+      <div class="signup-header">
+        <div class="logo">
+          <mat-icon class="logo-icon">description</mat-icon>
+          <h1>CV Revamp</h1>
+        </div>
+        <p class="subtitle">Create your account to get started</p>
+      </div>
+
+      <div class="form-container">
+        <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+          <h2>Create Account</h2>
+          <p class="form-subtitle">Join thousands of professionals using CV Revamp</p>
+
+          <div class="name-fields">
+            <mat-form-field appearance="outline">
+              <mat-label>First Name</mat-label>
+              <input matInput formControlName="firstName" placeholder="Enter your first name">
+              <mat-error *ngIf="signupForm.get('firstName')?.hasError('required')">
+                First name is required
+              </mat-error>
+              <mat-error *ngIf="signupForm.get('firstName')?.hasError('minlength')">
+                First name must be at least 2 characters
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Last Name</mat-label>
+              <input matInput formControlName="lastName" placeholder="Enter your last name">
+              <mat-error *ngIf="signupForm.get('lastName')?.hasError('required')">
+                Last name is required
+              </mat-error>
+              <mat-error *ngIf="signupForm.get('lastName')?.hasError('minlength')">
+                Last name must be at least 2 characters
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email" type="email" placeholder="Enter your email">
+            <mat-error *ngIf="signupForm.get('email')?.hasError('required')">
+              Email is required
+            </mat-error>
+            <mat-error *ngIf="signupForm.get('email')?.hasError('email')">
+              Please enter a valid email address
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Password</mat-label>
+            <input matInput formControlName="password" [type]="hidePassword ? 'password' : 'text'" placeholder="Create a password">
+            <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" type="button">
+              <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+            <mat-error *ngIf="signupForm.get('password')?.hasError('required')">
+              Password is required
+            </mat-error>
+            <mat-error *ngIf="signupForm.get('password')?.hasError('minlength')">
+              Password must be at least 8 characters
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Confirm Password</mat-label>
+            <input matInput formControlName="confirmPassword" [type]="hideConfirmPassword ? 'password' : 'text'" placeholder="Confirm your password">
+            <button mat-icon-button matSuffix (click)="hideConfirmPassword = !hideConfirmPassword" type="button">
+              <mat-icon>{{hideConfirmPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+            <mat-error *ngIf="signupForm.get('confirmPassword')?.hasError('required')">
+              Please confirm your password
+            </mat-error>
+            <mat-error *ngIf="signupForm.get('confirmPassword')?.hasError('passwordMismatch')">
+              Passwords do not match
+            </mat-error>
+          </mat-form-field>
+
+          <div class="form-actions">
+            <button 
+              mat-raised-button 
+              color="primary" 
+              type="submit" 
+              class="submit-button"
+              [disabled]="signupForm.invalid || isLoading">
+              <mat-spinner diameter="20" *ngIf="isLoading"></mat-spinner>
+              <span *ngIf="!isLoading">Create Account</span>
+            </button>
+          </div>
+
+          <div class="form-footer">
+            <p>Already have an account? 
+              <a href="#" (click)="navigateToLogin(); $event.preventDefault()">Sign in</a>
+            </p>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="signup-illustration">
+      <div class="illustration-content">
+        <h2>Start Your Journey</h2>
+        <p>Create your first professional CV in minutes with our AI-powered platform.</p>
+        <div class="features-list">
+          <div class="feature-item">
+            <mat-icon>check_circle</mat-icon>
+            <span>AI-Powered Design</span>
+          </div>
+          <div class="feature-item">
+            <mat-icon>check_circle</mat-icon>
+            <span>Professional Templates</span>
+          </div>
+          <div class="feature-item">
+            <mat-icon>check_circle</mat-icon>
+            <span>ATS Optimized</span>
+          </div>
+          <div class="feature-item">
+            <mat-icon>check_circle</mat-icon>
+            <span>Multiple Export Formats</span>
+          </div>
+          <div class="feature-item">
+            <mat-icon>check_circle</mat-icon>
+            <span>Real-time Collaboration</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

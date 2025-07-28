@@ -32,10 +32,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.add_middleware(
-    TrustedHostMiddleware,
-    allowed_hosts=settings.ALLOWED_HOSTS
-)
+# Only add TrustedHostMiddleware in production
+if settings.ENVIRONMENT == "production":
+    app.add_middleware(
+        TrustedHostMiddleware,
+        allowed_hosts=settings.ALLOWED_HOSTS
+    )
 
 # Request timing middleware
 @app.middleware("http")
@@ -62,6 +64,15 @@ async def health_check():
         "status": "healthy",
         "timestamp": time.time(),
         "version": "1.0.0"
+    }
+
+# Root endpoint
+@app.get("/")
+async def root():
+    return {
+        "message": "Welcome to CV Revamping API",
+        "version": "1.0.0",
+        "docs": "/docs"
     }
 
 # Include API routes

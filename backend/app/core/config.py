@@ -19,13 +19,13 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
     
     # Database
-    DATABASE_URL: str = "postgresql://cv_user:cv_password@localhost:5432/cv_database"
+    DATABASE_URL: str = "postgresql://cv_user:cv_password@postgres:5432/cv_database"
     
     # Redis
-    REDIS_URL: str = "redis://localhost:6379"
+    REDIS_URL: str = "redis://redis:6379"
     
     # CORS
-    ALLOWED_HOSTS: List[str] = ["*"]
+    ALLOWED_HOSTS: List[str] = ["*", "localhost", "127.0.0.1", "0.0.0.0"]
     
     # File upload
     MAX_FILE_SIZE: int = 10 * 1024 * 1024  # 10MB

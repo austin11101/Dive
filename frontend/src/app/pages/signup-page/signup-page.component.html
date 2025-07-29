@@ -22,8 +22,8 @@
 
                     <div class="row mb-3">
                       <div class="col-md-6">
+                        <mat-label>First Name</mat-label>
                         <mat-form-field appearance="outline" class="w-100">
-                          <mat-label>First Name</mat-label>
                           <input matInput formControlName="firstName" placeholder="Enter your first name">
                           <mat-error *ngIf="signupForm.get('firstName')?.hasError('required')">
                             First name is required
@@ -34,8 +34,8 @@
                         </mat-form-field>
                       </div>
                       <div class="col-md-6">
+                        <mat-label>Last Name</mat-label>
                         <mat-form-field appearance="outline" class="w-100">
-                          <mat-label>Last Name</mat-label>
                           <input matInput formControlName="lastName" placeholder="Enter your last name">
                           <mat-error *ngIf="signupForm.get('lastName')?.hasError('required')">
                             Last name is required
@@ -48,8 +48,8 @@
                     </div>
 
                     <div class="mb-3">
+                      <mat-label>Email</mat-label>
                       <mat-form-field appearance="outline" class="w-100">
-                        <mat-label>Email</mat-label>
                         <input matInput formControlName="email" type="email" placeholder="Enter your email">
                         <mat-error *ngIf="signupForm.get('email')?.hasError('required')">
                           Email is required
@@ -61,8 +61,8 @@
                     </div>
 
                     <div class="mb-3">
+                      <mat-label>Password</mat-label>
                       <mat-form-field appearance="outline" class="w-100">
-                        <mat-label>Password</mat-label>
                         <input matInput formControlName="password" [type]="hidePassword ? 'password' : 'text'" placeholder="Create a password">
                         <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" type="button">
                           <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
@@ -77,8 +77,8 @@
                     </div>
 
                     <div class="mb-4">
+                      <mat-label>Confirm Password</mat-label>
                       <mat-form-field appearance="outline" class="w-100">
-                        <mat-label>Confirm Password</mat-label>
                         <input matInput formControlName="confirmPassword" [type]="hideConfirmPassword ? 'password' : 'text'" placeholder="Confirm your password">
                         <button mat-icon-button matSuffix (click)="hideConfirmPassword = !hideConfirmPassword" type="button">
                           <mat-icon>{{hideConfirmPassword ? 'visibility_off' : 'visibility'}}</mat-icon>

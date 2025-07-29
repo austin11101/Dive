@@ -25,6 +25,23 @@
 // Material form field improvements
 .mat-form-field {
   width: 100%;
+  
+  .mat-form-field-outline {
+    color: rgba(0, 0, 0, 0.12);
+  }
+  
+  &.mat-focused .mat-form-field-outline-thick {
+    color: #667eea;
+  }
+}
+
+// Style labels outside form fields
+mat-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #495057;
+  font-size: 0.875rem;
 }
 
 // Responsive adjustments

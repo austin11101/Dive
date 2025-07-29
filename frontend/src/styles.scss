@@ -91,7 +91,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 /* Force larger form fields */
 .mat-form-field-appearance-outline .mat-form-field-infix {
   padding: 1.5em 0 1.5em 0 !important;
-  min-height: 3em !important;
+  min-height: 10em !important;
 }
 
 .mat-form-field-appearance-outline .mat-form-field-wrapper {
@@ -116,4 +116,61 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .mat-form-field {
   width: 100% !important;
   min-width: 300px !important;
+}
+
+/* Force larger form fields - ULTRA AGGRESSIVE */
+.mat-form-field-appearance-outline .mat-form-field-infix {
+  padding: 2em 0 2em 0 !important;
+  min-height: 4em !important;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-wrapper {
+  padding-bottom: 2.5em !important;
+}
+
+/* Ensure input text is visible and large */
+.mat-input-element {
+  font-size: 18px !important;
+  line-height: 1.5 !important;
+  padding: 1em 0 !important;
+  height: 2.5em !important;
+}
+
+/* Fix icon button sizing */
+.mat-form-field-suffix .mat-icon-button {
+  width: 48px !important;
+  height: 48px !important;
+  line-height: 48px !important;
+}
+
+/* Ensure proper field width */
+.mat-form-field {
+  width: 100% !important;
+  min-width: 300px !important;
+  font-size: 18px !important;
+}
+
+/* Force larger placeholder and label text */
+.mat-form-field-label {
+  font-size: 16px !important;
+  top: 2em !important;
+}
+
+.mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
+  transform: translateY(-2.5em) scale(0.75) !important;
+  font-size: 14px !important;
+}
+
+/* Ensure proper spacing */
+.mat-form-field-appearance-outline .mat-form-field-flex {
+  padding: 0 1em !important;
+}
+
+/* Force larger outline */
+.mat-form-field-appearance-outline .mat-form-field-outline {
+  top: 0 !important;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-outline-thick {
+  top: 0 !important;
 } 

@@ -218,7 +218,36 @@
   }
 }
 
-// Material Design overrides
+// EASY-TO-UNDERSTAND FORM FIELD STYLES
+.form-field-firstname,
+.form-field-lastname,
+.form-field-email,
+.form-field-password,
+.form-field-confirm-password {
+  width: 100% !important;
+  font-size: 18px !important;
+  min-width: 300px !important;
+}
+
+.input-firstname,
+.input-lastname,
+.input-email,
+.input-password,
+.input-confirm-password {
+  font-size: 18px !important;
+  line-height: 1.5 !important;
+  padding: 1em 0 !important;
+  height: 2.5em !important;
+}
+
+.password-toggle-btn,
+.confirm-password-toggle-btn {
+  width: 48px !important;
+  height: 48px !important;
+  line-height: 48px !important;
+}
+
+// Material Design overrides for consistent styling
 ::ng-deep {
   .mat-form-field-appearance-outline .mat-form-field-outline {
     color: #e0e0e0;
@@ -230,6 +259,8 @@
 
   .mat-form-field-label {
     color: #666;
+    font-size: 16px !important;
+    top: 2em !important;
   }
 
   .mat-form-field.mat-focused .mat-form-field-label {
@@ -248,15 +279,9 @@
     background-color: #5a6fd8;
   }
 
-  // Fix form field sizing - MORE AGGRESSIVE
-  .mat-form-field {
-    width: 100% !important;
-    font-size: 18px !important;
-    min-width: 300px !important;
-  }
-
+  // Enhanced form field sizing
   .mat-form-field-appearance-outline .mat-form-field-wrapper {
-    padding-bottom: 2em !important;
+    padding-bottom: 2.5em !important;
   }
 
   .mat-form-field-appearance-outline .mat-form-field-infix {
@@ -265,32 +290,12 @@
     width: auto !important;
   }
 
-  // Force larger input text
-  .mat-input-element {
-    font-size: 18px !important;
-    line-height: 1.5 !important;
-    padding: 1em 0 !important;
-    height: 2.5em !important;
-  }
-
-  // Force larger placeholder text
-  .mat-form-field-label {
-    font-size: 16px !important;
-    top: 2em !important;
-  }
-
-  // Force larger label when focused
-  .mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
-    transform: translateY(-2.5em) scale(0.75) !important;
-    font-size: 14px !important;
-  }
-
   .mat-form-field-appearance-outline .mat-form-field-outline {
-    top: 0;
+    top: 0 !important;
   }
 
   .mat-form-field-appearance-outline .mat-form-field-outline-thick {
-    top: 0;
+    top: 0 !important;
   }
 
   .mat-form-field-appearance-outline .mat-form-field-outline-start,
@@ -303,11 +308,8 @@
   }
 
   .mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
-    transform: translateY(-1.5em) scale(0.75);
-  }
-
-  .mat-form-field-appearance-outline .mat-form-field-label {
-    top: 1.5em;
+    transform: translateY(-2.5em) scale(0.75) !important;
+    font-size: 14px !important;
   }
 
   .mat-form-field-suffix {
@@ -316,14 +318,8 @@
     transform: translateY(-50%);
   }
 
-  .mat-form-field-suffix .mat-icon-button {
-    width: 40px;
-    height: 40px;
-    line-height: 40px;
-  }
-
   .mat-form-field-appearance-outline .mat-form-field-flex {
-    padding: 0 0.75em;
+    padding: 0 1em !important;
   }
 
   .mat-form-field-appearance-outline .mat-form-field-infix {

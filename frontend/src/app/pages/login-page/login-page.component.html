@@ -6,17 +6,17 @@
           <mat-icon class="logo-icon">description</mat-icon>
           <h1>CV Revamp</h1>
         </div>
-        <p class="subtitle">Transform your career with AI-powered CV design</p>
+        <p class="subtitle">Welcome back! Sign in to your account</p>
       </div>
 
       <div class="form-container">
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-          <h2>Welcome Back</h2>
-          <p class="form-subtitle">Sign in to your account to continue</p>
+          <h2>Sign In</h2>
+          <p class="form-subtitle">Access your CV builder and templates</p>
 
-          <mat-form-field appearance="outline" class="full-width">
+          <mat-form-field appearance="outline" class="form-field-email full-width">
             <mat-label>Email</mat-label>
-            <input matInput formControlName="email" type="email" placeholder="Enter your email">
+            <input matInput formControlName="email" type="email" placeholder="Enter your email" class="input-email">
             <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
               Email is required
             </mat-error>
@@ -25,17 +25,14 @@
             </mat-error>
           </mat-form-field>
 
-          <mat-form-field appearance="outline" class="full-width">
+          <mat-form-field appearance="outline" class="form-field-password full-width">
             <mat-label>Password</mat-label>
-            <input matInput formControlName="password" [type]="hidePassword ? 'password' : 'text'" placeholder="Enter your password">
-            <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" type="button">
+            <input matInput formControlName="password" [type]="hidePassword ? 'password' : 'text'" placeholder="Enter your password" class="input-password">
+            <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" type="button" class="password-toggle-btn">
               <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
             </button>
             <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
               Password is required
-            </mat-error>
-            <mat-error *ngIf="loginForm.get('password')?.hasError('minlength')">
-              Password must be at least 6 characters
             </mat-error>
           </mat-form-field>
 
@@ -62,24 +59,28 @@
 
     <div class="login-illustration">
       <div class="illustration-content">
-        <h2>Transform Your Career</h2>
-        <p>Join thousands of professionals who have already landed their dream jobs with CV Revamp.</p>
+        <h2>Welcome Back!</h2>
+        <p>Continue building your professional CV with our advanced tools and templates.</p>
         <div class="features-list">
           <div class="feature-item">
             <mat-icon>check_circle</mat-icon>
-            <span>AI-Powered Design</span>
+            <span>Resume Templates</span>
           </div>
           <div class="feature-item">
             <mat-icon>check_circle</mat-icon>
-            <span>Professional Templates</span>
+            <span>AI Writing Assistant</span>
           </div>
           <div class="feature-item">
             <mat-icon>check_circle</mat-icon>
-            <span>ATS Optimized</span>
+            <span>Export to PDF</span>
           </div>
           <div class="feature-item">
             <mat-icon>check_circle</mat-icon>
-            <span>Multiple Export Formats</span>
+            <span>ATS Optimization</span>
+          </div>
+          <div class="feature-item">
+            <mat-icon>check_circle</mat-icon>
+            <span>Cloud Storage</span>
           </div>
         </div>
       </div>

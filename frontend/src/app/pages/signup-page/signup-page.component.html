@@ -15,9 +15,9 @@
           <p class="form-subtitle">Join thousands of professionals using CV Revamp</p>
 
           <div class="name-fields">
-            <mat-form-field appearance="outline">
+            <mat-form-field appearance="outline" class="form-field-firstname">
               <mat-label>First Name</mat-label>
-              <input matInput formControlName="firstName" placeholder="Enter your first name">
+              <input matInput formControlName="firstName" placeholder="Enter your first name" class="input-firstname">
               <mat-error *ngIf="signupForm.get('firstName')?.hasError('required')">
                 First name is required
               </mat-error>
@@ -26,9 +26,9 @@
               </mat-error>
             </mat-form-field>
 
-            <mat-form-field appearance="outline">
+            <mat-form-field appearance="outline" class="form-field-lastname">
               <mat-label>Last Name</mat-label>
-              <input matInput formControlName="lastName" placeholder="Enter your last name">
+              <input matInput formControlName="lastName" placeholder="Enter your last name" class="input-lastname">
               <mat-error *ngIf="signupForm.get('lastName')?.hasError('required')">
                 Last name is required
               </mat-error>
@@ -38,9 +38,9 @@
             </mat-form-field>
           </div>
 
-          <mat-form-field appearance="outline" class="full-width">
+          <mat-form-field appearance="outline" class="form-field-email full-width">
             <mat-label>Email</mat-label>
-            <input matInput formControlName="email" type="email" placeholder="Enter your email">
+            <input matInput formControlName="email" type="email" placeholder="Enter your email" class="input-email">
             <mat-error *ngIf="signupForm.get('email')?.hasError('required')">
               Email is required
             </mat-error>
@@ -49,10 +49,10 @@
             </mat-error>
           </mat-form-field>
 
-          <mat-form-field appearance="outline" class="full-width">
+          <mat-form-field appearance="outline" class="form-field-password full-width">
             <mat-label>Password</mat-label>
-            <input matInput formControlName="password" [type]="hidePassword ? 'password' : 'text'" placeholder="Create a password">
-            <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" type="button">
+            <input matInput formControlName="password" [type]="hidePassword ? 'password' : 'text'" placeholder="Create a password" class="input-password">
+            <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" type="button" class="password-toggle-btn">
               <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
             </button>
             <mat-error *ngIf="signupForm.get('password')?.hasError('required')">
@@ -63,10 +63,10 @@
             </mat-error>
           </mat-form-field>
 
-          <mat-form-field appearance="outline" class="full-width">
+          <mat-form-field appearance="outline" class="form-field-confirm-password full-width">
             <mat-label>Confirm Password</mat-label>
-            <input matInput formControlName="confirmPassword" [type]="hideConfirmPassword ? 'password' : 'text'" placeholder="Confirm your password">
-            <button mat-icon-button matSuffix (click)="hideConfirmPassword = !hideConfirmPassword" type="button">
+            <input matInput formControlName="confirmPassword" [type]="hideConfirmPassword ? 'password' : 'text'" placeholder="Confirm your password" class="input-confirm-password">
+            <button mat-icon-button matSuffix (click)="hideConfirmPassword = !hideConfirmPassword" type="button" class="confirm-password-toggle-btn">
               <mat-icon>{{hideConfirmPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
             </button>
             <mat-error *ngIf="signupForm.get('confirmPassword')?.hasError('required')">

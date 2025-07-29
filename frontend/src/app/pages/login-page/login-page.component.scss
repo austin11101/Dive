@@ -90,17 +90,6 @@
   margin-bottom: 1.5rem;
 }
 
-.name-fields {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  margin-bottom: 1rem;
-
-  @media (max-width: 480px) {
-    grid-template-columns: 1fr;
-  }
-}
-
 .form-actions {
   margin: 2rem 0;
   text-align: center;
@@ -218,7 +207,29 @@
   }
 }
 
-// Material Design overrides
+// EASY-TO-UNDERSTAND FORM FIELD STYLES
+.form-field-email,
+.form-field-password {
+  width: 100% !important;
+  font-size: 18px !important;
+  min-width: 300px !important;
+}
+
+.input-email,
+.input-password {
+  font-size: 18px !important;
+  line-height: 1.5 !important;
+  padding: 1em 0 !important;
+  height: 2.5em !important;
+}
+
+.password-toggle-btn {
+  width: 48px !important;
+  height: 48px !important;
+  line-height: 48px !important;
+}
+
+// Material Design overrides for consistent styling
 ::ng-deep {
   .mat-form-field-appearance-outline .mat-form-field-outline {
     color: #e0e0e0;
@@ -230,6 +241,8 @@
 
   .mat-form-field-label {
     color: #666;
+    font-size: 16px !important;
+    top: 2em !important;
   }
 
   .mat-form-field.mat-focused .mat-form-field-label {
@@ -248,28 +261,23 @@
     background-color: #5a6fd8;
   }
 
-  // Fix form field sizing
-  .mat-form-field {
-    width: 100%;
-    font-size: 16px;
-  }
-
+  // Enhanced form field sizing
   .mat-form-field-appearance-outline .mat-form-field-wrapper {
-    padding-bottom: 1.5em;
+    padding-bottom: 2.5em !important;
   }
 
   .mat-form-field-appearance-outline .mat-form-field-infix {
-    padding: 1em 0 1em 0;
-    min-height: 2em;
-    width: auto;
+    padding: 2em 0 2em 0 !important;
+    min-height: 4em !important;
+    width: auto !important;
   }
 
   .mat-form-field-appearance-outline .mat-form-field-outline {
-    top: 0;
+    top: 0 !important;
   }
 
   .mat-form-field-appearance-outline .mat-form-field-outline-thick {
-    top: 0;
+    top: 0 !important;
   }
 
   .mat-form-field-appearance-outline .mat-form-field-outline-start,
@@ -282,11 +290,8 @@
   }
 
   .mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
-    transform: translateY(-1.5em) scale(0.75);
-  }
-
-  .mat-form-field-appearance-outline .mat-form-field-label {
-    top: 1.5em;
+    transform: translateY(-2.5em) scale(0.75) !important;
+    font-size: 14px !important;
   }
 
   .mat-form-field-suffix {
@@ -295,75 +300,12 @@
     transform: translateY(-50%);
   }
 
-  .mat-form-field-suffix .mat-icon-button {
-    width: 40px;
-    height: 40px;
-    line-height: 40px;
-  }
-
   .mat-form-field-appearance-outline .mat-form-field-flex {
-    padding: 0 0.75em;
+    padding: 0 1em !important;
   }
 
   .mat-form-field-appearance-outline .mat-form-field-infix {
     width: auto;
     min-width: 180px;
   }
-} 
-
-/* Force larger form fields - ULTRA AGGRESSIVE */
-.mat-form-field-appearance-outline .mat-form-field-infix {
-  padding: 2em 0 2em 0 !important;
-  min-height: 4em !important;
-}
-
-.mat-form-field-appearance-outline .mat-form-field-wrapper {
-  padding-bottom: 2.5em !important;
-}
-
-/* Ensure input text is visible and large */
-.mat-input-element {
-  font-size: 18px !important;
-  line-height: 1.5 !important;
-  padding: 1em 0 !important;
-  height: 2.5em !important;
-}
-
-/* Fix icon button sizing */
-.mat-form-field-suffix .mat-icon-button {
-  width: 48px !important;
-  height: 48px !important;
-  line-height: 48px !important;
-}
-
-/* Ensure proper field width */
-.mat-form-field {
-  width: 100% !important;
-  min-width: 300px !important;
-  font-size: 18px !important;
-}
-
-/* Force larger placeholder and label text */
-.mat-form-field-label {
-  font-size: 16px !important;
-  top: 2em !important;
-}
-
-.mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
-  transform: translateY(-2.5em) scale(0.75) !important;
-  font-size: 14px !important;
-}
-
-/* Ensure proper spacing */
-.mat-form-field-appearance-outline .mat-form-field-flex {
-  padding: 0 1em !important;
-}
-
-/* Force larger outline */
-.mat-form-field-appearance-outline .mat-form-field-outline {
-  top: 0 !important;
-}
-
-.mat-form-field-appearance-outline .mat-form-field-outline-thick {
-  top: 0 !important;
 } 

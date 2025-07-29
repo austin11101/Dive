@@ -118,4 +118,18 @@ export class DashboardComponent implements OnInit {
     localStorage.removeItem('user_info');
     this.router.navigate(['/']);
   }
+
+  getStatusClass(status: string): string {
+    switch (status.toLowerCase()) {
+      case 'draft':
+        return 'bg-secondary';
+      case 'complete':
+      case 'completed':
+        return 'bg-success';
+      case 'in-progress':
+        return 'bg-warning';
+      default:
+        return 'bg-primary';
+    }
+  }
 } 

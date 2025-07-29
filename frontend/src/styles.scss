@@ -1,7 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'bootstrap/dist/css/bootstrap.min.css';
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
@@ -90,87 +88,60 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 /* Force larger form fields */
 .mat-form-field-appearance-outline .mat-form-field-infix {
-  padding: 1.5em 0 1.5em 0 !important;
-  min-height: 10em !important;
+  padding: 1em 0 1em 0;
+  min-height: 2em;
+  width: auto;
 }
 
-.mat-form-field-appearance-outline .mat-form-field-wrapper {
-  padding-bottom: 2em !important;
+/* Bootstrap overrides for better Material Design integration */
+.btn {
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.3s ease;
 }
 
-/* Ensure input text is visible */
-.mat-input-element {
-  font-size: 16px !important;
-  line-height: 1.5 !important;
-  padding: 0.75em 0 !important;
+.btn-primary {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border: none;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
 }
 
-/* Fix icon button sizing */
-.mat-form-field-suffix .mat-icon-button {
-  width: 48px !important;
-  height: 48px !important;
-  line-height: 48px !important;
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
 }
 
-/* Ensure proper field width */
-.mat-form-field {
-  width: 100% !important;
-  min-width: 300px !important;
+.card {
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: none;
+  transition: transform 0.3s ease;
 }
 
-/* Force larger form fields - ULTRA AGGRESSIVE */
-.mat-form-field-appearance-outline .mat-form-field-infix {
-  padding: 2em 0 2em 0 !important;
-  min-height: 4em !important;
+.card:hover {
+  transform: translateY(-2px);
 }
 
-.mat-form-field-appearance-outline .mat-form-field-wrapper {
-  padding-bottom: 2.5em !important;
+.navbar {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Ensure input text is visible and large */
-.mat-input-element {
-  font-size: 18px !important;
-  line-height: 1.5 !important;
-  padding: 1em 0 !important;
-  height: 2.5em !important;
+/* Custom utility classes for your existing design */
+.gradient-bg {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
-/* Fix icon button sizing */
-.mat-form-field-suffix .mat-icon-button {
-  width: 48px !important;
-  height: 48px !important;
-  line-height: 48px !important;
+.gradient-text {
+  background: linear-gradient(45deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3);
+  background-size: 400% 400%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradient 3s ease infinite;
 }
 
-/* Ensure proper field width */
-.mat-form-field {
-  width: 100% !important;
-  min-width: 300px !important;
-  font-size: 18px !important;
-}
-
-/* Force larger placeholder and label text */
-.mat-form-field-label {
-  font-size: 16px !important;
-  top: 2em !important;
-}
-
-.mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
-  transform: translateY(-2.5em) scale(0.75) !important;
-  font-size: 14px !important;
-}
-
-/* Ensure proper spacing */
-.mat-form-field-appearance-outline .mat-form-field-flex {
-  padding: 0 1em !important;
-}
-
-/* Force larger outline */
-.mat-form-field-appearance-outline .mat-form-field-outline {
-  top: 0 !important;
-}
-
-.mat-form-field-appearance-outline .mat-form-field-outline-thick {
-  top: 0 !important;
+@keyframes gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 } 

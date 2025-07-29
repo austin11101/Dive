@@ -97,12 +97,13 @@ async def startup_event():
     except Exception as e:
         logger.error(f"Database connection failed: {e}")
     
-    # Test Redis connection
+    # Test Redis connection (optional for local development)
     try:
         await redis_client.ping()
         logger.info("Redis connection established")
     except Exception as e:
-        logger.error(f"Redis connection failed: {e}")
+        logger.warning(f"Redis connection failed (this is normal for local development): {e}")
+        logger.info("Continuing without Redis...")
 
 # Shutdown event
 @app.on_event("shutdown")

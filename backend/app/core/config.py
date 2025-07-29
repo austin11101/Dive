@@ -7,7 +7,7 @@ class Settings(BaseSettings):
     APP_NAME: str = "CV Revamping API"
     VERSION: str = "1.0.0"
     ENVIRONMENT: str = "development"
-    DEBUG: bool = False
+    DEBUG: bool = True
     
     # Server settings
     HOST: str = "0.0.0.0"
@@ -18,14 +18,14 @@ class Settings(BaseSettings):
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
     
-    # Database
-    DATABASE_URL: str = "postgresql://cv_user:cv_password@postgres:5432/cv_database"
+    # Database - Use SQLite for local development
+    DATABASE_URL: str = "sqlite:///./cv_database.db"
     
-    # Redis
-    REDIS_URL: str = "redis://redis:6379"
+    # Redis - Disable for local development
+    REDIS_URL: str = "redis://localhost:6379"
     
     # CORS
-    ALLOWED_HOSTS: List[str] = ["http://localhost:4200", "http://127.0.0.1:4200", "http://localhost:3000", "http://127.0.0.1:3000"]
+    ALLOWED_HOSTS: List[str] = ["http://localhost:4200", "http://127.0.0.1:4200", "http://localhost:3000", "http://127.0.0.1:3000", "http://localhost:33869", "http://127.0.0.1:33869"]
     
     # File upload
     MAX_FILE_SIZE: int = 10 * 1024 * 1024  # 10MB
@@ -41,7 +41,8 @@ class Settings(BaseSettings):
     OPENAI_API_KEY: Optional[str] = None
     
     class Config:
-        env_file = ".env"
+        # Don't load from .env file for local development
+        env_file = None
         case_sensitive = True
 
 # Create settings instance

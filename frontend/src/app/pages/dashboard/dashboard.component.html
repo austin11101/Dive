@@ -89,6 +89,14 @@
               <span>Settings</span>
             </a>
           </mat-nav-list>
+
+          <!-- Logout Button at bottom of sidebar -->
+          <div class="sidebar-footer">
+            <button mat-list-item (click)="logout()" class="logout-button">
+              <mat-icon>logout</mat-icon>
+              <span>Logout</span>
+            </button>
+          </div>
         </div>
       </mat-sidenav>
 

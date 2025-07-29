@@ -44,10 +44,21 @@ def register(user_data: UserCreate, db: Session = Depends(get_db)) -> Any:
         data={"sub": db_user.email}, expires_delta=access_token_expires
     )
     
+    # Convert user object to dictionary
+    user_dict = {
+        "id": db_user.id,
+        "email": db_user.email,
+        "full_name": db_user.full_name,
+        "is_active": db_user.is_active,
+        "is_verified": db_user.is_verified,
+        "created_at": db_user.created_at.isoformat() if db_user.created_at else None,
+        "updated_at": db_user.updated_at.isoformat() if db_user.updated_at else None
+    }
+    
     return {
         "access_token": access_token,
         "token_type": "bearer",
-        "user": db_user
+        "user": user_dict
     }
 
 @router.post("/login", response_model=Token)
@@ -68,10 +79,21 @@ def login(user_credentials: UserLogin, db: Session = Depends(get_db)) -> Any:
         data={"sub": user.email}, expires_delta=access_token_expires
     )
     
+    # Convert user object to dictionary
+    user_dict = {
+        "id": user.id,
+        "email": user.email,
+        "full_name": user.full_name,
+        "is_active": user.is_active,
+        "is_verified": user.is_verified,
+        "created_at": user.created_at.isoformat() if user.created_at else None,
+        "updated_at": user.updated_at.isoformat() if user.updated_at else None
+    }
+    
     return {
         "access_token": access_token,
         "token_type": "bearer",
-        "user": user
+        "user": user_dict
     }
 
 @router.post("/refresh", response_model=Token)

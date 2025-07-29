@@ -62,6 +62,7 @@
 
 .sidenav-content {
   padding: 1rem 0;
+  padding-bottom: 80px; // Make room for the logout button
 }
 
 .user-info {
@@ -124,6 +125,45 @@ mat-nav-list {
     mat-icon {
       margin-right: 0.75rem;
       color: #666;
+    }
+  }
+}
+
+// Sidebar Footer with Logout Button
+.sidebar-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem;
+  border-top: 1px solid #e0e0e0;
+  background: white;
+
+  .logout-button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    border: none;
+    background: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #dc2626;
+    font-size: 0.875rem;
+    font-weight: 500;
+
+    &:hover {
+      background: rgba(220, 38, 38, 0.1);
+    }
+
+    mat-icon {
+      margin-right: 0.75rem;
+      color: #dc2626;
+    }
+
+    span {
+      color: #dc2626;
     }
   }
 }

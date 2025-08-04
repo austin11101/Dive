@@ -20,16 +20,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'cv-revamp-frontend'`, () => {
+  it(`should have as title 'cv-revamp'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('cv-revamp-frontend');
+    expect(app.title).toEqual('cv-revamp');
   });
 
-  it('should render title', () => {
+  it('should render router outlet', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('cv-revamp-frontend');
+    expect(compiled.querySelector('router-outlet')).toBeTruthy();
   });
 }); 

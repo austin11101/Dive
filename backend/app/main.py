@@ -9,7 +9,6 @@ from app.core.config import settings
 from app.api.v1.api import api_router
 from app.core.database import engine, Base
 from app.core.redis import redis_client
-from app.models import user  # Import models to register them
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -40,6 +39,7 @@ if settings.ENVIRONMENT == "production":
         allowed_hosts=settings.ALLOWED_HOSTS
     )
 
+
 # Request timing middleware
 @app.middleware("http")
 async def add_process_time_header(request: Request, call_next):
@@ -48,6 +48,7 @@ async def add_process_time_header(request: Request, call_next):
     process_time = time.time() - start_time
     response.headers["X-Process-Time"] = str(process_time)
     return response
+
 
 # Exception handler
 @app.exception_handler(Exception)
@@ -58,6 +59,7 @@ async def global_exception_handler(request: Request, exc: Exception):
         content={"detail": "Internal server error"}
     )
 
+
 # Health check endpoint
 @app.get("/health")
 async def health_check():
@@ -66,6 +68,7 @@ async def health_check():
         "timestamp": time.time(),
         "version": "1.0.0"
     }
+
 
 # Root endpoint
 @app.get("/")
@@ -76,8 +79,10 @@ async def root():
         "docs": "/docs"
     }
 
+
 # Include API routes
 app.include_router(api_router, prefix="/api/v1")
+
 
 # Startup event
 @app.on_event("startup")
@@ -89,21 +94,24 @@ async def startup_event():
         logger.info("Database tables created")
     except Exception as e:
         logger.error(f"Database table creation failed: {e}")
-    
+
     # Test database connection
     try:
         # Test database connection here
         logger.info("Database connection established")
     except Exception as e:
         logger.error(f"Database connection failed: {e}")
-    
+
     # Test Redis connection (optional for local development)
     try:
         await redis_client.ping()
         logger.info("Redis connection established")
     except Exception as e:
-        logger.warning(f"Redis connection failed (this is normal for local development): {e}")
+        logger.warning(
+            f"Redis connection failed (this is normal for local development): {e}"
+        )
         logger.info("Continuing without Redis...")
+
 
 # Shutdown event
 @app.on_event("shutdown")
@@ -112,4 +120,4 @@ async def shutdown_event():
     # Close database connections
     engine.dispose()
     # Close Redis connection
-    await redis_client.close() 
+    await redis_client.close()

@@ -12,4 +12,4 @@ celery.conf.update(
     accept_content=["json"],
     timezone="UTC",
     enable_utc=True,
-) 
+)

@@ -11,6 +11,7 @@ redis_client = redis.from_url(
 # Cache configuration
 CACHE_EXPIRE_TIME = 3600  # 1 hour in seconds
 
+
 async def get_cache(key: str):
     """Get value from cache"""
     try:
@@ -18,6 +19,7 @@ async def get_cache(key: str):
     except Exception as e:
         print(f"Cache get error: {e}")
         return None
+
 
 async def set_cache(key: str, value: str, expire: int = CACHE_EXPIRE_TIME):
     """Set value in cache with expiration"""
@@ -28,6 +30,7 @@ async def set_cache(key: str, value: str, expire: int = CACHE_EXPIRE_TIME):
         print(f"Cache set error: {e}")
         return False
 
+
 async def delete_cache(key: str):
     """Delete value from cache"""
     try:
@@ -35,4 +38,4 @@ async def delete_cache(key: str):
         return True
     except Exception as e:
         print(f"Cache delete error: {e}")
-        return False 
+        return False

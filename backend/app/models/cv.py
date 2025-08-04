@@ -1,7 +1,10 @@
-from sqlalchemy import Column, Integer, String, DateTime, Boolean, Text, ForeignKey, JSON
+from sqlalchemy import (
+    Column, Integer, String, DateTime, Boolean, Text, ForeignKey, JSON
+)
 from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
 from app.core.database import Base
+
 
 class CV(Base):
     __tablename__ = "cvs"
@@ -20,6 +23,7 @@ class CV(Base):
     user = relationship("User", back_populates="cvs")
     template = relationship("Template", back_populates="cvs")
 
+
 class Template(Base):
     __tablename__ = "templates"
 
@@ -34,4 +38,4 @@ class Template(Base):
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
 
     # Relationships
-    cvs = relationship("CV", back_populates="template") 
+    cvs = relationship("CV", back_populates="template")

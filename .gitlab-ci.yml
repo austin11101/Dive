@@ -1,5 +1,6 @@
 stages:
   - test
+  - lint
   - build
   - deploy
 
@@ -64,6 +65,22 @@ test-backend:
         coverage_format: cobertura
         path: backend/coverage.xml
     expire_in: 1 week
+  only:
+    - main
+    - develop
+    - merge_requests
+
+# Lint stage (optional, can fail without blocking pipeline)
+lint-frontend:
+  stage: lint
+  image: node:18-alpine
+  before_script:
+    - cd frontend
+    - npm ci
+  script:
+    - echo "Running frontend linting..."
+    - npm run lint || echo "Linting failed but continuing..."
+  allow_failure: true
   only:
     - main
     - develop

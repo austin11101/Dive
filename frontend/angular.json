@@ -127,8 +127,7 @@
           "options": {
             "lintFilePatterns": [
               "src/**/*.ts"
-            ],
-            "eslintConfig": ".eslintrc.json"
+            ]
           }
         }
       }

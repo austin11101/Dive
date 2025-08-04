@@ -22,17 +22,14 @@ def register(user_data: UserCreate, db: Session = Depends(get_db)) -> Any:
     existing_user = db.query(User).filter(User.email == user_data.email).first()
     if existing_user:
         raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Email already registered"
+            status_code=status.HTTP_400_BAD_REQUEST, detail="Email already registered"
         )
 
     # Create new user
     hashed_password = get_password_hash(user_data.password)
     full_name = f"{user_data.first_name} {user_data.last_name}"
     db_user = User(
-        email=user_data.email,
-        hashed_password=hashed_password,
-        full_name=full_name
+        email=user_data.email, hashed_password=hashed_password, full_name=full_name
     )
 
     db.add(db_user)
@@ -53,14 +50,10 @@ def register(user_data: UserCreate, db: Session = Depends(get_db)) -> Any:
         "is_active": db_user.is_active,
         "is_verified": db_user.is_verified,
         "created_at": db_user.created_at.isoformat() if db_user.created_at else None,
-        "updated_at": db_user.updated_at.isoformat() if db_user.updated_at else None
+        "updated_at": db_user.updated_at.isoformat() if db_user.updated_at else None,
     }
 
-    return {
-        "access_token": access_token,
-        "token_type": "bearer",
-        "user": user_dict
-    }
+    return {"access_token": access_token, "token_type": "bearer", "user": user_dict}
 
 
 @router.post("/login", response_model=Token)
@@ -89,14 +82,10 @@ def login(user_credentials: UserLogin, db: Session = Depends(get_db)) -> Any:
         "is_active": user.is_active,
         "is_verified": user.is_verified,
         "created_at": user.created_at.isoformat() if user.created_at else None,
-        "updated_at": user.updated_at.isoformat() if user.updated_at else None
+        "updated_at": user.updated_at.isoformat() if user.updated_at else None,
     }
 
-    return {
-        "access_token": access_token,
-        "token_type": "bearer",
-        "user": user_dict
-    }
+    return {"access_token": access_token, "token_type": "bearer", "user": user_dict}
 
 
 @router.post("/refresh", response_model=Token)

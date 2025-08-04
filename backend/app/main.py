@@ -34,10 +34,7 @@ app.add_middleware(
 
 # Only add TrustedHostMiddleware in production
 if settings.ENVIRONMENT == "production":
-    app.add_middleware(
-        TrustedHostMiddleware,
-        allowed_hosts=settings.ALLOWED_HOSTS
-    )
+    app.add_middleware(TrustedHostMiddleware, allowed_hosts=settings.ALLOWED_HOSTS)
 
 
 # Request timing middleware
@@ -54,20 +51,13 @@ async def add_process_time_header(request: Request, call_next):
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
     logger.error(f"Global exception: {exc}")
-    return JSONResponse(
-        status_code=500,
-        content={"detail": "Internal server error"}
-    )
+    return JSONResponse(status_code=500, content={"detail": "Internal server error"})
 
 
 # Health check endpoint
 @app.get("/health")
 async def health_check():
-    return {
-        "status": "healthy",
-        "timestamp": time.time(),
-        "version": "1.0.0"
-    }
+    return {"status": "healthy", "timestamp": time.time(), "version": "1.0.0"}
 
 
 # Root endpoint
@@ -76,7 +66,7 @@ async def root():
     return {
         "message": "Welcome to CV Revamping API",
         "version": "1.0.0",
-        "docs": "/docs"
+        "docs": "/docs",
     }
 
 

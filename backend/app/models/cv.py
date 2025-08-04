@@ -1,5 +1,12 @@
 from sqlalchemy import (
-    Column, Integer, String, DateTime, Boolean, Text, ForeignKey, JSON
+    Column,
+    Integer,
+    String,
+    DateTime,
+    Boolean,
+    Text,
+    ForeignKey,
+    JSON,
 )
 from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship

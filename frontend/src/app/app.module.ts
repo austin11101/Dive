@@ -26,6 +26,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 import { AppComponent } from './app.component';
 import { LandingPageComponent } from './pages/landing-page/landing-page.component';
@@ -40,6 +41,9 @@ import { CvPreviewComponent } from './components/cv-preview/cv-preview.component
 import { JobSearchComponent } from './components/job-search/job-search.component';
 import { CvManagementComponent } from './pages/cv-management/cv-management.component';
 import { MyJobsComponent } from './pages/my-jobs/my-jobs.component';
+import { SettingsComponent } from './pages/settings/settings.component';
+import { ThemeToggleComponent } from './components/theme-toggle/theme-toggle.component';
+import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +59,10 @@ import { MyJobsComponent } from './pages/my-jobs/my-jobs.component';
     CvPreviewComponent,
     JobSearchComponent,
     CvManagementComponent,
-    MyJobsComponent
+    MyJobsComponent,
+    SettingsComponent,
+    ThemeToggleComponent,
+    BreadcrumbsComponent
   ],
   imports: [
     BrowserModule,
@@ -70,6 +77,7 @@ import { MyJobsComponent } from './pages/my-jobs/my-jobs.component';
       { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
       { path: 'cv-management', component: CvManagementComponent, canActivate: [AuthGuard] },
       { path: 'my-jobs', component: MyJobsComponent, canActivate: [AuthGuard] },
+      { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] },
       { path: '**', redirectTo: '' }
     ]),
     // Angular Material Modules
@@ -91,7 +99,8 @@ import { MyJobsComponent } from './pages/my-jobs/my-jobs.component';
     MatDatepickerModule,
     MatNativeDateModule,
     MatBadgeModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatSlideToggleModule
   ],
   providers: [],
   bootstrap: [AppComponent]

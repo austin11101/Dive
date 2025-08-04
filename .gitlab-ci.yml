@@ -12,7 +12,6 @@ cache:
   paths:
     - frontend/node_modules/
     - backend/.venv/
-    - docs/node_modules/
 
 # Test stage
 test-frontend:
@@ -33,6 +32,10 @@ test-frontend:
     paths:
       - frontend/dist/
     expire_in: 1 week
+  only:
+    - main
+    - develop
+    - merge_requests
 
 test-backend:
   stage: test
@@ -43,6 +46,7 @@ test-backend:
   variables:
     DATABASE_URL: postgresql://cv_user:cv_password@postgres:5432/cv_database
     REDIS_URL: redis://redis:6379
+    ENVIRONMENT: test
   before_script:
     - cd backend
     - python -m venv .venv
@@ -50,8 +54,8 @@ test-backend:
     - pip install -r requirements.txt
     - pip install -r requirements-dev.txt
   script:
-    - python -m pytest tests/ --cov=app --cov-report=xml
-    - python -m flake8 app/
+    - python -m pytest tests/ --cov=app --cov-report=xml --cov-report=term
+    - python -m flake8 app/ --max-line-length=88 --extend-ignore=E203,W503
     - python -m black --check app/
   artifacts:
     reports:
@@ -59,6 +63,10 @@ test-backend:
         coverage_format: cobertura
         path: backend/coverage.xml
     expire_in: 1 week
+  only:
+    - main
+    - develop
+    - merge_requests
 
 # Build stage
 build-frontend:
@@ -73,6 +81,8 @@ build-frontend:
     - npm run build:prod
     - docker build -t $CI_REGISTRY_IMAGE/frontend:$CI_COMMIT_SHA -f Dockerfile.prod .
     - docker push $CI_REGISTRY_IMAGE/frontend:$CI_COMMIT_SHA
+    - docker tag $CI_REGISTRY_IMAGE/frontend:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE/frontend:latest
+    - docker push $CI_REGISTRY_IMAGE/frontend:latest
   only:
     - main
     - develop
@@ -90,22 +100,8 @@ build-backend:
   script:
     - docker build -t $CI_REGISTRY_IMAGE/backend:$CI_COMMIT_SHA -f Dockerfile.prod .
     - docker push $CI_REGISTRY_IMAGE/backend:$CI_COMMIT_SHA
-  only:
-    - main
-    - develop
-
-build-docs:
-  stage: build
-  image: node:18-alpine
-  services:
-    - docker:dind
-  before_script:
-    - cd docs
-    - npm ci
-  script:
-    - npm run build
-    - docker build -t $CI_REGISTRY_IMAGE/docs:$CI_COMMIT_SHA -f Dockerfile.prod .
-    - docker push $CI_REGISTRY_IMAGE/docs:$CI_COMMIT_SHA
+    - docker tag $CI_REGISTRY_IMAGE/backend:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE/backend:latest
+    - docker push $CI_REGISTRY_IMAGE/backend:latest
   only:
     - main
     - develop
@@ -127,6 +123,7 @@ deploy-staging:
     url: https://staging.cv-revamp.com
   only:
     - develop
+  when: manual
 
 deploy-production:
   stage: deploy

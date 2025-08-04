@@ -1,0 +1,394 @@
+<div class="settings-container">
+  <div class="settings-header">
+    <h1>Settings</h1>
+    <p class="text-muted">Manage your account preferences and privacy settings</p>
+  </div>
+
+  <mat-card class="settings-card">
+    <mat-tab-group (selectedTabChange)="onTabChange($event)" [selectedIndex]="activeTab">
+      
+      <!-- Profile Settings Tab -->
+      <mat-tab label="Profile">
+        <div class="tab-content">
+          <div class="section-header">
+            <h3>Profile Information</h3>
+            <p>Update your personal information and professional details</p>
+          </div>
+
+          <form [formGroup]="profileForm" class="settings-form">
+            <div class="form-section">
+              <h4>Basic Information</h4>
+              <div class="form-field-group">
+                <mat-form-field appearance="outline" class="mat-form-field-hide-placeholder">
+                  <mat-label>First Name *</mat-label>
+                  <input matInput formControlName="firstName">
+                  <mat-error *ngIf="profileForm.get('firstName')?.hasError('required')">
+                    First name is required
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="mat-form-field-hide-placeholder">
+                  <mat-label>Last Name *</mat-label>
+                  <input matInput formControlName="lastName">
+                  <mat-error *ngIf="profileForm.get('lastName')?.hasError('required')">
+                    Last name is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="form-field-group">
+                <mat-form-field appearance="outline" class="mat-form-field-hide-placeholder">
+                  <mat-label>Email *</mat-label>
+                  <input matInput formControlName="email" type="email">
+                  <mat-error *ngIf="profileForm.get('email')?.hasError('required')">
+                    Email is required
+                  </mat-error>
+                  <mat-error *ngIf="profileForm.get('email')?.hasError('email')">
+                    Please enter a valid email
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="mat-form-field-hide-placeholder">
+                  <mat-label>Phone</mat-label>
+                  <input matInput formControlName="phone">
+                </mat-form-field>
+              </div>
+
+              <div class="form-field-group">
+                <mat-form-field appearance="outline" class="mat-form-field-hide-placeholder">
+                  <mat-label>Location</mat-label>
+                  <input matInput formControlName="location">
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <h4>Professional Information</h4>
+              <div class="form-field-group">
+                <mat-form-field appearance="outline" class="mat-form-field-hide-placeholder full-width">
+                  <mat-label>Bio</mat-label>
+                  <textarea matInput formControlName="bio" rows="3" placeholder="Tell us about yourself and your professional background"></textarea>
+                </mat-form-field>
+              </div>
+
+              <div class="form-field-group">
+                <mat-form-field appearance="outline" class="mat-form-field-hide-placeholder">
+                  <mat-label>Website</mat-label>
+                  <input matInput formControlName="website" placeholder="https://yourwebsite.com">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="mat-form-field-hide-placeholder">
+                  <mat-label>LinkedIn</mat-label>
+                  <input matInput formControlName="linkedin" placeholder="https://linkedin.com/in/yourprofile">
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button mat-raised-button color="primary" (click)="saveProfile()" [disabled]="isLoading || !profileForm.valid">
+                <mat-spinner *ngIf="isLoading" diameter="20" class="me-2"></mat-spinner>
+                {{ isLoading ? 'Saving...' : 'Save Profile' }}
+              </button>
+            </div>
+          </form>
+        </div>
+      </mat-tab>
+
+      <!-- Notifications Tab -->
+      <mat-tab label="Notifications">
+        <div class="tab-content">
+          <div class="section-header">
+            <h3>Notification Preferences</h3>
+            <p>Choose how and when you want to be notified</p>
+          </div>
+
+          <form [formGroup]="notificationForm" class="settings-form">
+            <div class="form-section">
+              <h4>Email Notifications</h4>
+              
+              <div class="setting-item">
+                <div class="setting-info">
+                  <h5>Email Notifications</h5>
+                  <p>Receive important updates via email</p>
+                </div>
+                <mat-slide-toggle formControlName="emailNotifications"></mat-slide-toggle>
+              </div>
+
+              <div class="setting-item">
+                <div class="setting-info">
+                  <h5>Job Alerts</h5>
+                  <p>Get notified about new job opportunities matching your criteria</p>
+                </div>
+                <mat-slide-toggle formControlName="jobAlerts"></mat-slide-toggle>
+              </div>
+
+              <div class="setting-item">
+                <div class="setting-info">
+                  <h5>Application Updates</h5>
+                  <p>Receive updates about your job applications</p>
+                </div>
+                <mat-slide-toggle formControlName="applicationUpdates"></mat-slide-toggle>
+              </div>
+
+              <div class="setting-item">
+                <div class="setting-info">
+                  <h5>Weekly Digest</h5>
+                  <p>Get a weekly summary of your activity and new opportunities</p>
+                </div>
+                <mat-slide-toggle formControlName="weeklyDigest"></mat-slide-toggle>
+              </div>
+
+              <div class="setting-item">
+                <div class="setting-info">
+                  <h5>Marketing Emails</h5>
+                  <p>Receive promotional content and special offers</p>
+                </div>
+                <mat-slide-toggle formControlName="marketingEmails"></mat-slide-toggle>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button mat-raised-button color="primary" (click)="saveNotifications()" [disabled]="isLoading">
+                <mat-spinner *ngIf="isLoading" diameter="20" class="me-2"></mat-spinner>
+                {{ isLoading ? 'Saving...' : 'Save Notifications' }}
+              </button>
+            </div>
+          </form>
+        </div>
+      </mat-tab>
+
+      <!-- Privacy Tab -->
+      <mat-tab label="Privacy">
+        <div class="tab-content">
+          <div class="section-header">
+            <h3>Privacy Settings</h3>
+            <p>Control who can see your information and how it's used</p>
+          </div>
+
+          <form [formGroup]="privacyForm" class="settings-form">
+            <div class="form-section">
+              <h4>Profile Visibility</h4>
+              
+              <div class="setting-item">
+                <div class="setting-info">
+                  <h5>Profile Visibility</h5>
+                  <p>Choose who can see your profile</p>
+                </div>
+                <mat-form-field appearance="outline" class="mat-form-field-hide-placeholder">
+                  <mat-label>Visibility Level</mat-label>
+                  <mat-select formControlName="profileVisibility">
+                    <mat-option *ngFor="let option of visibilityOptions" [value]="option.value">
+                      {{ option.label }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <div class="setting-item">
+                <div class="setting-info">
+                  <h5>Show Salary Information</h5>
+                  <p>Allow others to see your salary expectations</p>
+                </div>
+                <mat-slide-toggle formControlName="showSalary"></mat-slide-toggle>
+              </div>
+
+              <div class="setting-item">
+                <div class="setting-info">
+                  <h5>Show Contact Information</h5>
+                  <p>Display your contact details on your profile</p>
+                </div>
+                <mat-slide-toggle formControlName="showContactInfo"></mat-slide-toggle>
+              </div>
+
+              <div class="setting-item">
+                <div class="setting-info">
+                  <h5>Allow Messages</h5>
+                  <p>Let recruiters and other users send you messages</p>
+                </div>
+                <mat-slide-toggle formControlName="allowMessages"></mat-slide-toggle>
+              </div>
+
+              <div class="setting-item">
+                <div class="setting-info">
+                  <h5>Data Sharing</h5>
+                  <p>Allow us to share your data with trusted partners for job matching</p>
+                </div>
+                <mat-slide-toggle formControlName="dataSharing"></mat-slide-toggle>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button mat-raised-button color="primary" (click)="savePrivacy()" [disabled]="isLoading">
+                <mat-spinner *ngIf="isLoading" diameter="20" class="me-2"></mat-spinner>
+                {{ isLoading ? 'Saving...' : 'Save Privacy Settings' }}
+              </button>
+            </div>
+          </form>
+        </div>
+      </mat-tab>
+
+      <!-- Job Preferences Tab -->
+      <mat-tab label="Job Preferences">
+        <div class="tab-content">
+          <div class="section-header">
+            <h3>Job Preferences</h3>
+            <p>Set your job search preferences to get better matches</p>
+          </div>
+
+          <form [formGroup]="jobPreferencesForm" class="settings-form">
+            <div class="form-section">
+              <h4>Location Preferences</h4>
+              
+              <div class="form-field-group">
+                <mat-form-field appearance="outline" class="mat-form-field-hide-placeholder full-width">
+                  <mat-label>Preferred Locations</mat-label>
+                  <mat-select formControlName="preferredLocations" multiple>
+                    <mat-option *ngFor="let location of locations" [value]="location">
+                      {{ location }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <h4>Salary Expectations</h4>
+              
+              <div class="form-field-group">
+                <mat-form-field appearance="outline" class="mat-form-field-hide-placeholder">
+                  <mat-label>Minimum Salary</mat-label>
+                  <input matInput formControlName="salaryMin" type="number">
+                  <span matSuffix>£</span>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="mat-form-field-hide-placeholder">
+                  <mat-label>Maximum Salary</mat-label>
+                  <input matInput formControlName="salaryMax" type="number">
+                  <span matSuffix>£</span>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <h4>Job Type Preferences</h4>
+              
+              <div class="form-field-group">
+                <mat-form-field appearance="outline" class="mat-form-field-hide-placeholder full-width">
+                  <mat-label>Preferred Job Types</mat-label>
+                  <mat-select formControlName="jobTypes" multiple>
+                    <mat-option *ngFor="let type of jobTypes" [value]="type">
+                      {{ type }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <div class="setting-item">
+                <div class="setting-info">
+                  <h5>Remote Work</h5>
+                  <p>I'm open to remote work opportunities</p>
+                </div>
+                <mat-slide-toggle formControlName="remoteWork"></mat-slide-toggle>
+              </div>
+
+              <div class="setting-item">
+                <div class="setting-info">
+                  <h5>Relocation</h5>
+                  <p>I'm willing to relocate for the right opportunity</p>
+                </div>
+                <mat-slide-toggle formControlName="relocation"></mat-slide-toggle>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button mat-raised-button color="primary" (click)="saveJobPreferences()" [disabled]="isLoading">
+                <mat-spinner *ngIf="isLoading" diameter="20" class="me-2"></mat-spinner>
+                {{ isLoading ? 'Saving...' : 'Save Job Preferences' }}
+              </button>
+            </div>
+          </form>
+        </div>
+      </mat-tab>
+
+      <!-- Account Tab -->
+      <mat-tab label="Account">
+        <div class="tab-content">
+          <div class="section-header">
+            <h3>Account Management</h3>
+            <p>Manage your account security and data</p>
+          </div>
+
+          <div class="form-section">
+            <h4>Change Password</h4>
+            <form [formGroup]="accountForm" class="settings-form">
+              <div class="form-field-group">
+                <mat-form-field appearance="outline" class="mat-form-field-hide-placeholder">
+                  <mat-label>Current Password *</mat-label>
+                  <input matInput formControlName="currentPassword" type="password">
+                  <mat-error *ngIf="accountForm.get('currentPassword')?.hasError('required')">
+                    Current password is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="form-field-group">
+                <mat-form-field appearance="outline" class="mat-form-field-hide-placeholder">
+                  <mat-label>New Password *</mat-label>
+                  <input matInput formControlName="newPassword" type="password">
+                  <mat-error *ngIf="accountForm.get('newPassword')?.hasError('required')">
+                    New password is required
+                  </mat-error>
+                  <mat-error *ngIf="accountForm.get('newPassword')?.hasError('minlength')">
+                    Password must be at least 8 characters
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="mat-form-field-hide-placeholder">
+                  <mat-label>Confirm New Password *</mat-label>
+                  <input matInput formControlName="confirmPassword" type="password">
+                  <mat-error *ngIf="accountForm.get('confirmPassword')?.hasError('required')">
+                    Please confirm your new password
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="form-actions">
+                <button mat-raised-button color="primary" (click)="changePassword()" [disabled]="isLoading || !accountForm.valid">
+                  <mat-spinner *ngIf="isLoading" diameter="20" class="me-2"></mat-spinner>
+                  {{ isLoading ? 'Changing...' : 'Change Password' }}
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <div class="form-section">
+            <h4>Data Management</h4>
+            
+            <div class="setting-item">
+              <div class="setting-info">
+                <h5>Export Data</h5>
+                <p>Download a copy of all your data including CVs, applications, and preferences</p>
+              </div>
+              <button mat-stroked-button (click)="exportData()" [disabled]="isLoading">
+                <mat-spinner *ngIf="isLoading" diameter="20" class="me-2"></mat-spinner>
+                {{ isLoading ? 'Preparing...' : 'Export Data' }}
+              </button>
+            </div>
+
+            <div class="setting-item danger-zone">
+              <div class="setting-info">
+                <h5>Delete Account</h5>
+                <p>Permanently delete your account and all associated data. This action cannot be undone.</p>
+              </div>
+              <button mat-stroked-button color="warn" (click)="deleteAccount()" [disabled]="isLoading">
+                <mat-spinner *ngIf="isLoading" diameter="20" class="me-2"></mat-spinner>
+                {{ isLoading ? 'Processing...' : 'Delete Account' }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+
+    </mat-tab-group>
+  </mat-card>
+</div> 

@@ -1,0 +1,17 @@
+<div class="theme-toggle-container">
+  <button 
+    class="theme-toggle-btn" 
+    (click)="toggleTheme()"
+    [class.dark-mode]="isDarkMode"
+    [attr.aria-label]="isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'"
+  >
+    <div class="toggle-track">
+      <div class="toggle-thumb">
+        <div class="icon-container">
+          <div class="sun-icon" *ngIf="!isDarkMode">☀️</div>
+          <div class="moon-icon" *ngIf="isDarkMode">🌙</div>
+        </div>
+      </div>
+    </div>
+  </button>
+</div> 

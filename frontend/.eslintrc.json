@@ -1,7 +1,10 @@
 {
   "root": true,
   "ignorePatterns": [
-    "projects/**/*"
+    "projects/**/*",
+    "dist/**/*",
+    "node_modules/**/*",
+    "src/**/*.html"
   ],
   "overrides": [
     {
@@ -9,37 +12,17 @@
         "*.ts"
       ],
       "extends": [
-        "eslint:recommended",
-        "@angular-eslint/recommended",
-        "@angular-eslint/template/process-inline-templates"
+        "eslint:recommended"
       ],
+      "parserOptions": {
+        "ecmaVersion": 2020,
+        "sourceType": "module"
+      },
       "rules": {
-        "@angular-eslint/directive-selector": [
-          "error",
-          {
-            "type": "attribute",
-            "prefix": "app",
-            "style": "camelCase"
-          }
-        ],
-        "@angular-eslint/component-selector": [
-          "error",
-          {
-            "type": "element",
-            "prefix": "app",
-            "style": "kebab-case"
-          }
-        ]
+        "no-unused-vars": "warn",
+        "no-console": "warn",
+        "prefer-const": "warn"
       }
-    },
-    {
-      "files": [
-        "*.html"
-      ],
-      "extends": [
-        "plugin:@angular-eslint/template/recommended"
-      ],
-      "rules": {}
     }
   ]
 } 

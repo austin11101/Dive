@@ -12,6 +12,7 @@ export default defineConfig({
     hmr: {
       overlay: true,
     },
+    cors: true,
   },
   build: {
     target: 'es2020',
@@ -21,6 +22,12 @@ export default defineConfig({
       input: {
         main: resolve(__dirname, 'src/main.ts'),
       },
+      output: {
+        manualChunks: {
+          vendor: ['@angular/core', '@angular/common', '@angular/platform-browser'],
+          rxjs: ['rxjs'],
+        },
+      },
     },
   },
   resolve: {
@@ -29,6 +36,14 @@ export default defineConfig({
     },
   },
   optimizeDeps: {
-    include: ['bootstrap'],
+    include: [
+      'bootstrap',
+      '@angular/core',
+      '@angular/common',
+      '@angular/platform-browser',
+      'rxjs',
+    ],
+    exclude: ['@angular/platform-browser-dynamic'],
   },
+  plugins: [],
 }); 

@@ -1,0 +1,320 @@
+.cv-editor {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+
+  .editor-header {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+
+    .template-selector {
+      min-width: 200px;
+    }
+  }
+
+  .cv-form {
+    .form-section {
+      margin-bottom: 2rem;
+      padding: 1.5rem;
+      background: #f8f9fa;
+      border-radius: 12px;
+      border: 1px solid #e9ecef;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+      h3 {
+        color: #2c3e50;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid #667eea;
+      }
+
+      .form-field-group {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+
+        .full-width {
+          grid-column: 1 / -1;
+        }
+      }
+
+      .experience-item,
+      .education-item {
+        background: white;
+        border-radius: 8px;
+        border: 1px solid #e9ecef;
+        margin-bottom: 1.5rem;
+        padding: 1.5rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+
+        .experience-header,
+        .education-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 1rem;
+          padding-bottom: 0.5rem;
+          border-bottom: 1px solid #e9ecef;
+
+          h4 {
+            color: #2c3e50;
+            font-weight: 600;
+            margin: 0;
+          }
+        }
+
+        .form-field-group {
+          margin-bottom: 1rem;
+        }
+
+        .checkbox-container {
+          display: flex;
+          align-items: center;
+          padding: 0.5rem 0;
+        }
+      }
+
+      .add-button {
+        width: 100%;
+        margin-top: 1rem;
+        border-radius: 8px;
+        font-weight: 500;
+        border: 2px dashed #667eea;
+        color: #667eea;
+        background: rgba(102, 126, 234, 0.05);
+
+        &:hover {
+          background: rgba(102, 126, 234, 0.1);
+          border-color: #5a6fd8;
+        }
+      }
+    }
+
+    .mat-card {
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      border: none;
+      margin-bottom: 20px;
+
+      .mat-card-header {
+        background: #f8f9fa;
+        border-radius: 8px 8px 0 0;
+        padding: 16px 20px;
+        border-bottom: 1px solid #e9ecef;
+
+        .mat-card-title {
+          margin: 0;
+          color: #2c3e50;
+          font-weight: 600;
+        }
+
+        .mat-card-subtitle {
+          margin: 4px 0 0 0;
+          color: #6c757d;
+        }
+      }
+
+      .mat-card-content {
+        padding: 20px;
+      }
+    }
+
+    .experience-item,
+    .education-item,
+    .skill-item,
+    .project-item,
+    .certification-item,
+    .language-item {
+      background: #f8f9fa;
+      border: 1px solid #e9ecef !important;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background: #e9ecef;
+        border-color: #dee2e6 !important;
+      }
+
+      h6 {
+        color: #495057;
+        font-weight: 600;
+      }
+    }
+
+    .mat-form-field {
+      .mat-form-field-wrapper {
+        padding-bottom: 0;
+      }
+
+      .mat-form-field-outline {
+        color: #dee2e6;
+      }
+
+      .mat-form-field-outline-thick {
+        color: #007bff;
+      }
+
+      &.mat-focused .mat-form-field-outline-thick {
+        color: #007bff;
+      }
+    }
+
+    .mat-button,
+    .mat-raised-button {
+      border-radius: 6px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 8px 24px;
+      min-width: 120px;
+
+      &.mat-raised-button {
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+
+        &:hover {
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+          transform: translateY(-1px);
+        }
+      }
+    }
+
+    .mat-stroked-button {
+      border: 2px solid #007bff;
+      color: #007bff;
+      border-radius: 6px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 10px 24px;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background: #007bff;
+        color: white;
+        border-color: #007bff;
+      }
+    }
+
+    .mat-checkbox {
+      .mat-checkbox-frame {
+        border-color: #dee2e6;
+      }
+
+      .mat-checkbox-checkmark-path {
+        stroke: #007bff;
+      }
+    }
+
+    .mat-select {
+      .mat-select-value {
+        color: #495057;
+      }
+    }
+
+    .mat-error {
+      font-size: 12px;
+      color: #dc3545;
+      margin-top: 4px;
+    }
+  }
+
+  // Responsive design
+  @media (max-width: 768px) {
+    padding: 10px;
+
+    .editor-header {
+      .d-flex {
+        flex-direction: column;
+        gap: 10px;
+
+        .template-selector {
+          min-width: 100%;
+        }
+      }
+    }
+
+    .cv-form {
+      .mat-card {
+        .mat-card-content {
+          padding: 15px;
+        }
+      }
+
+      .experience-item,
+      .education-item,
+      .skill-item,
+      .project-item,
+      .certification-item,
+      .language-item {
+        padding: 15px !important;
+      }
+    }
+  }
+
+  // Animation for form sections
+  .mat-card {
+    animation: slideInUp 0.3s ease-out;
+  }
+
+  @keyframes slideInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  // Custom scrollbar for long forms
+  .cv-form {
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: #c1c1c1;
+      border-radius: 4px;
+
+      &:hover {
+        background: #a8a8a8;
+      }
+    }
+  }
+
+  // Loading state
+  .is-submitting {
+    opacity: 0.7;
+    pointer-events: none;
+  }
+
+  // Success state
+  .form-success {
+    .mat-form-field {
+      .mat-form-field-outline {
+        color: #28a745;
+      }
+    }
+  }
+
+  // Error state
+  .form-error {
+    .mat-form-field {
+      .mat-form-field-outline {
+        color: #dc3545;
+      }
+    }
+  }
+} 

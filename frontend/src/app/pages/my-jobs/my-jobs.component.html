@@ -1,0 +1,234 @@
+<div class="my-jobs">
+  <!-- Header -->
+  <div class="page-header">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div>
+        <h1 class="mb-2">My Job Applications</h1>
+        <p class="text-muted mb-0">Track your job applications, manage status updates, and monitor your job search progress.</p>
+      </div>
+      <div class="header-actions">
+        <button mat-raised-button color="primary" (click)="searchMoreJobs()">
+          Search More Jobs
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Stats -->
+  <div class="row g-4 mb-5">
+    <div class="col-lg-2 col-md-4 col-sm-6">
+      <mat-card class="stat-card">
+        <mat-card-content>
+          <div class="stat-content">
+            <div class="stat-number">{{ getApplicationStats().total }}</div>
+            <div class="stat-label">Total Applications</div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="col-lg-2 col-md-4 col-sm-6">
+      <mat-card class="stat-card">
+        <mat-card-content>
+          <div class="stat-content">
+            <div class="stat-number">{{ getApplicationStats().applied }}</div>
+            <div class="stat-label">Applied</div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="col-lg-2 col-md-4 col-sm-6">
+      <mat-card class="stat-card">
+        <mat-card-content>
+          <div class="stat-content">
+            <div class="stat-number">{{ getApplicationStats().interviewing }}</div>
+            <div class="stat-label">Interviewing</div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="col-lg-2 col-md-4 col-sm-6">
+      <mat-card class="stat-card">
+        <mat-card-content>
+          <div class="stat-content">
+            <div class="stat-number">{{ getApplicationStats().offered }}</div>
+            <div class="stat-label">Offered</div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="col-lg-2 col-md-4 col-sm-6">
+      <mat-card class="stat-card">
+        <mat-card-content>
+          <div class="stat-content">
+            <div class="stat-number">{{ getResponseRate() }}%</div>
+            <div class="stat-label">Response Rate</div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="col-lg-2 col-md-4 col-sm-6">
+      <mat-card class="stat-card">
+        <mat-card-content>
+          <div class="stat-content">
+            <div class="stat-number">{{ getAverageResponseTime() }}</div>
+            <div class="stat-label">Avg Response (Days)</div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <!-- Filters and Search -->
+  <div class="form-section">
+    <h3>Filter Applications</h3>
+    <div class="form-field-group">
+      <mat-form-field appearance="outline">
+        <mat-label>Search Jobs</mat-label>
+        <input matInput [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()">
+      </mat-form-field>
+      
+      <mat-form-field appearance="outline">
+        <mat-label>Filter by Status</mat-label>
+        <mat-select [(ngModel)]="selectedStatus" (ngModelChange)="onStatusChange()">
+          <mat-option *ngFor="let option of statusOptions" [value]="option.value">
+            {{ option.label }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      
+      <button mat-stroked-button (click)="searchTerm = ''; selectedStatus = 'all'; filterJobs()">
+        Clear Filters
+      </button>
+    </div>
+  </div>
+
+  <!-- Job Applications List -->
+  <div class="applications-list">
+    <div class="results-header d-flex justify-content-between align-items-center mb-4">
+      <h3 class="mb-0">Your Applications ({{ filteredJobs.length }})</h3>
+    </div>
+
+    <!-- No Applications -->
+    <div *ngIf="filteredJobs.length === 0" class="text-center py-5">
+      <mat-icon class="text-muted mb-3" style="font-size: 4rem;">work_off</mat-icon>
+      <h4 class="mb-3">No applications found</h4>
+      <p class="text-muted mb-4">
+        <span *ngIf="searchTerm || selectedStatus !== 'all'">
+          Try adjusting your search criteria or clear the filters.
+        </span>
+        <span *ngIf="!searchTerm && selectedStatus === 'all'">
+          Start your job search journey by applying to positions that match your skills and interests.
+        </span>
+      </p>
+      <button mat-raised-button color="primary" (click)="searchMoreJobs()">
+        Search for Jobs
+      </button>
+    </div>
+
+    <!-- Applications -->
+    <div *ngIf="filteredJobs.length > 0" class="job-applications">
+      <div *ngFor="let job of filteredJobs" class="application-card mb-3">
+        <mat-card>
+          <mat-card-content>
+            <div class="application-header">
+              <div class="job-info">
+                <h4 class="job-title mb-2">
+                  <a [href]="job.url" target="_blank" class="job-link">{{ job.title }}</a>
+                </h4>
+                <div class="job-company mb-2">
+                  <strong>{{ job.company }}</strong>
+                  <span class="job-location ms-3">{{ job.location }}</span>
+                </div>
+                <div class="job-meta mb-3">
+                  <span class="salary-text me-3">{{ formatSalary(job) }}</span>
+                  <span class="badge bg-secondary me-2">{{ job.category }}</span>
+                  <span [class]="getStatusBadgeClass(job.status)">{{ getStatusLabel(job.status) }}</span>
+                </div>
+              </div>
+              <div class="application-dates">
+                <div class="date-info">
+                  <small class="text-muted">Applied: {{ formatDate(job.appliedDate) }}</small>
+                </div>
+                <div *ngIf="job.followUpDate" class="date-info">
+                  <small class="text-muted">Follow-up: {{ formatDate(job.followUpDate) }}</small>
+                </div>
+              </div>
+            </div>
+
+            <div class="application-actions mb-3">
+              <div class="form-field-group">
+                <mat-form-field appearance="outline">
+                  <mat-label>Update Status</mat-label>
+                  <mat-select [value]="job.status" (selectionChange)="updateJobStatus(job, $event.value)">
+                    <mat-option *ngFor="let option of statusOptions.slice(1)" [value]="option.value">
+                      {{ option.label }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                
+                <mat-form-field appearance="outline">
+                  <mat-label>Follow-up Date</mat-label>
+                  <input matInput type="date" [value]="job.followUpDate" (change)="setFollowUpDate(job, $event.target.value)">
+                </mat-form-field>
+                
+                <button mat-stroked-button (click)="withdrawApplication(job)">
+                  Withdraw
+                </button>
+                
+                <a [href]="job.url" target="_blank" mat-stroked-button>
+                  View Job
+                </a>
+              </div>
+            </div>
+
+            <!-- Notes Section -->
+            <div class="notes-section">
+              <div class="form-field-group">
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Notes</mat-label>
+                  <textarea matInput [value]="job.notes" (blur)="addNote(job, $event.target.value)" 
+                            rows="2"></textarea>
+                </mat-form-field>
+                
+                <button mat-raised-button color="accent" (click)="searchMoreJobs()">
+                  Apply for More Jobs
+                </button>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tips Section -->
+  <div class="tips-section mt-5">
+    <h4 class="mb-3">Job Application Tips</h4>
+    <div class="row g-3">
+      <div class="col-md-4">
+        <mat-card class="tip-card">
+          <mat-card-content>
+            <h6>Follow Up Strategically</h6>
+            <p class="text-muted">Send follow-up emails 1-2 weeks after applying if you haven't heard back. Keep track of your follow-up dates.</p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <div class="col-md-4">
+        <mat-card class="tip-card">
+          <mat-card-content>
+            <h6>Track Your Progress</h6>
+            <p class="text-muted">Monitor your application status and response rates to identify patterns and improve your job search strategy.</p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <div class="col-md-4">
+        <mat-card class="tip-card">
+          <mat-card-content>
+            <h6>Stay Organized</h6>
+            <p class="text-muted">Keep detailed notes about each application, including contact information, interview details, and next steps.</p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div> 

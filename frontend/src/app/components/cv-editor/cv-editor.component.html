@@ -1,0 +1,432 @@
+<div class="cv-editor">
+  <div class="editor-header">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2 class="mb-0">CV Editor</h2>
+      <div class="d-flex gap-2">
+        <mat-form-field appearance="outline" class="template-selector">
+          <mat-label>Template</mat-label>
+          <mat-select [(ngModel)]="templateId">
+            <mat-option *ngFor="let template of templates" [value]="template.id">
+              {{ template.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button mat-button (click)="onPreview()" class="btn btn-outline-primary">
+          Preview
+        </button>
+        <button mat-raised-button color="primary" (click)="onSave()" [disabled]="isSubmitting">
+          {{ isSubmitting ? 'Saving...' : 'Save CV' }}
+        </button>
+        <button mat-raised-button color="accent" (click)="onExport()">
+          Export PDF
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <form [formGroup]="cvForm" class="cv-form">
+    <!-- Personal Information -->
+    <div class="form-section">
+      <h3>Personal Information</h3>
+      <div formGroupName="personalInfo" class="form-field-group">
+        <mat-form-field appearance="outline">
+          <mat-label>First Name *</mat-label>
+          <input matInput formControlName="firstName">
+          <mat-error *ngIf="cvForm.get('personalInfo.firstName')?.hasError('required')">
+            First name is required
+          </mat-error>
+        </mat-form-field>
+        
+        <mat-form-field appearance="outline">
+          <mat-label>Last Name *</mat-label>
+          <input matInput formControlName="lastName">
+          <mat-error *ngIf="cvForm.get('personalInfo.lastName')?.hasError('required')">
+            Last name is required
+          </mat-error>
+        </mat-form-field>
+        
+        <mat-form-field appearance="outline">
+          <mat-label>Email *</mat-label>
+          <input matInput formControlName="email" type="email">
+          <mat-error *ngIf="cvForm.get('personalInfo.email')?.hasError('required')">
+            Email is required
+          </mat-error>
+          <mat-error *ngIf="cvForm.get('personalInfo.email')?.hasError('email')">
+            Please enter a valid email
+          </mat-error>
+        </mat-form-field>
+        
+        <mat-form-field appearance="outline">
+          <mat-label>Phone *</mat-label>
+          <input matInput formControlName="phone">
+          <mat-error *ngIf="cvForm.get('personalInfo.phone')?.hasError('required')">
+            Phone number is required
+          </mat-error>
+        </mat-form-field>
+        
+        <mat-form-field appearance="outline">
+          <mat-label>LinkedIn</mat-label>
+          <input matInput formControlName="linkedin">
+        </mat-form-field>
+        
+        <mat-form-field appearance="outline">
+          <mat-label>Website</mat-label>
+          <input matInput formControlName="website">
+        </mat-form-field>
+      </div>
+      
+      <div class="form-field-group">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Address</mat-label>
+          <textarea matInput formControlName="address" rows="2"></textarea>
+        </mat-form-field>
+      </div>
+      
+      <div class="form-field-group">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Professional Summary *</mat-label>
+          <textarea matInput formControlName="summary" rows="4"></textarea>
+          <mat-error *ngIf="cvForm.get('personalInfo.summary')?.hasError('required')">
+            Professional summary is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <!-- Work Experience -->
+    <mat-card class="mb-4">
+      <mat-card-header>
+        <mat-card-title>Work Experience</mat-card-title>
+        <mat-card-subtitle>Add your work history</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div formArrayName="experience">
+          <div *ngFor="let experience of experienceArray.controls; let i = index" [formGroupName]="i" class="experience-item mb-3 p-3 border rounded">
+            <div class="d-flex justify-content-between align-items-start mb-3">
+              <h6 class="mb-0">Experience {{ i + 1 }}</h6>
+              <button mat-icon-button color="warn" (click)="removeExperience(i)" type="button">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+            <div class="form-field-group">
+              <mat-form-field appearance="outline">
+                <mat-label>Company *</mat-label>
+                <input matInput formControlName="company">
+                <mat-error *ngIf="experience.get('company')?.hasError('required')">
+                  Company name is required
+                </mat-error>
+              </mat-form-field>
+              
+              <mat-form-field appearance="outline">
+                <mat-label>Position *</mat-label>
+                <input matInput formControlName="position">
+                <mat-error *ngIf="experience.get('position')?.hasError('required')">
+                  Position is required
+                </mat-error>
+              </mat-form-field>
+            </div>
+            
+            <div class="form-field-group">
+              <mat-form-field appearance="outline">
+                <mat-label>Start Date *</mat-label>
+                <input matInput formControlName="startDate" type="month">
+                <mat-error *ngIf="experience.get('startDate')?.hasError('required')">
+                  Start date is required
+                </mat-error>
+              </mat-form-field>
+              
+              <mat-form-field appearance="outline">
+                <mat-label>End Date</mat-label>
+                <input matInput formControlName="endDate" type="month" [disabled]="experience.get('current')?.value">
+              </mat-form-field>
+              
+              <div class="checkbox-container">
+                <mat-checkbox formControlName="current">Currently working here</mat-checkbox>
+              </div>
+            </div>
+            
+            <div class="form-field-group">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Description *</mat-label>
+                <textarea matInput formControlName="description" rows="3"></textarea>
+                <mat-error *ngIf="experience.get('description')?.hasError('required')">
+                  Description is required
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <button mat-stroked-button (click)="addExperience()" type="button" class="w-100">
+          Add Experience
+        </button>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Education -->
+    <mat-card class="mb-4">
+      <mat-card-header>
+        <mat-card-title>Education</mat-card-title>
+        <mat-card-subtitle>Add your educational background</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div formArrayName="education">
+          <div *ngFor="let education of educationArray.controls; let i = index" [formGroupName]="i" class="education-item mb-3 p-3 border rounded">
+            <div class="d-flex justify-content-between align-items-start mb-3">
+              <h6 class="mb-0">Education {{ i + 1 }}</h6>
+              <button mat-icon-button color="warn" (click)="removeEducation(i)" type="button">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+            <div class="form-field-group">
+              <mat-form-field appearance="outline">
+                <mat-label>Institution *</mat-label>
+                <input matInput formControlName="institution">
+                <mat-error *ngIf="education.get('institution')?.hasError('required')">
+                  Institution is required
+                </mat-error>
+              </mat-form-field>
+              
+              <mat-form-field appearance="outline">
+                <mat-label>Degree *</mat-label>
+                <input matInput formControlName="degree">
+                <mat-error *ngIf="education.get('degree')?.hasError('required')">
+                  Degree is required
+                </mat-error>
+              </mat-form-field>
+            </div>
+            
+            <div class="form-field-group">
+              <mat-form-field appearance="outline">
+                <mat-label>Field of Study *</mat-label>
+                <input matInput formControlName="field">
+                <mat-error *ngIf="education.get('field')?.hasError('required')">
+                  Field of study is required
+                </mat-error>
+              </mat-form-field>
+              
+              <mat-form-field appearance="outline">
+                <mat-label>Start Date *</mat-label>
+                <input matInput formControlName="startDate" type="month">
+                <mat-error *ngIf="education.get('startDate')?.hasError('required')">
+                  Start date is required
+                </mat-error>
+              </mat-form-field>
+              
+              <mat-form-field appearance="outline">
+                <mat-label>End Date</mat-label>
+                <input matInput formControlName="endDate" type="month">
+              </mat-form-field>
+            </div>
+            
+            <div class="form-field-group">
+              <mat-form-field appearance="outline">
+                <mat-label>GPA</mat-label>
+                <input matInput formControlName="gpa">
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <button mat-stroked-button (click)="addEducation()" type="button" class="w-100">
+          Add Education
+        </button>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Skills -->
+    <mat-card class="mb-4">
+      <mat-card-header>
+        <mat-card-title>Skills</mat-card-title>
+        <mat-card-subtitle>Add your technical and soft skills</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div formArrayName="skills">
+          <div *ngFor="let skill of skillsArray.controls; let i = index" [formGroupName]="i" class="skill-item mb-3 p-3 border rounded">
+            <div class="d-flex justify-content-between align-items-start mb-3">
+              <h6 class="mb-0">Skill {{ i + 1 }}</h6>
+              <button mat-icon-button color="warn" (click)="removeSkill(i)" type="button">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+            <div class="form-field-group">
+              <mat-form-field appearance="outline">
+                <mat-label>Skill Name *</mat-label>
+                <input matInput formControlName="name">
+                <mat-error *ngIf="skill.get('name')?.hasError('required')">
+                  Skill name is required
+                </mat-error>
+              </mat-form-field>
+              
+              <mat-form-field appearance="outline">
+                <mat-label>Level *</mat-label>
+                <mat-select formControlName="level">
+                  <mat-option *ngFor="let level of skillLevels" [value]="level">
+                    {{ level }}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="skill.get('level')?.hasError('required')">
+                  Skill level is required
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <button mat-stroked-button (click)="addSkill()" type="button" class="w-100">
+          Add Skill
+        </button>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Projects -->
+    <mat-card class="mb-4">
+      <mat-card-header>
+        <mat-card-title>Projects</mat-card-title>
+        <mat-card-subtitle>Add your notable projects</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div formArrayName="projects">
+          <div *ngFor="let project of projectsArray.controls; let i = index" [formGroupName]="i" class="project-item mb-3 p-3 border rounded">
+            <div class="d-flex justify-content-between align-items-start mb-3">
+              <h6 class="mb-0">Project {{ i + 1 }}</h6>
+              <button mat-icon-button color="warn" (click)="removeProject(i)" type="button">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+            <div class="form-field-group">
+              <mat-form-field appearance="outline">
+                <mat-label>Project Name *</mat-label>
+                <input matInput formControlName="name">
+                <mat-error *ngIf="project.get('name')?.hasError('required')">
+                  Project name is required
+                </mat-error>
+              </mat-form-field>
+              
+              <mat-form-field appearance="outline">
+                <mat-label>Technologies</mat-label>
+                <input matInput formControlName="technologies">
+              </mat-form-field>
+            </div>
+            
+            <div class="form-field-group">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Description *</mat-label>
+                <textarea matInput formControlName="description" rows="3"></textarea>
+                <mat-error *ngIf="project.get('description')?.hasError('required')">
+                  Description is required
+                </mat-error>
+              </mat-form-field>
+            </div>
+            
+            <div class="form-field-group">
+              <mat-form-field appearance="outline">
+                <mat-label>Project URL</mat-label>
+                <input matInput formControlName="url">
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <button mat-stroked-button (click)="addProject()" type="button" class="w-100">
+          Add Project
+        </button>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Certifications -->
+    <mat-card class="mb-4">
+      <mat-card-header>
+        <mat-card-title>Certifications</mat-card-title>
+        <mat-card-subtitle>Add your professional certifications</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div formArrayName="certifications">
+          <div *ngFor="let certification of certificationsArray.controls; let i = index" [formGroupName]="i" class="certification-item mb-3 p-3 border rounded">
+            <div class="d-flex justify-content-between align-items-start mb-3">
+              <h6 class="mb-0">Certification {{ i + 1 }}</h6>
+              <button mat-icon-button color="warn" (click)="removeCertification(i)" type="button">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+            <div class="form-field-group">
+              <mat-form-field appearance="outline">
+                <mat-label>Certification Name *</mat-label>
+                <input matInput formControlName="name">
+                <mat-error *ngIf="certification.get('name')?.hasError('required')">
+                  Certification name is required
+                </mat-error>
+              </mat-form-field>
+              
+              <mat-form-field appearance="outline">
+                <mat-label>Issuing Organization *</mat-label>
+                <input matInput formControlName="issuer">
+                <mat-error *ngIf="certification.get('issuer')?.hasError('required')">
+                  Issuing organization is required
+                </mat-error>
+              </mat-form-field>
+            </div>
+            
+            <div class="form-field-group">
+              <mat-form-field appearance="outline">
+                <mat-label>Date Obtained *</mat-label>
+                <input matInput formControlName="date" type="month">
+                <mat-error *ngIf="certification.get('date')?.hasError('required')">
+                  Date is required
+                </mat-error>
+              </mat-form-field>
+              
+              <mat-form-field appearance="outline">
+                <mat-label>Certificate URL</mat-label>
+                <input matInput formControlName="url">
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <button mat-stroked-button (click)="addCertification()" type="button" class="w-100">
+          Add Certification
+        </button>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Languages -->
+    <mat-card class="mb-4">
+      <mat-card-header>
+        <mat-card-title>Languages</mat-card-title>
+        <mat-card-subtitle>Add languages you speak</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div formArrayName="languages">
+          <div *ngFor="let language of languagesArray.controls; let i = index" [formGroupName]="i" class="language-item mb-3 p-3 border rounded">
+            <div class="d-flex justify-content-between align-items-start mb-3">
+              <h6 class="mb-0">Language {{ i + 1 }}</h6>
+              <button mat-icon-button color="warn" (click)="removeLanguage(i)" type="button">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+            <div class="form-field-group">
+              <mat-form-field appearance="outline">
+                <mat-label>Language *</mat-label>
+                <input matInput formControlName="language">
+                <mat-error *ngIf="language.get('language')?.hasError('required')">
+                  Language is required
+                </mat-error>
+              </mat-form-field>
+              
+              <mat-form-field appearance="outline">
+                <mat-label>Proficiency *</mat-label>
+                <mat-select formControlName="proficiency">
+                  <mat-option *ngFor="let level of languageLevels" [value]="level">
+                    {{ level }}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="language.get('proficiency')?.hasError('required')">
+                  Proficiency level is required
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <button mat-stroked-button (click)="addLanguage()" type="button" class="w-100">
+          Add Language
+        </button>
+      </mat-card-content>
+    </mat-card>
+  </form>
+</div> 

@@ -20,10 +20,10 @@
                     <h2 class="h3 text-center mb-2">Sign In</h2>
                     <p class="text-muted text-center mb-4">Access your CV builder and templates</p>
 
-                    <div class="mb-3">
-                      <mat-label>Email</mat-label>
+                    <div class="form-field-group">
                       <mat-form-field appearance="outline" class="w-100">
-                        <input matInput formControlName="email" type="email" placeholder="Enter your email">
+                        <mat-label>Email</mat-label>
+                        <input matInput formControlName="email" type="email">
                         <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
                           Email is required
                         </mat-error>
@@ -33,10 +33,10 @@
                       </mat-form-field>
                     </div>
 
-                    <div class="mb-4">
-                      <mat-label>Password</mat-label>
+                    <div class="form-field-group">
                       <mat-form-field appearance="outline" class="w-100">
-                        <input matInput formControlName="password" [type]="hidePassword ? 'password' : 'text'" placeholder="Enter your password">
+                        <mat-label>Password</mat-label>
+                        <input matInput formControlName="password" [type]="hidePassword ? 'password' : 'text'">
                         <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" type="button">
                           <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
                         </button>

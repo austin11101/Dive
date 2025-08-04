@@ -1,0 +1,126 @@
+<div class="cv-preview-overlay" (click)="onClose()">
+  <div class="cv-preview-container" (click)="$event.stopPropagation()">
+    <div class="preview-header">
+      <div class="d-flex justify-content-between align-items-center">
+        <h3 class="mb-0">CV Preview</h3>
+        <div class="d-flex gap-2">
+          <button mat-button (click)="onEdit()" class="btn btn-outline-primary">
+            Edit
+          </button>
+          <button mat-button (click)="printCV()" class="btn btn-outline-secondary">
+            Print
+          </button>
+          <button mat-raised-button color="primary" (click)="onExport()">
+            Export PDF
+          </button>
+          <button mat-icon-button (click)="onClose()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="cv-preview-content">
+      <div class="cv-document" [class]="currentTemplate.class">
+        <!-- Header -->
+        <div class="cv-header">
+          <h1 class="cv-name">{{ getFullName() }}</h1>
+          <div class="cv-contact">
+            <div *ngFor="let contact of getContactInfo()" class="contact-item">
+              {{ contact }}
+            </div>
+          </div>
+        </div>
+
+        <!-- Summary -->
+        <div *ngIf="cvData?.personalInfo?.summary" class="cv-section">
+          <h2 class="section-title">Professional Summary</h2>
+          <p class="section-content">{{ cvData.personalInfo.summary }}</p>
+        </div>
+
+        <!-- Experience -->
+        <div *ngIf="cvData?.experience?.length" class="cv-section">
+          <h2 class="section-title">Work Experience</h2>
+          <div *ngFor="let exp of cvData.experience" class="experience-item">
+            <div class="experience-header">
+              <h3 class="job-title">{{ exp.position }}</h3>
+              <span class="company-name">{{ exp.company }}</span>
+              <span class="date-range">
+                {{ formatDate(exp.startDate) }} - 
+                {{ exp.current ? 'Present' : formatDate(exp.endDate) }}
+              </span>
+            </div>
+            <p class="job-description">{{ exp.description }}</p>
+          </div>
+        </div>
+
+        <!-- Education -->
+        <div *ngIf="cvData?.education?.length" class="cv-section">
+          <h2 class="section-title">Education</h2>
+          <div *ngFor="let edu of cvData.education" class="education-item">
+            <div class="education-header">
+              <h3 class="degree">{{ edu.degree }} in {{ edu.field }}</h3>
+              <span class="institution">{{ edu.institution }}</span>
+              <span class="date-range">
+                {{ formatDate(edu.startDate) }} - {{ formatDate(edu.endDate) }}
+              </span>
+            </div>
+            <p *ngIf="edu.gpa" class="gpa">GPA: {{ edu.gpa }}</p>
+          </div>
+        </div>
+
+        <!-- Skills -->
+        <div *ngIf="cvData?.skills?.length" class="cv-section">
+          <h2 class="section-title">Skills</h2>
+          <div class="skills-grid">
+            <div *ngFor="let skill of cvData.skills" class="skill-item">
+              <span class="skill-name">{{ skill.name }}</span>
+              <span class="skill-level">({{ skill.level }})</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Projects -->
+        <div *ngIf="cvData?.projects?.length" class="cv-section">
+          <h2 class="section-title">Projects</h2>
+          <div *ngFor="let project of cvData.projects" class="project-item">
+            <div class="project-header">
+              <h3 class="project-name">{{ project.name }}</h3>
+              <span *ngIf="project.technologies" class="technologies">{{ project.technologies }}</span>
+            </div>
+            <p class="project-description">{{ project.description }}</p>
+            <a *ngIf="project.url" [href]="project.url" target="_blank" class="project-url">
+              View Project
+            </a>
+          </div>
+        </div>
+
+        <!-- Certifications -->
+        <div *ngIf="cvData?.certifications?.length" class="cv-section">
+          <h2 class="section-title">Certifications</h2>
+          <div *ngFor="let cert of cvData.certifications" class="certification-item">
+            <div class="certification-header">
+              <h3 class="certification-name">{{ cert.name }}</h3>
+              <span class="issuer">{{ cert.issuer }}</span>
+              <span class="date">{{ formatDate(cert.date) }}</span>
+            </div>
+            <a *ngIf="cert.url" [href]="cert.url" target="_blank" class="certification-url">
+              Verify Certificate
+            </a>
+          </div>
+        </div>
+
+        <!-- Languages -->
+        <div *ngIf="cvData?.languages?.length" class="cv-section">
+          <h2 class="section-title">Languages</h2>
+          <div class="languages-grid">
+            <div *ngFor="let lang of cvData.languages" class="language-item">
+              <span class="language-name">{{ lang.language }}</span>
+              <span class="proficiency">({{ lang.proficiency }})</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

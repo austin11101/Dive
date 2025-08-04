@@ -1,0 +1,215 @@
+<div class="job-search">
+  <div class="search-header">
+    <h2 class="mb-3">Find Your Dream Job</h2>
+    <p class="text-muted mb-4">Search thousands of job opportunities and find the perfect match for your skills and experience.</p>
+  </div>
+
+  <!-- Search Form -->
+  <div class="form-section">
+    <h3>Search Criteria</h3>
+    <form [formGroup]="searchForm" (ngSubmit)="searchJobs()">
+                     <div class="form-field-group">
+          <mat-form-field appearance="outline" class="mat-form-field-hide-placeholder">
+            <mat-label>Keywords *</mat-label>
+            <input matInput formControlName="keywords">
+            <mat-error *ngIf="searchForm.get('keywords')?.hasError('required')">
+              Keywords are required
+            </mat-error>
+          </mat-form-field>
+          
+          <mat-form-field appearance="outline" class="mat-form-field-hide-placeholder">
+            <mat-label>Location</mat-label>
+            <input matInput formControlName="location">
+          </mat-form-field>
+        </div>
+        
+        <div class="form-field-group">
+          <mat-form-field appearance="outline" class="mat-form-field-hide-placeholder">
+            <mat-label>Category</mat-label>
+            <mat-select formControlName="category">
+              <mat-option *ngFor="let category of categories" [value]="category">
+                {{ category }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          
+          <mat-form-field appearance="outline" class="mat-form-field-hide-placeholder">
+            <mat-label>Contract Type</mat-label>
+            <mat-select formControlName="contract_type">
+              <mat-option *ngFor="let type of contractTypes" [value]="type">
+                {{ formatContractType(type) }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          
+          <mat-form-field appearance="outline" class="mat-form-field-hide-placeholder">
+            <mat-label>Distance</mat-label>
+            <mat-select formControlName="distance">
+              <mat-option *ngFor="let option of distanceOptions" [value]="option.value">
+                {{ option.label }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        
+        <div class="form-field-group">
+          <mat-form-field appearance="outline" class="mat-form-field-hide-placeholder">
+            <mat-label>Minimum Salary</mat-label>
+            <input matInput formControlName="salary_min" type="number">
+            <span matSuffix>£</span>
+          </mat-form-field>
+          
+          <mat-form-field appearance="outline" class="mat-form-field-hide-placeholder">
+            <mat-label>Maximum Salary</mat-label>
+            <input matInput formControlName="salary_max" type="number">
+            <span matSuffix>£</span>
+          </mat-form-field>
+        </div>
+      
+      <div class="form-field-group">
+        <button mat-raised-button color="primary" type="submit" [disabled]="isLoading" class="flex-grow-1">
+          <mat-spinner *ngIf="isLoading" diameter="20" class="me-2"></mat-spinner>
+          {{ isLoading ? 'Searching...' : 'Search Jobs' }}
+        </button>
+        
+        <button mat-stroked-button type="button" (click)="clearFilters()">
+          Clear Filters
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Search Results -->
+  <div class="search-results">
+    <div class="results-header d-flex justify-content-between align-items-center mb-4">
+      <h3 class="mb-0">Search Results</h3>
+      <div class="results-info">
+        <span class="text-muted">{{ totalJobs }} jobs found</span>
+        <span *ngIf="totalPages > 1" class="text-muted ms-3">
+          Page {{ currentPage }} of {{ totalPages }}
+        </span>
+      </div>
+    </div>
+
+    <!-- Loading State -->
+    <div *ngIf="isLoading" class="text-center py-5">
+      <mat-spinner diameter="50"></mat-spinner>
+      <p class="mt-3 text-muted">Searching for jobs...</p>
+    </div>
+
+    <!-- No Results -->
+    <div *ngIf="!isLoading && totalJobs === 0" class="text-center py-5">
+      <mat-icon class="text-muted mb-3" style="font-size: 4rem;">search_off</mat-icon>
+      <h4 class="mb-3">No jobs found</h4>
+      <p class="text-muted mb-4">Try adjusting your search criteria or browse all available jobs.</p>
+      <button mat-raised-button color="primary" (click)="clearFilters()">
+        Browse All Jobs
+      </button>
+    </div>
+
+    <!-- Job Listings -->
+    <div *ngIf="!isLoading && totalJobs > 0" class="job-listings">
+      <div *ngFor="let job of paginatedJobs" class="job-card mb-3">
+        <mat-card>
+          <mat-card-content>
+            <div class="job-header">
+              <div class="job-title-section">
+                <h4 class="job-title mb-2">
+                  <a [href]="job.url" target="_blank" class="job-link">{{ job.title }}</a>
+                </h4>
+                <div class="job-company mb-2">
+                  <strong>{{ job.company }}</strong>
+                  <span class="job-location ms-3">{{ job.location }}</span>
+                </div>
+              </div>
+              <div class="job-meta">
+                <div class="job-salary mb-2">
+                  <span class="salary-text">{{ formatSalary(job) }}</span>
+                </div>
+                <div class="job-category">
+                  <span class="badge bg-primary">{{ job.category }}</span>
+                  <span class="badge bg-secondary ms-2">{{ formatContractType(job.contract_type || '') }}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="job-description mb-3">
+              <p class="description-text">{{ job.description }}</p>
+            </div>
+
+            <div class="job-footer">
+              <div class="job-actions">
+                <button mat-raised-button color="primary" (click)="applyToJob(job)" class="me-2">
+                  Apply Now
+                </button>
+                <button mat-stroked-button (click)="saveJob(job)" class="me-2">
+                  Save Job
+                </button>
+                <button mat-stroked-button (click)="shareJob(job)">
+                  Share
+                </button>
+              </div>
+              <div class="job-date">
+                <small class="text-muted">Posted {{ formatDate(job.created) }}</small>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <!-- Pagination -->
+      <div *ngIf="totalPages > 1" class="pagination-container d-flex justify-content-center mt-4">
+        <nav>
+          <ul class="pagination">
+            <li class="page-item" [class.disabled]="currentPage === 1">
+              <button class="page-link" (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">
+                Previous
+              </button>
+            </li>
+            <li *ngFor="let page of pages" class="page-item" [class.active]="page === currentPage">
+              <button class="page-link" (click)="changePage(page)">
+                {{ page }}
+              </button>
+            </li>
+            <li class="page-item" [class.disabled]="currentPage === totalPages">
+              <button class="page-link" (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages">
+                Next
+              </button>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Stats -->
+  <div class="quick-stats mt-5">
+    <h4 class="mb-3">Job Search Tips</h4>
+    <div class="row g-3">
+      <div class="col-md-4">
+        <mat-card class="tip-card">
+          <mat-card-content>
+            <h6>Use Specific Keywords</h6>
+            <p class="text-muted">Instead of "developer", try "Angular developer" or "full stack developer" for better results.</p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <div class="col-md-4">
+        <mat-card class="tip-card">
+          <mat-card-content>
+            <h6>Set Salary Expectations</h6>
+            <p class="text-muted">Use salary filters to find jobs that match your compensation requirements.</p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <div class="col-md-4">
+        <mat-card class="tip-card">
+          <mat-card-content>
+            <h6>Save Interesting Jobs</h6>
+            <p class="text-muted">Save jobs you're interested in to review later and track your applications.</p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div> 

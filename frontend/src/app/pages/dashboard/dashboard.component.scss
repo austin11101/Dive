@@ -90,6 +90,41 @@
   box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
 }
 
+// Quick action cards
+.quick-action-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15) !important;
+  }
+  
+  .action-icon {
+    .material-icons {
+      font-size: 3rem;
+      color: #667eea;
+    }
+  }
+  
+  .card-title {
+    color: #2c3e50;
+    font-weight: 600;
+  }
+  
+  .card-text {
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+  
+  .mat-raised-button {
+    border-radius: 8px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+}
+
 // Responsive adjustments
 @media (max-width: 768px) {
   .sidenav {

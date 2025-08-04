@@ -17,7 +17,6 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -25,6 +24,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatBadgeModule } from '@angular/material/badge';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { AppComponent } from './app.component';
 import { LandingPageComponent } from './pages/landing-page/landing-page.component';
@@ -34,6 +35,11 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { CvEditorComponent } from './components/cv-editor/cv-editor.component';
+import { CvPreviewComponent } from './components/cv-preview/cv-preview.component';
+import { JobSearchComponent } from './components/job-search/job-search.component';
+import { CvManagementComponent } from './pages/cv-management/cv-management.component';
+import { MyJobsComponent } from './pages/my-jobs/my-jobs.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +50,12 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
     DashboardComponent,
     NavbarComponent,
     FooterComponent,
-    SidebarComponent
+    SidebarComponent,
+    CvEditorComponent,
+    CvPreviewComponent,
+    JobSearchComponent,
+    CvManagementComponent,
+    MyJobsComponent
   ],
   imports: [
     BrowserModule,
@@ -57,6 +68,8 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
       { path: 'login', component: LoginPageComponent },
       { path: 'signup', component: SignupPageComponent },
       { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+      { path: 'cv-management', component: CvManagementComponent, canActivate: [AuthGuard] },
+      { path: 'my-jobs', component: MyJobsComponent, canActivate: [AuthGuard] },
       { path: '**', redirectTo: '' }
     ]),
     // Angular Material Modules
@@ -77,7 +90,8 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
     MatSelectModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatBadgeModule
+    MatBadgeModule,
+    MatCheckboxModule
   ],
   providers: [],
   bootstrap: [AppComponent]

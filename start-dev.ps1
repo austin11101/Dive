@@ -1,7 +1,7 @@
 # CV Revamping App - Development Startup Script
 # This script starts both frontend and backend services
 
-Write-Host "🚀 Starting CV Revamping Application..." -ForegroundColor Green
+Write-Host "Starting CV Revamping Application..." -ForegroundColor Green
 
 # Function to check if a port is in use
 function Test-Port {
@@ -12,10 +12,10 @@ function Test-Port {
 
 # Function to start backend
 function Start-Backend {
-    Write-Host "📡 Starting Backend (FastAPI)..." -ForegroundColor Yellow
+    Write-Host "Starting Backend (FastAPI)..." -ForegroundColor Yellow
     
     if (Test-Port 8000) {
-        Write-Host "⚠️  Port 8000 is already in use. Backend might already be running." -ForegroundColor Yellow
+        Write-Host "Port 8000 is already in use. Backend might already be running." -ForegroundColor Yellow
         return
     }
     
@@ -23,15 +23,15 @@ function Start-Backend {
     Start-Process powershell -ArgumentList "-NoExit", "-Command", "python -m uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
     Set-Location ".."
     
-    Write-Host "✅ Backend started on http://localhost:8000" -ForegroundColor Green
+    Write-Host "Backend started on http://localhost:8000" -ForegroundColor Green
 }
 
 # Function to start frontend
 function Start-Frontend {
-    Write-Host "🎨 Starting Frontend (Angular)..." -ForegroundColor Yellow
+    Write-Host "Starting Frontend (Angular)..." -ForegroundColor Yellow
     
     if (Test-Port 4200) {
-        Write-Host "⚠️  Port 4200 is already in use. Frontend might already be running." -ForegroundColor Yellow
+        Write-Host "Port 4200 is already in use. Frontend might already be running." -ForegroundColor Yellow
         return
     }
     
@@ -39,14 +39,14 @@ function Start-Frontend {
     Start-Process powershell -ArgumentList "-NoExit", "-Command", "npm start"
     Set-Location ".."
     
-    Write-Host "✅ Frontend started on http://localhost:4200" -ForegroundColor Green
+    Write-Host "Frontend started on http://localhost:4200" -ForegroundColor Green
 }
 
 # Function to wait for services to be ready
 function Wait-ForService {
     param([string]$Url, [string]$ServiceName)
     
-    Write-Host "⏳ Waiting for $ServiceName to be ready..." -ForegroundColor Cyan
+    Write-Host "Waiting for $ServiceName to be ready..." -ForegroundColor Cyan
     
     $maxAttempts = 30
     $attempt = 0
@@ -55,7 +55,7 @@ function Wait-ForService {
         try {
             $response = Invoke-WebRequest -Uri $Url -UseBasicParsing -TimeoutSec 5
             if ($response.StatusCode -eq 200) {
-                Write-Host "✅ $ServiceName is ready!" -ForegroundColor Green
+                Write-Host "$ServiceName is ready!" -ForegroundColor Green
                 return $true
             }
         }
@@ -65,7 +65,7 @@ function Wait-ForService {
         }
     }
     
-    Write-Host "❌ $ServiceName failed to start within expected time" -ForegroundColor Red
+    Write-Host "$ServiceName failed to start within expected time" -ForegroundColor Red
     return $false
 }
 
@@ -88,10 +88,10 @@ try {
     
     if ($backendReady -and $frontendReady) {
         Write-Host ""
-        Write-Host "🎉 CV Revamping Application is ready!" -ForegroundColor Green
-        Write-Host "📱 Frontend: http://localhost:4200" -ForegroundColor Cyan
-        Write-Host "🔧 Backend: http://localhost:8000" -ForegroundColor Cyan
-        Write-Host "📚 API Docs: http://localhost:8000/docs" -ForegroundColor Cyan
+        Write-Host "CV Revamping Application is ready!" -ForegroundColor Green
+        Write-Host "Frontend: http://localhost:4200" -ForegroundColor Cyan
+        Write-Host "Backend: http://localhost:8000" -ForegroundColor Cyan
+        Write-Host "API Docs: http://localhost:8000/docs" -ForegroundColor Cyan
         Write-Host ""
         Write-Host "Press Ctrl+C to stop all services" -ForegroundColor Yellow
     }
@@ -102,8 +102,8 @@ try {
     }
 }
 catch {
-    Write-Host "❌ Error starting services: $($_.Exception.Message)" -ForegroundColor Red
+    Write-Host ("Error starting services: " + $_.Exception.Message) -ForegroundColor Red
 }
 finally {
-    Write-Host "🛑 Stopping all services..." -ForegroundColor Yellow
+    Write-Host "Stopping all services..." -ForegroundColor Yellow
 } 

@@ -2,50 +2,40 @@
   <!-- Top Navigation -->
   <mat-toolbar class="bg-white shadow-sm border-bottom">
     <button mat-icon-button (click)="toggleSidebar()" class="me-3">
-      <mat-icon>menu</mat-icon>
     </button>
     
     <div class="d-flex align-items-center">
-      <mat-icon class="text-primary me-2">description</mat-icon>
       <span class="fw-bold">CV Revamp Dashboard</span>
     </div>
 
     <div class="ms-auto d-flex align-items-center">
       <button mat-icon-button [matMenuTriggerFor]="notificationsMenu" class="me-2">
-        <mat-icon [matBadge]="3" matBadgeColor="warn">notifications</mat-icon>
       </button>
       
       <button mat-icon-button [matMenuTriggerFor]="userMenu">
-        <mat-icon>account_circle</mat-icon>
       </button>
 
       <mat-menu #notificationsMenu="matMenu">
         <button mat-menu-item>
-          <mat-icon>info</mat-icon>
           <span>New template available</span>
         </button>
         <button mat-menu-item>
-          <mat-icon>check_circle</mat-icon>
           <span>CV export completed</span>
         </button>
         <button mat-menu-item>
-          <mat-icon>update</mat-icon>
           <span>System update available</span>
         </button>
       </mat-menu>
 
       <mat-menu #userMenu="matMenu">
         <button mat-menu-item>
-          <mat-icon>person</mat-icon>
           <span>Profile</span>
         </button>
         <button mat-menu-item>
-          <mat-icon>settings</mat-icon>
           <span>Settings</span>
         </button>
         <mat-divider></mat-divider>
         <button mat-menu-item (click)="logout()">
-          <mat-icon>logout</mat-icon>
           <span>Logout</span>
         </button>
       </mat-menu>
@@ -60,7 +50,6 @@
           <div class="user-info mb-4 p-3 bg-light rounded">
             <div class="d-flex align-items-center">
               <div class="user-avatar me-3">
-                <mat-icon class="text-primary" style="font-size: 2.5rem;">account_circle</mat-icon>
               </div>
               <div class="user-details">
                 <h6 class="mb-1 fw-bold">{{ userInfo?.firstName || 'User' }} {{ userInfo?.lastName || '' }}</h6>
@@ -71,23 +60,22 @@
 
           <mat-nav-list class="nav-list">
             <a mat-list-item routerLink="/dashboard" routerLinkActive="active" (click)="selectedTab = 0" class="mb-2">
-              <mat-icon class="me-3">dashboard</mat-icon>
               <span>Dashboard</span>
             </a>
-            <a mat-list-item routerLink="/dashboard" routerLinkActive="active" (click)="selectedTab = 1" class="mb-2">
-              <mat-icon class="me-3">description</mat-icon>
-              <span>My CVs</span>
+            <a mat-list-item routerLink="/cv-management" routerLinkActive="active" class="mb-2">
+              <span>CV Management</span>
+            </a>
+            <a mat-list-item routerLink="/my-jobs" routerLinkActive="active" class="mb-2">
+              <span>My Jobs</span>
             </a>
             <a mat-list-item routerLink="/dashboard" routerLinkActive="active" (click)="selectedTab = 2" class="mb-2">
-              <mat-icon class="me-3">palette</mat-icon>
               <span>Templates</span>
             </a>
             <a mat-list-item routerLink="/dashboard" routerLinkActive="active" (click)="selectedTab = 3" class="mb-2">
-              <mat-icon class="me-3">analytics</mat-icon>
               <span>Analytics</span>
             </a>
             <a mat-list-item routerLink="/dashboard" routerLinkActive="active" (click)="selectedTab = 4" class="mb-2">
-              <mat-icon class="me-3">settings</mat-icon>
+
               <span>Settings</span>
             </a>
           </mat-nav-list>
@@ -95,7 +83,6 @@
           <!-- Logout Button at bottom of sidebar -->
           <div class="sidebar-footer mt-auto">
             <button mat-list-item (click)="logout()" class="logout-button w-100 text-start">
-              <mat-icon class="me-3">logout</mat-icon>
               <span>Logout</span>
             </button>
           </div>
@@ -110,7 +97,6 @@
             <div class="d-flex justify-content-between align-items-center mb-4">
               <h1 class="h2 mb-0">Dashboard Overview</h1>
               <button mat-raised-button color="primary" (click)="createNewCV()" class="btn btn-primary">
-                <mat-icon class="me-2">add</mat-icon>
                 Create New CV
               </button>
             </div>
@@ -122,7 +108,6 @@
                   <div class="card-body">
                     <div class="d-flex align-items-center">
                       <div class="stat-icon me-3">
-                        <mat-icon class="text-primary" style="font-size: 2rem;">description</mat-icon>
                       </div>
                       <div class="stat-info">
                         <h3 class="h4 mb-1 fw-bold">{{ stats.totalCVs }}</h3>
@@ -138,7 +123,6 @@
                   <div class="card-body">
                     <div class="d-flex align-items-center">
                       <div class="stat-icon completed me-3">
-                        <mat-icon class="text-success" style="font-size: 2rem;">check_circle</mat-icon>
                       </div>
                       <div class="stat-info">
                         <h3 class="h4 mb-1 fw-bold">{{ stats.completedCVs }}</h3>
@@ -154,7 +138,6 @@
                   <div class="card-body">
                     <div class="d-flex align-items-center">
                       <div class="stat-icon templates me-3">
-                        <mat-icon class="text-warning" style="font-size: 2rem;">palette</mat-icon>
                       </div>
                       <div class="stat-info">
                         <h3 class="h4 mb-1 fw-bold">{{ stats.templatesUsed }}</h3>
@@ -170,12 +153,60 @@
                   <div class="card-body">
                     <div class="d-flex align-items-center">
                       <div class="stat-icon activity me-3">
-                        <mat-icon class="text-info" style="font-size: 2rem;">schedule</mat-icon>
                       </div>
                       <div class="stat-info">
                         <h3 class="h4 mb-1 fw-bold">{{ stats.lastActivity }}</h3>
                         <p class="text-muted mb-0">Last Activity</p>
                       </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="section mb-5">
+              <h2 class="h3 mb-4">Quick Actions</h2>
+              <div class="row g-3">
+                <div class="col-md-4">
+                  <div class="card border-0 shadow-sm h-100 quick-action-card">
+                    <div class="card-body text-center">
+                      <div class="action-icon mb-3">
+                        <span class="material-icons">description</span>
+                      </div>
+                      <h5 class="card-title">Create New CV</h5>
+                      <p class="card-text text-muted">Start building your professional CV with our templates</p>
+                      <button mat-raised-button color="primary" (click)="createNewCV()" class="w-100">
+                        Create CV
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="card border-0 shadow-sm h-100 quick-action-card">
+                    <div class="card-body text-center">
+                      <div class="action-icon mb-3">
+                        <span class="material-icons">work</span>
+                      </div>
+                      <h5 class="card-title">Track Applications</h5>
+                      <p class="card-text text-muted">Monitor your job applications and interview progress</p>
+                      <button mat-raised-button color="accent" routerLink="/my-jobs" class="w-100">
+                        View My Jobs
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="card border-0 shadow-sm h-100 quick-action-card">
+                    <div class="card-body text-center">
+                      <div class="action-icon mb-3">
+                        <span class="material-icons">search</span>
+                      </div>
+                      <h5 class="card-title">Search Jobs</h5>
+                      <p class="card-text text-muted">Find new opportunities that match your skills</p>
+                      <button mat-raised-button color="warn" routerLink="/cv-management" class="w-100">
+                        Search Jobs
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -205,15 +236,12 @@
                     <div class="card-footer bg-transparent border-0">
                       <div class="d-flex gap-2">
                         <button mat-button (click)="openCV(cv.id)" class="btn btn-sm btn-outline-primary">
-                          <mat-icon class="me-1">open_in_new</mat-icon>
                           Open
                         </button>
                         <button mat-button (click)="exportCV(cv.id, 'pdf')" class="btn btn-sm btn-outline-success">
-                          <mat-icon class="me-1">download</mat-icon>
                           Export
                         </button>
                         <button mat-button color="warn" (click)="deleteCV(cv.id)" class="btn btn-sm btn-outline-danger">
-                          <mat-icon class="me-1">delete</mat-icon>
                           Delete
                         </button>
                       </div>
@@ -229,7 +257,6 @@
             <div class="d-flex justify-content-between align-items-center mb-4">
               <h1 class="h2 mb-0">My CVs</h1>
               <button mat-raised-button color="primary" (click)="createNewCV()" class="btn btn-primary">
-                <mat-icon class="me-2">add</mat-icon>
                 Create New CV
               </button>
             </div>
@@ -249,24 +276,19 @@
                             {{ cv.status }}
                           </span>
                           <button mat-icon-button [matMenuTriggerFor]="cvMenu">
-                            <mat-icon>more_vert</mat-icon>
                           </button>
                           <mat-menu #cvMenu="matMenu">
                             <button mat-menu-item (click)="openCV(cv.id)">
-                              <mat-icon>open_in_new</mat-icon>
                               <span>Open</span>
                             </button>
                             <button mat-menu-item (click)="exportCV(cv.id, 'pdf')">
-                              <mat-icon>download</mat-icon>
                               <span>Export PDF</span>
                             </button>
                             <button mat-menu-item (click)="exportCV(cv.id, 'docx')">
-                              <mat-icon>description</mat-icon>
                               <span>Export Word</span>
                             </button>
                             <mat-divider></mat-divider>
                             <button mat-menu-item color="warn" (click)="deleteCV(cv.id)">
-                              <mat-icon>delete</mat-icon>
                               <span>Delete</span>
                             </button>
                           </mat-menu>
@@ -278,7 +300,6 @@
               </mat-tab>
               <mat-tab label="Drafts">
                 <div class="empty-state text-center py-5">
-                  <mat-icon class="text-muted mb-3" style="font-size: 4rem;">edit</mat-icon>
                   <h3 class="h4 mb-3">No drafts yet</h3>
                   <p class="text-muted mb-4">Start creating your first CV to see drafts here.</p>
                   <button mat-raised-button color="primary" (click)="createNewCV()" class="btn btn-primary">
@@ -288,7 +309,6 @@
               </mat-tab>
               <mat-tab label="Completed">
                 <div class="empty-state text-center py-5">
-                  <mat-icon class="text-muted mb-3" style="font-size: 4rem;">check_circle</mat-icon>
                   <h3 class="h4 mb-3">No completed CVs</h3>
                   <p class="text-muted">Complete your CVs to see them here.</p>
                 </div>
@@ -318,7 +338,6 @@
                 <div class="card border-0 shadow-sm h-100 template-card" (click)="selectTemplate(template.id)">
                   <div class="template-preview position-relative">
                     <div class="preview-placeholder bg-light d-flex flex-column align-items-center justify-content-center p-4" style="height: 200px;">
-                      <mat-icon class="text-muted mb-2" style="font-size: 3rem;">description</mat-icon>
                       <span class="text-muted">{{ template.name }}</span>
                     </div>
                     <div class="template-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center bg-dark bg-opacity-50 opacity-0 transition-opacity">
@@ -350,7 +369,6 @@
                   </div>
                   <div class="card-body">
                     <div class="chart-placeholder text-center py-5">
-                      <mat-icon class="text-muted mb-3" style="font-size: 3rem;">analytics</mat-icon>
                       <p class="text-muted">Chart will be displayed here</p>
                     </div>
                   </div>
@@ -364,7 +382,6 @@
                   </div>
                   <div class="card-body">
                     <div class="chart-placeholder text-center py-5">
-                      <mat-icon class="text-muted mb-3" style="font-size: 3rem;">pie_chart</mat-icon>
                       <p class="text-muted">Chart will be displayed here</p>
                     </div>
                   </div>

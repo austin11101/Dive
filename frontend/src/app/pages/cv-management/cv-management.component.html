@@ -1,0 +1,330 @@
+<div class="cv-management">
+  <!-- Header -->
+  <div class="page-header">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div>
+        <h1 class="mb-2">CV & Job Management</h1>
+        <p class="text-muted mb-0">Create, edit, and manage your CVs. Search for jobs and track your applications.</p>
+      </div>
+      <div class="header-actions">
+        <button mat-raised-button color="primary" (click)="openCvEditor()" class="me-2">
+          Create New CV
+        </button>
+        <button mat-stroked-button (click)="openJobSearch()">
+          Search Jobs
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- CV Editor Modal -->
+    <div *ngIf="showCvEditor" class="modal-overlay">
+      <div class="modal-container">
+        <div class="modal-header">
+          <h3>CV Editor</h3>
+          <button mat-icon-button (click)="showCvEditor = false">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+        <div class="modal-content">
+          <app-cv-editor 
+            [cvData]="currentCvData"
+            [templateId]="selectedTemplateId"
+            (save)="onCvSave($event)"
+            (preview)="onCvPreview()"
+            (export)="onCvExport()">
+          </app-cv-editor>
+        </div>
+      </div>
+    </div>
+
+    <!-- CV Preview Modal -->
+    <div *ngIf="showCvPreview" class="modal-overlay">
+      <app-cv-preview 
+        [cvData]="currentCvData"
+        [templateId]="selectedTemplateId"
+        (edit)="onCvEdit()"
+        (export)="onCvExport()"
+        (close)="onCvClose()">
+      </app-cv-preview>
+    </div>
+
+    <!-- Job Search Modal -->
+    <div *ngIf="showJobSearch" class="modal-overlay">
+      <div class="modal-container large">
+        <div class="modal-header">
+          <h3>Job Search</h3>
+          <button mat-icon-button (click)="showJobSearch = false">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+        <div class="modal-content">
+          <app-job-search></app-job-search>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dashboard Content -->
+    <div *ngIf="!showCvEditor && !showCvPreview && !showJobSearch" class="dashboard-content">
+      <!-- Quick Stats -->
+      <div class="row g-4 mb-5">
+        <div class="col-lg-3 col-md-6">
+          <mat-card class="stat-card">
+            <mat-card-content>
+              <div class="stat-content">
+                <div class="stat-number">{{ getApplicationStats().total }}</div>
+                <div class="stat-label">Total Applications</div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <mat-card class="stat-card">
+            <mat-card-content>
+              <div class="stat-content">
+                <div class="stat-number">{{ getApplicationStats().pending }}</div>
+                <div class="stat-label">Pending</div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <mat-card class="stat-card">
+            <mat-card-content>
+              <div class="stat-content">
+                <div class="stat-number">{{ getApplicationStats().interviews }}</div>
+                <div class="stat-label">Interviews</div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <mat-card class="stat-card">
+            <mat-card-content>
+              <div class="stat-content">
+                <div class="stat-number">{{ getApplicationStats().offers }}</div>
+                <div class="stat-label">Offers</div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <mat-tab-group (selectedTabChange)="onTabChange($event.index)">
+        <!-- CV Management Tab -->
+        <mat-tab label="My CVs">
+          <div class="tab-content">
+            <div class="cv-overview">
+              <div class="d-flex justify-content-between align-items-center mb-4">
+                <h3>Current CV</h3>
+                <div class="cv-actions">
+                  <button mat-stroked-button (click)="openCvEditor()" class="me-2">
+                    Edit CV
+                  </button>
+                  <button mat-stroked-button (click)="openCvPreview()" class="me-2">
+                    Preview
+                  </button>
+                  <button mat-raised-button color="primary" (click)="onCvExport()">
+                    Export PDF
+                  </button>
+                </div>
+              </div>
+
+              <mat-card class="cv-summary">
+                <mat-card-content>
+                  <div class="cv-info">
+                    <h4>{{ currentCvData?.personalInfo?.firstName }} {{ currentCvData?.personalInfo?.lastName }}</h4>
+                    <p class="text-muted">{{ currentCvData?.personalInfo?.email }}</p>
+                    <p class="cv-summary-text">{{ currentCvData?.personalInfo?.summary }}</p>
+                    
+                    <div class="cv-stats">
+                      <div class="stat-item">
+                        <span class="stat-value">{{ currentCvData?.experience?.length || 0 }}</span>
+                        <span class="stat-label">Experience</span>
+                      </div>
+                      <div class="stat-item">
+                        <span class="stat-value">{{ currentCvData?.education?.length || 0 }}</span>
+                        <span class="stat-label">Education</span>
+                      </div>
+                      <div class="stat-item">
+                        <span class="stat-value">{{ currentCvData?.skills?.length || 0 }}</span>
+                        <span class="stat-label">Skills</span>
+                      </div>
+                      <div class="stat-item">
+                        <span class="stat-value">{{ currentCvData?.projects?.length || 0 }}</span>
+                        <span class="stat-label">Projects</span>
+                      </div>
+                    </div>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+            </div>
+          </div>
+        </mat-tab>
+
+        <!-- Job Applications Tab -->
+        <mat-tab label="Applications">
+          <div class="tab-content">
+            <div class="applications-overview">
+              <div class="d-flex justify-content-between align-items-center mb-4">
+                <h3>Job Applications</h3>
+                <button mat-raised-button color="primary" (click)="openJobSearch()">
+                  Search More Jobs
+                </button>
+              </div>
+
+              <div *ngIf="applications.length === 0" class="empty-state text-center py-5">
+                <mat-icon class="text-muted mb-3" style="font-size: 4rem;">work_off</mat-icon>
+                <h4 class="mb-3">No applications yet</h4>
+                <p class="text-muted mb-4">Start searching for jobs to track your applications here.</p>
+                <button mat-raised-button color="primary" (click)="openJobSearch()">
+                  Search Jobs
+                </button>
+              </div>
+
+              <div *ngIf="applications.length > 0" class="applications-list">
+                <div *ngFor="let application of applications" class="application-item mb-3">
+                  <mat-card>
+                    <mat-card-content>
+                      <div class="application-header">
+                        <div class="application-info">
+                          <h5 class="mb-1">{{ application.job.title }}</h5>
+                          <p class="text-muted mb-2">{{ application.job.company }} • {{ application.job.location }}</p>
+                          <span class="badge" [class]="getStatusBadgeClass(application.status)">
+                            {{ application.status }}
+                          </span>
+                        </div>
+                        <div class="application-date">
+                          <small class="text-muted">Applied {{ application.appliedDate | date:'shortDate' }}</small>
+                        </div>
+                      </div>
+                    </mat-card-content>
+                  </mat-card>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+
+        <!-- Saved Jobs Tab -->
+        <mat-tab label="Saved Jobs">
+          <div class="tab-content">
+            <div class="saved-jobs-overview">
+              <div class="d-flex justify-content-between align-items-center mb-4">
+                <h3>Saved Jobs</h3>
+                <button mat-raised-button color="primary" (click)="openJobSearch()">
+                  Search More Jobs
+                </button>
+              </div>
+
+              <div *ngIf="savedJobs.length === 0" class="empty-state text-center py-5">
+                <mat-icon class="text-muted mb-3" style="font-size: 4rem;">bookmark_border</mat-icon>
+                <h4 class="mb-3">No saved jobs</h4>
+                <p class="text-muted mb-4">Save interesting jobs to review them later.</p>
+                <button mat-raised-button color="primary" (click)="openJobSearch()">
+                  Search Jobs
+                </button>
+              </div>
+
+              <div *ngIf="savedJobs.length > 0" class="saved-jobs-list">
+                <div *ngFor="let job of savedJobs" class="saved-job-item mb-3">
+                  <mat-card>
+                    <mat-card-content>
+                      <div class="job-header">
+                        <div class="job-info">
+                          <h5 class="mb-1">{{ job.title }}</h5>
+                          <p class="text-muted mb-2">{{ job.company }} • {{ job.location }}</p>
+                          <span class="badge bg-primary">{{ job.category }}</span>
+                        </div>
+                        <div class="job-actions">
+                          <button mat-stroked-button (click)="onJobApply(job)" class="me-2">
+                            Apply Now
+                          </button>
+                          <button mat-icon-button color="warn" (click)="removeSavedJob(job.id)">
+                            <mat-icon>delete</mat-icon>
+                          </button>
+                        </div>
+                      </div>
+                    </mat-card-content>
+                  </mat-card>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+
+        <!-- Analytics Tab -->
+        <mat-tab label="Analytics">
+          <div class="tab-content">
+            <div class="analytics-overview">
+              <h3 class="mb-4">Application Analytics</h3>
+
+              <div class="row g-4">
+                <!-- Application Status Chart -->
+                <div class="col-lg-6">
+                  <mat-card>
+                    <mat-card-header>
+                      <mat-card-title>Application Status</mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content>
+                      <div class="chart-placeholder text-center py-5">
+                        <mat-icon class="text-muted mb-3" style="font-size: 3rem;">pie_chart</mat-icon>
+                        <p class="text-muted">Chart will be displayed here</p>
+                        <div class="stats-summary">
+                          <div class="stat-row">
+                            <span>Total Applications:</span>
+                            <strong>{{ getApplicationStats().total }}</strong>
+                          </div>
+                          <div class="stat-row">
+                            <span>Pending:</span>
+                            <strong>{{ getApplicationStats().pending }}</strong>
+                          </div>
+                          <div class="stat-row">
+                            <span>Interviews:</span>
+                            <strong>{{ getApplicationStats().interviews }}</strong>
+                          </div>
+                          <div class="stat-row">
+                            <span>Offers:</span>
+                            <strong>{{ getApplicationStats().offers }}</strong>
+                          </div>
+                        </div>
+                      </div>
+                    </mat-card-content>
+                  </mat-card>
+                </div>
+
+                <!-- Most Applied Categories -->
+                <div class="col-lg-6">
+                  <mat-card>
+                    <mat-card-header>
+                      <mat-card-title>Most Applied Categories</mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content>
+                      <div *ngIf="getMostAppliedCategories().length === 0" class="text-center py-5">
+                        <p class="text-muted">No applications yet</p>
+                      </div>
+                      <div *ngIf="getMostAppliedCategories().length > 0" class="categories-list">
+                        <div *ngFor="let category of getMostAppliedCategories()" class="category-item">
+                          <div class="category-info">
+                            <span class="category-name">{{ category.category }}</span>
+                            <span class="category-count">{{ category.count }} applications</span>
+                          </div>
+                          <div class="category-bar">
+                            <div class="bar-fill" [style.width.%]="(category.count / getApplicationStats().total) * 100"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </mat-card-content>
+                  </mat-card>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </div>
+</div> 

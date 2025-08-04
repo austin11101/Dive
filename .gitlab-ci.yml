@@ -23,8 +23,6 @@ test-frontend:
     - cd frontend
     - npm ci
   script:
-    - echo "Running linting..."
-    - npm run lint || echo "Linting failed, continuing with tests..."
     - echo "Running tests..."
     - npm run test:ci
     - echo "Building application..."

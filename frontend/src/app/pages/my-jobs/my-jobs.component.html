@@ -2,9 +2,14 @@
   <!-- Header -->
   <div class="page-header">
     <div class="d-flex justify-content-between align-items-center mb-4">
-      <div>
-        <h1 class="mb-2">My Job Applications</h1>
-        <p class="text-muted mb-0">Track your job applications, manage status updates, and monitor your job search progress.</p>
+      <div class="d-flex align-items-center">
+        <button mat-stroked-button (click)="goBack()" class="me-3 back-button">
+          ← Back to Dashboard
+        </button>
+        <div>
+          <h1 class="mb-2">My Job Applications</h1>
+          <p class="text-muted mb-0">Track your job applications, manage status updates, and monitor your job search progress.</p>
+        </div>
       </div>
       <div class="header-actions">
         <button mat-raised-button color="primary" (click)="searchMoreJobs()">
@@ -82,23 +87,29 @@
   <div class="form-section">
     <h3>Filter Applications</h3>
     <div class="form-field-group">
-      <mat-form-field appearance="outline">
-        <mat-label>Search Jobs</mat-label>
-        <input matInput [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()">
-      </mat-form-field>
+      <div class="form-field-wrapper">
+        <label class="form-label">Search Jobs</label>
+        <mat-form-field appearance="outline" class="no-label">
+          <input matInput [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()" placeholder="Enter job title, company, or location">
+        </mat-form-field>
+      </div>
       
-      <mat-form-field appearance="outline">
-        <mat-label>Filter by Status</mat-label>
-        <mat-select [(ngModel)]="selectedStatus" (ngModelChange)="onStatusChange()">
-          <mat-option *ngFor="let option of statusOptions" [value]="option.value">
-            {{ option.label }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+      <div class="form-field-wrapper">
+        <label class="form-label">Filter by Status</label>
+        <mat-form-field appearance="outline" class="no-label">
+          <mat-select [(ngModel)]="selectedStatus" (ngModelChange)="onStatusChange()" placeholder="Select status">
+            <mat-option *ngFor="let option of statusOptions" [value]="option.value">
+              {{ option.label }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
       
-      <button mat-stroked-button (click)="searchTerm = ''; selectedStatus = 'all'; filterJobs()">
-        Clear Filters
-      </button>
+      <div class="form-field-wrapper button-wrapper">
+        <button mat-stroked-button (click)="searchTerm = ''; selectedStatus = 'all'; filterJobs()">
+          Clear Filters
+        </button>
+      </div>
     </div>
   </div>
 
@@ -110,7 +121,7 @@
 
     <!-- No Applications -->
     <div *ngIf="filteredJobs.length === 0" class="text-center py-5">
-      <mat-icon class="text-muted mb-3" style="font-size: 4rem;">work_off</mat-icon>
+      <div class="text-muted mb-3" style="font-size: 4rem;">📋</div>
       <h4 class="mb-3">No applications found</h4>
       <p class="text-muted mb-4">
         <span *ngIf="searchTerm || selectedStatus !== 'all'">
@@ -157,42 +168,54 @@
 
             <div class="application-actions mb-3">
               <div class="form-field-group">
-                <mat-form-field appearance="outline">
-                  <mat-label>Update Status</mat-label>
-                  <mat-select [value]="job.status" (selectionChange)="updateJobStatus(job, $event.value)">
-                    <mat-option *ngFor="let option of statusOptions.slice(1)" [value]="option.value">
-                      {{ option.label }}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
+                <div class="form-field-wrapper">
+                  <label class="form-label">Update Status</label>
+                  <mat-form-field appearance="outline" class="no-label">
+                    <mat-select [value]="job.status" (selectionChange)="updateJobStatus(job, $event.value)" placeholder="Select new status">
+                      <mat-option *ngFor="let option of statusOptions.slice(1)" [value]="option.value">
+                        {{ option.label }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
                 
-                <mat-form-field appearance="outline">
-                  <mat-label>Follow-up Date</mat-label>
-                  <input matInput type="date" [value]="job.followUpDate" (change)="setFollowUpDate(job, $event.target.value)">
-                </mat-form-field>
+                <div class="form-field-wrapper">
+                  <label class="form-label">Follow-up Date</label>
+                  <mat-form-field appearance="outline" class="no-label">
+                    <input matInput type="date" [value]="job.followUpDate" (change)="setFollowUpDate(job, $event.target.value)" placeholder="Select date">
+                  </mat-form-field>
+                </div>
                 
-                <button mat-stroked-button (click)="withdrawApplication(job)">
-                  Withdraw
-                </button>
+                <div class="form-field-wrapper button-wrapper">
+                  <button mat-stroked-button (click)="withdrawApplication(job)">
+                    Withdraw
+                  </button>
+                </div>
                 
-                <a [href]="job.url" target="_blank" mat-stroked-button>
-                  View Job
-                </a>
+                <div class="form-field-wrapper button-wrapper">
+                  <a [href]="job.url" target="_blank" mat-stroked-button>
+                    View Job
+                  </a>
+                </div>
               </div>
             </div>
 
             <!-- Notes Section -->
             <div class="notes-section">
               <div class="form-field-group">
-                <mat-form-field appearance="outline" class="full-width">
-                  <mat-label>Notes</mat-label>
-                  <textarea matInput [value]="job.notes" (blur)="addNote(job, $event.target.value)" 
-                            rows="2"></textarea>
-                </mat-form-field>
+                <div class="form-field-wrapper full-width">
+                  <label class="form-label">Notes</label>
+                  <mat-form-field appearance="outline" class="no-label">
+                    <textarea matInput [value]="job.notes" (blur)="addNote(job, $event.target.value)" 
+                              rows="2" placeholder="Add notes about this application..."></textarea>
+                  </mat-form-field>
+                </div>
                 
-                <button mat-raised-button color="accent" (click)="searchMoreJobs()">
-                  Apply for More Jobs
-                </button>
+                <div class="form-field-wrapper button-wrapper">
+                  <button mat-raised-button color="accent" (click)="searchMoreJobs()">
+                    Apply for More Jobs
+                  </button>
+                </div>
               </div>
             </div>
           </mat-card-content>

@@ -9,7 +9,7 @@
               <div class="card-body p-5">
                 <div class="text-center mb-4">
                   <div class="d-flex align-items-center justify-content-center mb-3">
-                    <mat-icon class="text-primary me-2" style="font-size: 2.5rem;">description</mat-icon>
+                    <div class="text-primary me-2" style="font-size: 2.5rem;">📄</div>
                     <h1 class="h2 mb-0 fw-bold text-dark">CV Revamp</h1>
                   </div>
                   <p class="text-muted">Create your account to get started</p>
@@ -61,9 +61,9 @@
                       <mat-form-field appearance="outline" class="w-100">
                         <mat-label>Password</mat-label>
                         <input matInput formControlName="password" [type]="hidePassword ? 'password' : 'text'">
-                        <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" type="button">
-                          <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
-                        </button>
+                                    <button mat-stroked-button matSuffix (click)="hidePassword = !hidePassword" type="button" class="visibility-button">
+              {{hidePassword ? '👁️' : '👁️‍🗨️'}}
+            </button>
                         <mat-error *ngIf="signupForm.get('password')?.hasError('required')">
                           Password is required
                         </mat-error>
@@ -77,9 +77,9 @@
                       <mat-form-field appearance="outline" class="w-100">
                         <mat-label>Confirm Password</mat-label>
                         <input matInput formControlName="confirmPassword" [type]="hideConfirmPassword ? 'password' : 'text'">
-                        <button mat-icon-button matSuffix (click)="hideConfirmPassword = !hideConfirmPassword" type="button">
-                          <mat-icon>{{hideConfirmPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
-                        </button>
+                                    <button mat-stroked-button matSuffix (click)="hideConfirmPassword = !hideConfirmPassword" type="button" class="visibility-button">
+              {{hideConfirmPassword ? '👁️' : '👁️‍🗨️'}}
+            </button>
                         <mat-error *ngIf="signupForm.get('confirmPassword')?.hasError('required')">
                           Please confirm your password
                         </mat-error>
@@ -118,23 +118,23 @@
                 <p class="mb-4 opacity-75">Create your first professional CV in minutes with our AI-powered platform.</p>
                 <div class="features-list">
                   <div class="d-flex align-items-center mb-3">
-                    <mat-icon class="me-3">check_circle</mat-icon>
+                    <div class="me-3">✅</div>
                     <span>AI-Powered Design</span>
                   </div>
                   <div class="d-flex align-items-center mb-3">
-                    <mat-icon class="me-3">check_circle</mat-icon>
+                    <div class="me-3">✅</div>
                     <span>Professional Templates</span>
                   </div>
                   <div class="d-flex align-items-center mb-3">
-                    <mat-icon class="me-3">check_circle</mat-icon>
+                    <div class="me-3">✅</div>
                     <span>ATS Optimized</span>
                   </div>
                   <div class="d-flex align-items-center mb-3">
-                    <mat-icon class="me-3">check_circle</mat-icon>
+                    <div class="me-3">✅</div>
                     <span>Multiple Export Formats</span>
                   </div>
                   <div class="d-flex align-items-center mb-3">
-                    <mat-icon class="me-3">check_circle</mat-icon>
+                    <div class="me-3">✅</div>
                     <span>Real-time Collaboration</span>
                   </div>
                 </div>

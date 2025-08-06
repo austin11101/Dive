@@ -44,6 +44,34 @@ mat-label {
   font-size: 0.875rem;
 }
 
+// Visibility button styling
+.visibility-button {
+  color: #6c757d;
+  border-color: #6c757d;
+  transition: all 0.3s ease;
+  border-radius: 6px;
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0.5px;
+  padding: 4px 8px;
+  min-width: auto;
+  font-size: 0.8rem;
+  margin-left: 8px;
+  
+  &:hover {
+    background-color: #6c757d;
+    color: white;
+    border-color: #6c757d;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  &:focus {
+    outline: 2px solid #007bff;
+    outline-offset: 2px;
+  }
+}
+
 // Responsive adjustments
 @media (max-width: 768px) {
   .card-body {

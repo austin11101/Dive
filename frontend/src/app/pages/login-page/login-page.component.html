@@ -9,7 +9,7 @@
               <div class="card-body p-5">
                 <div class="text-center mb-4">
                   <div class="d-flex align-items-center justify-content-center mb-3">
-                    <mat-icon class="text-primary me-2" style="font-size: 2.5rem;">description</mat-icon>
+                    <div class="text-primary me-2" style="font-size: 2.5rem;">📄</div>
                     <h1 class="h2 mb-0 fw-bold text-dark">CV Revamp</h1>
                   </div>
                   <p class="text-muted">Welcome back! Sign in to your account</p>
@@ -37,9 +37,9 @@
                       <mat-form-field appearance="outline" class="w-100">
                         <mat-label>Password</mat-label>
                         <input matInput formControlName="password" [type]="hidePassword ? 'password' : 'text'">
-                        <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" type="button">
-                          <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
-                        </button>
+                                    <button mat-stroked-button matSuffix (click)="hidePassword = !hidePassword" type="button" class="visibility-button">
+              {{hidePassword ? '👁️' : '👁️‍🗨️'}}
+            </button>
                         <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
                           Password is required
                         </mat-error>
@@ -75,23 +75,23 @@
                 <p class="mb-4 opacity-75">Continue building your professional CV with our advanced tools and templates.</p>
                 <div class="features-list">
                   <div class="d-flex align-items-center mb-3">
-                    <mat-icon class="me-3">check_circle</mat-icon>
+                    <div class="me-3">✅</div>
                     <span>Resume Templates</span>
                   </div>
                   <div class="d-flex align-items-center mb-3">
-                    <mat-icon class="me-3">check_circle</mat-icon>
+                    <div class="me-3">✅</div>
                     <span>AI Writing Assistant</span>
                   </div>
                   <div class="d-flex align-items-center mb-3">
-                    <mat-icon class="me-3">check_circle</mat-icon>
+                    <div class="me-3">✅</div>
                     <span>Export to PDF</span>
                   </div>
                   <div class="d-flex align-items-center mb-3">
-                    <mat-icon class="me-3">check_circle</mat-icon>
+                    <div class="me-3">✅</div>
                     <span>ATS Optimization</span>
                   </div>
                   <div class="d-flex align-items-center mb-3">
-                    <mat-icon class="me-3">check_circle</mat-icon>
+                    <div class="me-3">✅</div>
                     <span>Cloud Storage</span>
                   </div>
                 </div>

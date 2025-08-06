@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { CVData } from '../../components/cv-editor/cv-editor.component';
 import { Job } from '../../components/job-search/job-search.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -101,11 +102,18 @@ export class CvManagementComponent implements OnInit {
     ]
   };
 
-  constructor(private snackBar: MatSnackBar) {}
+  constructor(
+    private router: Router,
+    private snackBar: MatSnackBar
+  ) {}
 
   ngOnInit(): void {
     // Load mock data
     this.currentCvData = this.mockCvData;
+  }
+
+  goBack(): void {
+    this.router.navigate(['/dashboard']);
   }
 
   onTabChange(index: number): void {

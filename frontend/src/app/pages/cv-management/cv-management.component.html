@@ -2,9 +2,14 @@
   <!-- Header -->
   <div class="page-header">
     <div class="d-flex justify-content-between align-items-center mb-4">
-      <div>
-        <h1 class="mb-2">CV & Job Management</h1>
-        <p class="text-muted mb-0">Create, edit, and manage your CVs. Search for jobs and track your applications.</p>
+      <div class="d-flex align-items-center">
+        <button mat-stroked-button (click)="goBack()" class="me-3 back-button">
+          ← Back to Dashboard
+        </button>
+        <div>
+          <h1 class="mb-2">CV & Job Management</h1>
+          <p class="text-muted mb-0">Create, edit, and manage your CVs. Search for jobs and track your applications.</p>
+        </div>
       </div>
       <div class="header-actions">
         <button mat-raised-button color="primary" (click)="openCvEditor()" class="me-2">
@@ -24,8 +29,8 @@
       <div class="modal-container">
         <div class="modal-header">
           <h3>CV Editor</h3>
-          <button mat-icon-button (click)="showCvEditor = false">
-            <mat-icon>close</mat-icon>
+          <button mat-stroked-button (click)="showCvEditor = false" class="close-button">
+            ✕ Close
           </button>
         </div>
         <div class="modal-content">
@@ -56,8 +61,8 @@
       <div class="modal-container large">
         <div class="modal-header">
           <h3>Job Search</h3>
-          <button mat-icon-button (click)="showJobSearch = false">
-            <mat-icon>close</mat-icon>
+          <button mat-stroked-button (click)="showJobSearch = false" class="close-button">
+            ✕ Close
           </button>
         </div>
         <div class="modal-content">
@@ -177,7 +182,7 @@
               </div>
 
               <div *ngIf="applications.length === 0" class="empty-state text-center py-5">
-                <mat-icon class="text-muted mb-3" style="font-size: 4rem;">work_off</mat-icon>
+                <div class="text-muted mb-3" style="font-size: 4rem;">📋</div>
                 <h4 class="mb-3">No applications yet</h4>
                 <p class="text-muted mb-4">Start searching for jobs to track your applications here.</p>
                 <button mat-raised-button color="primary" (click)="openJobSearch()">
@@ -221,7 +226,7 @@
               </div>
 
               <div *ngIf="savedJobs.length === 0" class="empty-state text-center py-5">
-                <mat-icon class="text-muted mb-3" style="font-size: 4rem;">bookmark_border</mat-icon>
+                <div class="text-muted mb-3" style="font-size: 4rem;">🔖</div>
                 <h4 class="mb-3">No saved jobs</h4>
                 <p class="text-muted mb-4">Save interesting jobs to review them later.</p>
                 <button mat-raised-button color="primary" (click)="openJobSearch()">
@@ -239,14 +244,14 @@
                           <p class="text-muted mb-2">{{ job.company }} • {{ job.location }}</p>
                           <span class="badge bg-primary">{{ job.category }}</span>
                         </div>
-                        <div class="job-actions">
-                          <button mat-stroked-button (click)="onJobApply(job)" class="me-2">
-                            Apply Now
-                          </button>
-                          <button mat-icon-button color="warn" (click)="removeSavedJob(job.id)">
-                            <mat-icon>delete</mat-icon>
-                          </button>
-                        </div>
+                                                 <div class="job-actions">
+                           <button mat-stroked-button (click)="onJobApply(job)" class="me-2">
+                             Apply Now
+                           </button>
+                           <button mat-stroked-button color="warn" (click)="removeSavedJob(job.id)" class="delete-button">
+                             🗑️ Delete
+                           </button>
+                         </div>
                       </div>
                     </mat-card-content>
                   </mat-card>
@@ -270,9 +275,9 @@
                       <mat-card-title>Application Status</mat-card-title>
                     </mat-card-header>
                     <mat-card-content>
-                      <div class="chart-placeholder text-center py-5">
-                        <mat-icon class="text-muted mb-3" style="font-size: 3rem;">pie_chart</mat-icon>
-                        <p class="text-muted">Chart will be displayed here</p>
+                                             <div class="chart-placeholder text-center py-5">
+                         <div class="text-muted mb-3" style="font-size: 3rem;">📊</div>
+                         <p class="text-muted">Chart will be displayed here</p>
                         <div class="stats-summary">
                           <div class="stat-row">
                             <span>Total Applications:</span>

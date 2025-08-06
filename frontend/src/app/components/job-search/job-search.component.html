@@ -99,7 +99,7 @@
 
     <!-- No Results -->
     <div *ngIf="!isLoading && totalJobs === 0" class="text-center py-5">
-      <mat-icon class="text-muted mb-3" style="font-size: 4rem;">search_off</mat-icon>
+      <div class="text-muted mb-3" style="font-size: 4rem;">🔍</div>
       <h4 class="mb-3">No jobs found</h4>
       <p class="text-muted mb-4">Try adjusting your search criteria or browse all available jobs.</p>
       <button mat-raised-button color="primary" (click)="clearFilters()">

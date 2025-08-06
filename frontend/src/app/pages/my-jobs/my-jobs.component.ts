@@ -236,6 +236,10 @@ export class MyJobsComponent implements OnInit {
     this.router.navigate(['/cv-management'], { queryParams: { tab: 'job-search' } });
   }
 
+  goBack(): void {
+    this.router.navigate(['/dashboard']);
+  }
+
   getApplicationStats(): any {
     const stats = {
       total: this.appliedJobs.length,

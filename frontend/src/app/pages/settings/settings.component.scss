@@ -7,6 +7,30 @@
     text-align: center;
     margin-bottom: 30px;
 
+    .back-button {
+      color: #6c757d;
+      border-color: #6c757d;
+      transition: all 0.3s ease;
+      border-radius: 6px;
+      font-weight: 500;
+      text-transform: none;
+      letter-spacing: 0.5px;
+      padding: 8px 16px;
+      min-width: auto;
+      font-size: 0.9rem;
+      &:hover {
+        background-color: #6c757d;
+        color: white;
+        border-color: #6c757d;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      &:focus {
+        outline: 2px solid #007bff;
+        outline-offset: 2px;
+      }
+    }
+
     h1 {
       color: #2c3e50;
       font-weight: 600;

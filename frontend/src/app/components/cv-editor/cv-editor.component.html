@@ -104,9 +104,9 @@
           <div *ngFor="let experience of experienceArray.controls; let i = index" [formGroupName]="i" class="experience-item mb-3 p-3 border rounded">
             <div class="d-flex justify-content-between align-items-start mb-3">
               <h6 class="mb-0">Experience {{ i + 1 }}</h6>
-              <button mat-icon-button color="warn" (click)="removeExperience(i)" type="button">
-                <mat-icon>delete</mat-icon>
-              </button>
+                                 <button mat-stroked-button color="warn" (click)="removeExperience(i)" type="button" class="delete-button">
+                     🗑️ Remove
+                   </button>
             </div>
             <div class="form-field-group">
               <mat-form-field appearance="outline">
@@ -173,9 +173,9 @@
           <div *ngFor="let education of educationArray.controls; let i = index" [formGroupName]="i" class="education-item mb-3 p-3 border rounded">
             <div class="d-flex justify-content-between align-items-start mb-3">
               <h6 class="mb-0">Education {{ i + 1 }}</h6>
-              <button mat-icon-button color="warn" (click)="removeEducation(i)" type="button">
-                <mat-icon>delete</mat-icon>
-              </button>
+                                 <button mat-stroked-button color="warn" (click)="removeEducation(i)" type="button" class="delete-button">
+                     🗑️ Remove
+                   </button>
             </div>
             <div class="form-field-group">
               <mat-form-field appearance="outline">
@@ -243,9 +243,9 @@
           <div *ngFor="let skill of skillsArray.controls; let i = index" [formGroupName]="i" class="skill-item mb-3 p-3 border rounded">
             <div class="d-flex justify-content-between align-items-start mb-3">
               <h6 class="mb-0">Skill {{ i + 1 }}</h6>
-              <button mat-icon-button color="warn" (click)="removeSkill(i)" type="button">
-                <mat-icon>delete</mat-icon>
-              </button>
+                                 <button mat-stroked-button color="warn" (click)="removeSkill(i)" type="button" class="delete-button">
+                     🗑️ Remove
+                   </button>
             </div>
             <div class="form-field-group">
               <mat-form-field appearance="outline">
@@ -287,9 +287,9 @@
           <div *ngFor="let project of projectsArray.controls; let i = index" [formGroupName]="i" class="project-item mb-3 p-3 border rounded">
             <div class="d-flex justify-content-between align-items-start mb-3">
               <h6 class="mb-0">Project {{ i + 1 }}</h6>
-              <button mat-icon-button color="warn" (click)="removeProject(i)" type="button">
-                <mat-icon>delete</mat-icon>
-              </button>
+                                 <button mat-stroked-button color="warn" (click)="removeProject(i)" type="button" class="delete-button">
+                     🗑️ Remove
+                   </button>
             </div>
             <div class="form-field-group">
               <mat-form-field appearance="outline">
@@ -341,9 +341,9 @@
           <div *ngFor="let certification of certificationsArray.controls; let i = index" [formGroupName]="i" class="certification-item mb-3 p-3 border rounded">
             <div class="d-flex justify-content-between align-items-start mb-3">
               <h6 class="mb-0">Certification {{ i + 1 }}</h6>
-              <button mat-icon-button color="warn" (click)="removeCertification(i)" type="button">
-                <mat-icon>delete</mat-icon>
-              </button>
+                                 <button mat-stroked-button color="warn" (click)="removeCertification(i)" type="button" class="delete-button">
+                     🗑️ Remove
+                   </button>
             </div>
             <div class="form-field-group">
               <mat-form-field appearance="outline">
@@ -396,9 +396,9 @@
           <div *ngFor="let language of languagesArray.controls; let i = index" [formGroupName]="i" class="language-item mb-3 p-3 border rounded">
             <div class="d-flex justify-content-between align-items-start mb-3">
               <h6 class="mb-0">Language {{ i + 1 }}</h6>
-              <button mat-icon-button color="warn" (click)="removeLanguage(i)" type="button">
-                <mat-icon>delete</mat-icon>
-              </button>
+                                 <button mat-stroked-button color="warn" (click)="removeLanguage(i)" type="button" class="delete-button">
+                     🗑️ Remove
+                   </button>
             </div>
             <div class="form-field-group">
               <mat-form-field appearance="outline">

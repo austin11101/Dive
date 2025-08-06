@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 interface NotificationSettings {
   emailNotifications: boolean;
@@ -86,7 +87,8 @@ export class SettingsComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private router: Router
   ) {
     this.initializeForms();
   }
@@ -248,5 +250,9 @@ export class SettingsComponent implements OnInit {
       duration: 5000,
       panelClass: ['error-snackbar']
     });
+  }
+
+  goBack(): void {
+    this.router.navigate(['/dashboard']);
   }
 } 

@@ -21,9 +21,9 @@
                     <p class="text-muted text-center mb-4">Access your CV builder and templates</p>
 
                     <div class="form-field-group">
+                      <label for="email" class="mat-label">Email</label>
                       <mat-form-field appearance="outline" class="w-100">
-                        <mat-label>Email</mat-label>
-                        <input matInput formControlName="email" type="email">
+                        <input matInput formControlName="email" type="email" id="email">
                         <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
                           Email is required
                         </mat-error>
@@ -34,10 +34,10 @@
                     </div>
 
                     <div class="form-field-group">
+                      <label for="password" class="mat-label">Password</label>
                       <mat-form-field appearance="outline" class="w-100">
-                        <mat-label>Password</mat-label>
-                        <input matInput formControlName="password" [type]="hidePassword ? 'password' : 'text'">
-                                    <button mat-stroked-button matSuffix (click)="hidePassword = !hidePassword" type="button" class="visibility-button">
+                        <input matInput formControlName="password" [type]="hidePassword ? 'password' : 'text'" id="password">
+                        <button mat-stroked-button matSuffix (click)="hidePassword = !hidePassword" type="button" class="visibility-button">
               {{hidePassword ? '👁️' : '👁️‍🗨️'}}
             </button>
                         <mat-error *ngIf="loginForm.get('password')?.hasError('required')">

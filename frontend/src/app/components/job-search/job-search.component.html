@@ -9,62 +9,62 @@
     <h3>Search Criteria</h3>
     <form [formGroup]="searchForm" (ngSubmit)="searchJobs()">
                      <div class="form-field-group">
-          <mat-form-field appearance="outline" class="mat-form-field-hide-placeholder">
-            <mat-label>Keywords *</mat-label>
-            <input matInput formControlName="keywords">
-            <mat-error *ngIf="searchForm.get('keywords')?.hasError('required')">
-              Keywords are required
-            </mat-error>
-          </mat-form-field>
-          
-          <mat-form-field appearance="outline" class="mat-form-field-hide-placeholder">
-            <mat-label>Location</mat-label>
-            <input matInput formControlName="location">
-          </mat-form-field>
-        </div>
+        <label for="keywords" class="mat-label">Keywords *</label>
+        <mat-form-field appearance="outline" class="mat-form-field-hide-placeholder">
+          <input matInput formControlName="keywords" id="keywords">
+          <mat-error *ngIf="searchForm.get('keywords')?.hasError('required')">
+            Keywords are required
+          </mat-error>
+        </mat-form-field>
         
-        <div class="form-field-group">
-          <mat-form-field appearance="outline" class="mat-form-field-hide-placeholder">
-            <mat-label>Category</mat-label>
-            <mat-select formControlName="category">
-              <mat-option *ngFor="let category of categories" [value]="category">
-                {{ category }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-          
-          <mat-form-field appearance="outline" class="mat-form-field-hide-placeholder">
-            <mat-label>Contract Type</mat-label>
-            <mat-select formControlName="contract_type">
-              <mat-option *ngFor="let type of contractTypes" [value]="type">
-                {{ formatContractType(type) }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-          
-          <mat-form-field appearance="outline" class="mat-form-field-hide-placeholder">
-            <mat-label>Distance</mat-label>
-            <mat-select formControlName="distance">
-              <mat-option *ngFor="let option of distanceOptions" [value]="option.value">
-                {{ option.label }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
+        <label for="location" class="mat-label">Location</label>
+        <mat-form-field appearance="outline" class="mat-form-field-hide-placeholder">
+          <input matInput formControlName="location" id="location">
+        </mat-form-field>
+      </div>
+      
+      <div class="form-field-group">
+        <label for="category" class="mat-label">Category</label>
+        <mat-form-field appearance="outline" class="mat-form-field-hide-placeholder">
+          <mat-select formControlName="category" id="category">
+            <mat-option *ngFor="let category of categories" [value]="category">
+              {{ category }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
         
-        <div class="form-field-group">
-          <mat-form-field appearance="outline" class="mat-form-field-hide-placeholder">
-            <mat-label>Minimum Salary</mat-label>
-            <input matInput formControlName="salary_min" type="number">
-            <span matSuffix>£</span>
-          </mat-form-field>
-          
-          <mat-form-field appearance="outline" class="mat-form-field-hide-placeholder">
-            <mat-label>Maximum Salary</mat-label>
-            <input matInput formControlName="salary_max" type="number">
-            <span matSuffix>£</span>
-          </mat-form-field>
-        </div>
+        <label for="contract_type" class="mat-label">Contract Type</label>
+        <mat-form-field appearance="outline" class="mat-form-field-hide-placeholder">
+          <mat-select formControlName="contract_type" id="contract_type">
+            <mat-option *ngFor="let type of contractTypes" [value]="type">
+              {{ formatContractType(type) }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        
+        <label for="distance" class="mat-label">Distance</label>
+        <mat-form-field appearance="outline" class="mat-form-field-hide-placeholder">
+          <mat-select formControlName="distance" id="distance">
+            <mat-option *ngFor="let option of distanceOptions" [value]="option.value">
+              {{ option.label }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      
+      <div class="form-field-group">
+        <label for="salary_min" class="mat-label">Minimum Salary</label>
+        <mat-form-field appearance="outline" class="mat-form-field-hide-placeholder">
+          <input matInput formControlName="salary_min" type="number" id="salary_min">
+          <span matSuffix>£</span>
+        </mat-form-field>
+        
+        <label for="salary_max" class="mat-label">Maximum Salary</label>
+        <mat-form-field appearance="outline" class="mat-form-field-hide-placeholder">
+          <input matInput formControlName="salary_max" type="number" id="salary_max">
+          <span matSuffix>£</span>
+        </mat-form-field>
+      </div>
       
       <div class="form-field-group">
         <button mat-raised-button color="primary" type="submit" [disabled]="isLoading" class="flex-grow-1">

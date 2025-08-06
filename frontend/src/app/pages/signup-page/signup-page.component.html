@@ -21,9 +21,9 @@
                     <p class="text-muted text-center mb-4">Join thousands of professionals using CV Revamp</p>
 
                     <div class="form-field-group">
+                      <label for="firstName" class="mat-label">First Name</label>
                       <mat-form-field appearance="outline">
-                        <mat-label>First Name</mat-label>
-                        <input matInput formControlName="firstName">
+                        <input matInput formControlName="firstName" id="firstName">
                         <mat-error *ngIf="signupForm.get('firstName')?.hasError('required')">
                           First name is required
                         </mat-error>
@@ -31,10 +31,10 @@
                           First name must be at least 2 characters
                         </mat-error>
                       </mat-form-field>
-                      
+
+                      <label for="lastName" class="mat-label">Last Name</label>
                       <mat-form-field appearance="outline">
-                        <mat-label>Last Name</mat-label>
-                        <input matInput formControlName="lastName">
+                        <input matInput formControlName="lastName" id="lastName">
                         <mat-error *ngIf="signupForm.get('lastName')?.hasError('required')">
                           Last name is required
                         </mat-error>
@@ -45,9 +45,9 @@
                     </div>
 
                     <div class="form-field-group">
+                      <label for="email" class="mat-label">Email</label>
                       <mat-form-field appearance="outline" class="w-100">
-                        <mat-label>Email</mat-label>
-                        <input matInput formControlName="email" type="email">
+                        <input matInput formControlName="email" type="email" id="email">
                         <mat-error *ngIf="signupForm.get('email')?.hasError('required')">
                           Email is required
                         </mat-error>
@@ -58,12 +58,12 @@
                     </div>
 
                     <div class="form-field-group">
+                      <label for="password" class="mat-label">Password</label>
                       <mat-form-field appearance="outline" class="w-100">
-                        <mat-label>Password</mat-label>
-                        <input matInput formControlName="password" [type]="hidePassword ? 'password' : 'text'">
-                                    <button mat-stroked-button matSuffix (click)="hidePassword = !hidePassword" type="button" class="visibility-button">
-              {{hidePassword ? '👁️' : '👁️‍🗨️'}}
-            </button>
+                        <input matInput formControlName="password" [type]="hidePassword ? 'password' : 'text'" id="password">
+                        <button mat-stroked-button matSuffix (click)="hidePassword = !hidePassword" type="button" class="visibility-button">
+                          {{hidePassword ? '👁️' : '👁️‍🗨️'}}
+                        </button>
                         <mat-error *ngIf="signupForm.get('password')?.hasError('required')">
                           Password is required
                         </mat-error>
@@ -74,12 +74,12 @@
                     </div>
 
                     <div class="form-field-group">
+                      <label for="confirmPassword" class="mat-label">Confirm Password</label>
                       <mat-form-field appearance="outline" class="w-100">
-                        <mat-label>Confirm Password</mat-label>
-                        <input matInput formControlName="confirmPassword" [type]="hideConfirmPassword ? 'password' : 'text'">
-                                    <button mat-stroked-button matSuffix (click)="hideConfirmPassword = !hideConfirmPassword" type="button" class="visibility-button">
-              {{hideConfirmPassword ? '👁️' : '👁️‍🗨️'}}
-            </button>
+                        <input matInput formControlName="confirmPassword" [type]="hideConfirmPassword ? 'password' : 'text'" id="confirmPassword">
+                        <button mat-stroked-button matSuffix (click)="hideConfirmPassword = !hideConfirmPassword" type="button" class="visibility-button">
+                          {{hideConfirmPassword ? '👁️' : '👁️‍🗨️'}}
+                        </button>
                         <mat-error *ngIf="signupForm.get('confirmPassword')?.hasError('required')">
                           Please confirm your password
                         </mat-error>

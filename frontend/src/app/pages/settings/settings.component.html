@@ -24,17 +24,17 @@
             <div class="form-section">
               <h4>Basic Information</h4>
               <div class="form-field-group">
+                <label for="firstName" class="mat-label">First Name *</label>
                 <mat-form-field appearance="outline" class="mat-form-field-hide-placeholder">
-                  <mat-label>First Name *</mat-label>
-                  <input matInput formControlName="firstName">
+                  <input matInput formControlName="firstName" id="firstName">
                   <mat-error *ngIf="profileForm.get('firstName')?.hasError('required')">
                     First name is required
                   </mat-error>
                 </mat-form-field>
 
+                <label for="lastName" class="mat-label">Last Name *</label>
                 <mat-form-field appearance="outline" class="mat-form-field-hide-placeholder">
-                  <mat-label>Last Name *</mat-label>
-                  <input matInput formControlName="lastName">
+                  <input matInput formControlName="lastName" id="lastName">
                   <mat-error *ngIf="profileForm.get('lastName')?.hasError('required')">
                     Last name is required
                   </mat-error>
@@ -42,9 +42,9 @@
               </div>
 
               <div class="form-field-group">
+                <label for="email" class="mat-label">Email *</label>
                 <mat-form-field appearance="outline" class="mat-form-field-hide-placeholder">
-                  <mat-label>Email *</mat-label>
-                  <input matInput formControlName="email" type="email">
+                  <input matInput formControlName="email" type="email" id="email">
                   <mat-error *ngIf="profileForm.get('email')?.hasError('required')">
                     Email is required
                   </mat-error>
@@ -53,16 +53,16 @@
                   </mat-error>
                 </mat-form-field>
 
+                <label for="phone" class="mat-label">Phone</label>
                 <mat-form-field appearance="outline" class="mat-form-field-hide-placeholder">
-                  <mat-label>Phone</mat-label>
-                  <input matInput formControlName="phone">
+                  <input matInput formControlName="phone" id="phone">
                 </mat-form-field>
               </div>
 
               <div class="form-field-group">
+                <label for="location" class="mat-label">Location</label>
                 <mat-form-field appearance="outline" class="mat-form-field-hide-placeholder">
-                  <mat-label>Location</mat-label>
-                  <input matInput formControlName="location">
+                  <input matInput formControlName="location" id="location">
                 </mat-form-field>
               </div>
             </div>
@@ -70,21 +70,21 @@
             <div class="form-section">
               <h4>Professional Information</h4>
               <div class="form-field-group">
+                <label for="bio" class="mat-label">Bio</label>
                 <mat-form-field appearance="outline" class="mat-form-field-hide-placeholder full-width">
-                  <mat-label>Bio</mat-label>
-                  <textarea matInput formControlName="bio" rows="3" placeholder="Tell us about yourself and your professional background"></textarea>
+                  <textarea matInput formControlName="bio" rows="3" placeholder="Tell us about yourself and your professional background" id="bio"></textarea>
                 </mat-form-field>
               </div>
 
               <div class="form-field-group">
+                <label for="website" class="mat-label">Website</label>
                 <mat-form-field appearance="outline" class="mat-form-field-hide-placeholder">
-                  <mat-label>Website</mat-label>
-                  <input matInput formControlName="website" placeholder="https://yourwebsite.com">
+                  <input matInput formControlName="website" placeholder="https://yourwebsite.com" id="website">
                 </mat-form-field>
 
+                <label for="linkedin" class="mat-label">LinkedIn</label>
                 <mat-form-field appearance="outline" class="mat-form-field-hide-placeholder">
-                  <mat-label>LinkedIn</mat-label>
-                  <input matInput formControlName="linkedin" placeholder="https://linkedin.com/in/yourprofile">
+                  <input matInput formControlName="linkedin" placeholder="https://linkedin.com/in/yourprofile" id="linkedin">
                 </mat-form-field>
               </div>
             </div>
@@ -179,9 +179,9 @@
                   <h5>Profile Visibility</h5>
                   <p>Choose who can see your profile</p>
                 </div>
+                <label for="profileVisibility" class="mat-label">Visibility Level</label>
                 <mat-form-field appearance="outline" class="mat-form-field-hide-placeholder">
-                  <mat-label>Visibility Level</mat-label>
-                  <mat-select formControlName="profileVisibility">
+                  <mat-select formControlName="profileVisibility" id="profileVisibility">
                     <mat-option *ngFor="let option of visibilityOptions" [value]="option.value">
                       {{ option.label }}
                     </mat-option>
@@ -245,9 +245,9 @@
               <h4>Location Preferences</h4>
               
               <div class="form-field-group">
+                <label for="preferredLocations" class="mat-label">Preferred Locations</label>
                 <mat-form-field appearance="outline" class="mat-form-field-hide-placeholder full-width">
-                  <mat-label>Preferred Locations</mat-label>
-                  <mat-select formControlName="preferredLocations" multiple>
+                  <mat-select formControlName="preferredLocations" multiple id="preferredLocations">
                     <mat-option *ngFor="let location of locations" [value]="location">
                       {{ location }}
                     </mat-option>
@@ -260,15 +260,15 @@
               <h4>Salary Expectations</h4>
               
               <div class="form-field-group">
+                <label for="salaryMin" class="mat-label">Minimum Salary</label>
                 <mat-form-field appearance="outline" class="mat-form-field-hide-placeholder">
-                  <mat-label>Minimum Salary</mat-label>
-                  <input matInput formControlName="salaryMin" type="number">
+                  <input matInput formControlName="salaryMin" type="number" id="salaryMin">
                   <span matSuffix>£</span>
                 </mat-form-field>
 
+                <label for="salaryMax" class="mat-label">Maximum Salary</label>
                 <mat-form-field appearance="outline" class="mat-form-field-hide-placeholder">
-                  <mat-label>Maximum Salary</mat-label>
-                  <input matInput formControlName="salaryMax" type="number">
+                  <input matInput formControlName="salaryMax" type="number" id="salaryMax">
                   <span matSuffix>£</span>
                 </mat-form-field>
               </div>
@@ -278,9 +278,9 @@
               <h4>Job Type Preferences</h4>
               
               <div class="form-field-group">
+                <label for="jobTypes" class="mat-label">Preferred Job Types</label>
                 <mat-form-field appearance="outline" class="mat-form-field-hide-placeholder full-width">
-                  <mat-label>Preferred Job Types</mat-label>
-                  <mat-select formControlName="jobTypes" multiple>
+                  <mat-select formControlName="jobTypes" multiple id="jobTypes">
                     <mat-option *ngFor="let type of jobTypes" [value]="type">
                       {{ type }}
                     </mat-option>
@@ -327,9 +327,9 @@
             <h4>Change Password</h4>
             <form [formGroup]="accountForm" class="settings-form">
               <div class="form-field-group">
+                <label for="currentPassword" class="mat-label">Current Password *</label>
                 <mat-form-field appearance="outline" class="mat-form-field-hide-placeholder">
-                  <mat-label>Current Password *</mat-label>
-                  <input matInput formControlName="currentPassword" type="password">
+                  <input matInput formControlName="currentPassword" type="password" id="currentPassword">
                   <mat-error *ngIf="accountForm.get('currentPassword')?.hasError('required')">
                     Current password is required
                   </mat-error>
@@ -337,9 +337,9 @@
               </div>
 
               <div class="form-field-group">
+                <label for="newPassword" class="mat-label">New Password *</label>
                 <mat-form-field appearance="outline" class="mat-form-field-hide-placeholder">
-                  <mat-label>New Password *</mat-label>
-                  <input matInput formControlName="newPassword" type="password">
+                  <input matInput formControlName="newPassword" type="password" id="newPassword">
                   <mat-error *ngIf="accountForm.get('newPassword')?.hasError('required')">
                     New password is required
                   </mat-error>
@@ -348,9 +348,9 @@
                   </mat-error>
                 </mat-form-field>
 
+                <label for="confirmPassword" class="mat-label">Confirm New Password *</label>
                 <mat-form-field appearance="outline" class="mat-form-field-hide-placeholder">
-                  <mat-label>Confirm New Password *</mat-label>
-                  <input matInput formControlName="confirmPassword" type="password">
+                  <input matInput formControlName="confirmPassword" type="password" id="confirmPassword">
                   <mat-error *ngIf="accountForm.get('confirmPassword')?.hasError('required')">
                     Please confirm your new password
                   </mat-error>

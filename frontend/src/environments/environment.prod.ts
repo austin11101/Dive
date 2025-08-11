@@ -1,6 +1,11 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://localhost:8000/api/v1',
-  appName: 'CV Revamp',
-  version: '1.0.0'
-}; 
+  apiUrl: 'https://your-production-domain.com',
+  appName: 'Dive Job Search',
+  version: '1.0.0',
+  features: {
+    scraping: true,
+    realTimeJobs: true,
+    southAfricaJobs: true
+  }
+};

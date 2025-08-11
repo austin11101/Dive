@@ -71,7 +71,12 @@
           <mat-spinner *ngIf="isLoading" diameter="20" class="me-2"></mat-spinner>
           {{ isLoading ? 'Searching...' : 'Search Jobs' }}
         </button>
-        
+
+        <button mat-raised-button color="accent" type="button" (click)="viewAllJobs()" [disabled]="isLoading" class="flex-grow-1">
+          <mat-spinner *ngIf="isLoading" diameter="20" class="me-2"></mat-spinner>
+          {{ isLoading ? 'Loading...' : 'View All Jobs' }}
+        </button>
+
         <button mat-stroked-button type="button" (click)="clearFilters()">
           Clear Filters
         </button>
@@ -102,7 +107,7 @@
       <div class="text-muted mb-3" style="font-size: 4rem;">🔍</div>
       <h4 class="mb-3">No jobs found</h4>
       <p class="text-muted mb-4">Try adjusting your search criteria or browse all available jobs.</p>
-      <button mat-raised-button color="primary" (click)="clearFilters()">
+      <button mat-raised-button color="primary" (click)="viewAllJobs()">
         Browse All Jobs
       </button>
     </div>

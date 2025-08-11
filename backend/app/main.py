@@ -4,11 +4,19 @@ from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from fastapi.responses import JSONResponse
 import time
 import logging
+import os
+import sys
+
+# Add the parent directory to Python path for config import
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from app.core.config import settings
 from app.api.v1.api import api_router
 from app.core.database import engine, Base
-from app.core.redis import redis_client
+from config import get_config
+
+# Get configuration
+config = get_config()
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -16,17 +24,17 @@ logger = logging.getLogger(__name__)
 
 # Create FastAPI app
 app = FastAPI(
-    title="CV Revamping API",
-    description="A modern API for creating and managing professional CVs",
+    title="Dive Job Scraper API",
+    description="A modern API for job searching and scraping with South African focus",
     version="1.0.0",
-    docs_url="/docs" if settings.ENVIRONMENT != "production" else None,
-    redoc_url="/redoc" if settings.ENVIRONMENT != "production" else None,
+    docs_url="/docs" if config.DEBUG else None,
+    redoc_url="/redoc" if config.DEBUG else None,
 )
 
 # Add middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.ALLOWED_HOSTS,
+    allow_origins=config.CORS_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -64,20 +72,25 @@ async def health_check():
 @app.get("/")
 async def root():
     return {
-        "message": "Welcome to CV Revamping API",
+        "message": "Welcome to Dive Job Scraper API",
         "version": "1.0.0",
-        "docs": "/docs",
+        "docs": "/docs" if config.DEBUG else None,
+        "features": {
+            "scraping": config.SCRAPING_ENABLED,
+            "scheduler": config.SCHEDULER_ENABLED,
+            "south_africa_focus": True
+        }
     }
 
 
 # Include API routes
-app.include_router(api_router, prefix="/api/v1")
+app.include_router(api_router, prefix="/api")
 
 
 # Startup event
 @app.on_event("startup")
 async def startup_event():
-    logger.info("Starting CV Revamping API...")
+    logger.info("Starting Dive Job Scraper API...")
     # Create database tables
     try:
         Base.metadata.create_all(bind=engine)
@@ -92,22 +105,17 @@ async def startup_event():
     except Exception as e:
         logger.error(f"Database connection failed: {e}")
 
-    # Test Redis connection (optional for local development)
-    try:
-        await redis_client.ping()
-        logger.info("Redis connection established")
-    except Exception as e:
-        logger.warning(
-            f"Redis connection failed (this is normal for local development): {e}"
-        )
-        logger.info("Continuing without Redis...")
+    logger.info(f"Scraping enabled: {config.SCRAPING_ENABLED}")
+    logger.info(f"Scheduler enabled: {config.SCHEDULER_ENABLED}")
+    logger.info(f"Enabled job sites: {config.ENABLED_JOB_SITES}")
+    logger.info("API startup complete")
 
 
 # Shutdown event
 @app.on_event("shutdown")
 async def shutdown_event():
-    logger.info("Shutting down CV Revamping API...")
+    logger.info("Shutting down Dive Job Scraper API...")
     # Close database connections
     engine.dispose()
-    # Close Redis connection
+    logger.info("API shutdown complete")
     await redis_client.close()

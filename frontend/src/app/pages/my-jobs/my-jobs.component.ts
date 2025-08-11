@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Job } from '../../components/job-search/job-search.component';
+import { Job } from '../../services/job.service';
 
 export interface AppliedJob extends Job {
   appliedDate: string;
@@ -22,100 +22,8 @@ export class MyJobsComponent implements OnInit {
   searchTerm: string = '';
   isLoading = false;
 
-  // Mock data for applied jobs
-  mockAppliedJobs: AppliedJob[] = [
-    {
-      id: '1',
-      title: 'Senior Frontend Developer',
-      company: 'TechCorp Inc.',
-      location: 'New York, NY',
-      description: 'We are looking for a senior frontend developer with expertise in Angular, React, and modern web technologies.',
-      salary_min: 80000,
-      salary_max: 120000,
-      salary_currency: 'USD',
-      category: 'IT & Telecoms',
-      url: 'https://example.com/job1',
-      created: '2024-01-15',
-      contract_time: 'full_time',
-      contract_type: 'permanent',
-      appliedDate: '2024-01-20',
-      status: 'interviewing',
-      notes: 'First interview scheduled for next week',
-      followUpDate: '2024-01-27'
-    },
-    {
-      id: '2',
-      title: 'Full Stack Developer',
-      company: 'StartupXYZ',
-      location: 'San Francisco, CA',
-      description: 'Join our fast-growing startup as a full stack developer. Experience with Node.js, React, and cloud platforms required.',
-      salary_min: 90000,
-      salary_max: 140000,
-      salary_currency: 'USD',
-      category: 'IT & Telecoms',
-      url: 'https://example.com/job2',
-      created: '2024-01-14',
-      contract_time: 'full_time',
-      contract_type: 'permanent',
-      appliedDate: '2024-01-18',
-      status: 'applied',
-      notes: 'Application submitted, waiting for response'
-    },
-    {
-      id: '3',
-      title: 'DevOps Engineer',
-      company: 'Enterprise Solutions',
-      location: 'Austin, TX',
-      description: 'Looking for a DevOps engineer to help us scale our infrastructure and improve our deployment processes.',
-      salary_min: 85000,
-      salary_max: 130000,
-      salary_currency: 'USD',
-      category: 'IT & Telecoms',
-      url: 'https://example.com/job3',
-      created: '2024-01-13',
-      contract_time: 'full_time',
-      contract_type: 'permanent',
-      appliedDate: '2024-01-16',
-      status: 'rejected',
-      notes: 'Position filled internally'
-    },
-    {
-      id: '4',
-      title: 'UI/UX Designer',
-      company: 'Design Studio',
-      location: 'Los Angeles, CA',
-      description: 'Creative UI/UX designer needed to create beautiful and functional user interfaces for web and mobile applications.',
-      salary_min: 70000,
-      salary_max: 110000,
-      salary_currency: 'USD',
-      category: 'Creative & Design',
-      url: 'https://example.com/job4',
-      created: '2024-01-12',
-      contract_time: 'full_time',
-      contract_type: 'permanent',
-      appliedDate: '2024-01-15',
-      status: 'offered',
-      notes: 'Offer received, considering terms'
-    },
-    {
-      id: '5',
-      title: 'Data Scientist',
-      company: 'Analytics Corp',
-      location: 'Boston, MA',
-      description: 'Join our data science team to build machine learning models and analyze large datasets.',
-      salary_min: 95000,
-      salary_max: 150000,
-      salary_currency: 'USD',
-      category: 'Science & Research',
-      url: 'https://example.com/job5',
-      created: '2024-01-11',
-      contract_time: 'full_time',
-      contract_type: 'permanent',
-      appliedDate: '2024-01-14',
-      status: 'withdrawn',
-      notes: 'Accepted another offer'
-    }
-  ];
+  // Applied jobs will be loaded from API in the future
+
 
   statusOptions = [
     { value: 'all', label: 'All Applications' },
@@ -136,8 +44,9 @@ export class MyJobsComponent implements OnInit {
   }
 
   loadAppliedJobs(): void {
-    this.appliedJobs = [...this.mockAppliedJobs];
-    this.filteredJobs = [...this.appliedJobs];
+    // TODO: Load applied jobs from API
+    this.appliedJobs = [];
+    this.filteredJobs = [];
   }
 
   filterJobs(): void {
@@ -192,12 +101,8 @@ export class MyJobsComponent implements OnInit {
   }
 
   formatSalary(job: Job): string {
-    if (job.salary_min && job.salary_max) {
-      return `$${job.salary_min.toLocaleString()} - $${job.salary_max.toLocaleString()} ${job.salary_currency}`;
-    } else if (job.salary_min) {
-      return `$${job.salary_min.toLocaleString()}+ ${job.salary_currency}`;
-    } else if (job.salary_max) {
-      return `Up to $${job.salary_max.toLocaleString()} ${job.salary_currency}`;
+    if (job.salary) {
+      return job.salary;
     }
     return 'Salary not specified';
   }
@@ -268,7 +173,7 @@ export class MyJobsComponent implements OnInit {
     
     const totalDays = jobsWithResponse.reduce((sum, job) => {
       const appliedDate = new Date(job.appliedDate);
-      const responseDate = new Date(job.created);
+      const responseDate = new Date(job.created_at);
       const diffTime = Math.abs(responseDate.getTime() - appliedDate.getTime());
       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
       return sum + diffDays;
